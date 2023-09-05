@@ -1,7 +1,7 @@
 <?php
 
-include "header.php";
-include "secret.php";
+include_once "header.php";
+include_once "secret.php";
 
 $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
                FROM gallery AS g
@@ -63,35 +63,36 @@ if ( isset( $_POST['pokemon'] ) ) {
 
     </div>
 
-    <div class="upload">
-        <form action="index.php" method="post" enctype="multipart/form-data">
-            <div class="field">
-                <label for="pokemon">Pokémon</label>
-                <select name="pokemon" id="pokemon">
-                    <?php
+<?php
+
+    if ( $loggedIn ) {
+
+    echo "<div class='upload'>
+        <form action='index.php' method='post' enctype='multipart/form-data'>
+            <div class='field'>
+                <label for='pokemon'>Pokémon</label>
+                <select name='pokemon' id='pokemon'>";
                     while ( $p = $pokemon->fetch_assoc() ) {
                         echo "<option value='" . $p["id"] . "'>" . $p["name"] . "</option>";
                     }
-                    ?>
-                </select>
+    echo "</select>
             </div>
-            <div class="field">
-                <label for="viewer">Viewer</label>
-                <input type="text" name="viewer" id="viewer">
+            <div class='field'>
+                <label for='viewer'>Viewer</label>
+                <input type='text' name='viewer' id='viewer'>
             </div>
-            <div class="field">
-                <label for="file">File</label>
-                <input type="file" name="file" id="file">
+            <div class='field'>
+                <label for='file'>File</label>
+                <input type='file' name='file' id='file'>
             </div>
-            <div class="submit">
-                <button type="submit" name="submit">UPLOAD</button>
+            <div class='submit'>
+                <button type='submit' name='submit'>UPLOAD</button>
             </div>
         </form>
-    </div>
+    </div>";
+    }
 
-<?php
-
-include "footer.php";
+include_once "footer.php";
 
 $connection->close();
 

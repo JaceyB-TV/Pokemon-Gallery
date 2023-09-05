@@ -1,6 +1,6 @@
 @import "header.css";
 @import "index.css";
-@import "list.css";
+@import "pokemon.css";
 
 :root {
     --background-color: #222;
@@ -20,7 +20,7 @@
 .upload {
     width: calc(80% - 1em);
     margin: 1em auto;
-    border: var(--light-color) 2px solid;
+    border: var(--light-color) 1px solid;
     border-radius: 1em;
     padding: 0.5em;
 }
@@ -38,7 +38,7 @@
 
 .upload input, .upload select, .upload button {
     padding: 15px;
-    border: var(--light-color) 2px solid;
+    border: var(--light-color) 1px solid;
     border-radius: 4px;
 }
 

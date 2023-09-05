@@ -9,20 +9,28 @@
     <link type="text/css" rel="stylesheet" href="style.css<?php echo "?date=" . time() ?>"></link>
 </head>
 <body>
-<header>
-    <h1>Pokédex</h1>
-    <h2>by Jacey</h2>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/list.php">List</a>
-    </nav>
-</header>
+    <header>
+        <h1>Pokédex</h1>
+        <h2>by Jacey</h2>
+        <nav>
+            <a href="/">Gallery</a>
+            <a href="/pokemon.php">Pokémon</a>
+        </nav>
+    </header>
 
 <?php
+
+session_start();
+
+$loggedIn = isset( $_SESSION["loggedin"] ) && $_SESSION["loggedin"] === true;
+
 if ( isset( $_GET['message'] ) ) {
     switch ( $_GET['message'] ) {
         case "success":
             $msg = "Successfully added record to database.";
+            break;
+        case "delete":
+            $msg = "Successfully deleted record from database.";
             break;
 
         default:
@@ -49,4 +57,4 @@ else if ( isset( $_GET['error'] ) ) {
 }
 ?>
 
-<div class="content">
+    <div class="content">
