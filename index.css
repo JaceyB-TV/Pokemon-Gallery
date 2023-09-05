@@ -1,0 +1,44 @@
+.gallery {
+    width: 80%;
+    margin: 1em auto;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+/*.content::after {*/
+/*    content: "";*/
+/*    flex: auto;*/
+/*}*/
+
+.gallery a {
+    flex: 1;
+    padding: 0.5em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gallery a:hover {
+    opacity: 0.8;
+}
+
+.gallery a div {
+    width: 235px;
+    height: 235px;
+    background-color: rgba(255, 255, 255, 0.2);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.gallery a h3 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.gallery a p {
+
+}

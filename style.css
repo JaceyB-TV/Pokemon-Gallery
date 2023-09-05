@@ -1,0 +1,64 @@
+@import "header.css";
+@import "index.css";
+@import "list.css";
+
+:root {
+    --background-color: #222;
+    --light-color: #dbad8c;
+    --dark-color: #835548;
+    --success-color: yellowgreen;
+}
+
+* {
+    font-family: 'Noto Sans Mono', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--light-color);
+    background-color: var(--background-color);
+}
+
+.upload {
+    width: calc(80% - 1em);
+    margin: 1em auto;
+    border: var(--light-color) 2px solid;
+    border-radius: 1em;
+    padding: 0.5em;
+}
+
+.upload div.field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5em;
+}
+
+.upload label {
+
+}
+
+.upload input, .upload select, .upload button {
+    padding: 15px;
+    border: var(--light-color) 2px solid;
+    border-radius: 4px;
+}
+
+.upload div.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em;
+}
+
+.upload button {
+    width: 25%;
+    cursor: pointer;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+    .upload button {
+        width: 100%;
+    }
+}

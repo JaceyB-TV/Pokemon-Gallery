@@ -1,0 +1,39 @@
+.table {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 80%;
+    margin: 1em auto;
+    border: var(--light-color) 1px solid;
+}
+
+.table .header {
+    background-color: var(--light-color);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.table .header .cell {
+    color: var(--dark-color);
+}
+
+.table .row {
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 1;
+    width: 100%;
+}
+
+.table .cell {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+
+    padding: 1em;
+
+    background-color: transparent;
+}
+
+.table .row:nth-of-type(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
