@@ -49,7 +49,11 @@ if ( isset ( $_GET['delete'] ) ) {
             <div class="cell">Pokémon</div>
             <div class="cell">Type 1</div>
             <div class="cell">Type 2</div>
-            <div class="cell"></div>
+            <?php
+                if ( $loggedIn ) {
+                    echo "<div class='cell'></div>";
+                }
+            ?>
         </div>
         <?php
         if ( $pokemonResult->num_rows > 0 ) {
@@ -59,14 +63,18 @@ if ( isset ( $_GET['delete'] ) ) {
             <div class='cell'>{$row["id"]}</div>
             <div class='cell'>{$row["name"]}</div>
             <div class='cell'>{$row["type1"]}</div>
-            <div class='cell'>{$row["type2"]}</div>
-            <div class='cell'>
+            <div class='cell'>{$row["type2"]}</div>";
+            
+            if ( $loggedIn ) {
+                echo "<div class='cell'>
                 <form action='pokemon.php?delete={$row["id"]}' method='post'>
                     <input type='hidden'/>
                     <input type='submit' name='submit' value='Delete'>
                 </form>
-            </div>
-        </div>";
+            </div>";
+            }
+
+        echo "</div>";
             }
         }
         else {
