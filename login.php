@@ -11,9 +11,6 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
                  WHERE username = ? AND password = ?";
 
     $loginStatement = $connection->prepare( $loginSql );
-
-    echo print_r( $loginStatement );
-
     $loginStatement->bind_param( "ss", $username, $password );
     $loginStatement->execute();
 
