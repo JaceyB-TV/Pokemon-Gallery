@@ -63,11 +63,11 @@ if ( isset ( $_GET['delete'] ) ) {
             <div class='cell'>{$row["name"]}</div>";
 
             if ( isset( $row['type2'] ) ) {
-                echo "<div class='cell'>{$row["type1"]}</div>
-                    <div class='cell'>{$row["type2"]}</div>";
+                echo "<div class='cell' style='background-color: {$row["type1_colour"]} ;'>{$row["type1"]}</div>
+                    <div class='cell' style='background-color: {$row["type2_colour"]} ;'>{$row["type2"]}</div>";
             }
             else {
-                echo "<div class='cell flex2'>{$row["type1"]}</div>";
+                echo "<div class='cell flex2' style='background-color: {$row["type1_colour"]} ;'>{$row["type1"]}</div>";
             }
 
             if ( $loggedIn ) {
