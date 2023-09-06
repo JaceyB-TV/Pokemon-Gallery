@@ -3,7 +3,7 @@
 include_once "header.php";
 include_once "secret.php";
 
-$pokemonSql = "SELECT p.id, p.name, t1.name AS type1, t2.name AS type2
+$pokemonSql = "SELECT p.id, p.name, t1.name AS type1, t2.name AS type2, t1.colour AS type1_colour, t2.colour AS type2_colour
 		       FROM pokemon AS p
 		       JOIN type AS t1 ON t1.id = p.type1
 		       LEFT JOIN type AS t2 ON t2.id = p.type2";
@@ -43,28 +43,33 @@ if ( isset ( $_GET['delete'] ) ) {
 
 ?>
 
-    <div class="table">
-        <div class="header row">
-            <div class="cell">#</div>
-            <div class="cell">Pokémon</div>
-            <div class="cell">Type 1</div>
-            <div class="cell">Type 2</div>
-            <?php
-                if ( $loggedIn ) {
-                    echo "<div class='cell'></div>";
-                }
-            ?>
-        </div>
+<div class="table">
+    <div class="header row">
+        <div class="cell number">#</div>
+        <div class="cell">Pokémon</div>
+        <div class="cell flex2">Type</div>
         <?php
-        if ( $pokemonResult->num_rows > 0 ) {
-            while ( $row = $pokemonResult->fetch_assoc() ) {
-                echo "
+        if ( $loggedIn ) {
+            echo "<div class='cell'></div>";
+        }
+        ?>
+    </div>
+    <?php
+    if ( $pokemonResult->num_rows > 0 ) {
+        while ( $row = $pokemonResult->fetch_assoc() ) {
+            echo "
         <div class=\"row\">
-            <div class='cell'>{$row["id"]}</div>
-            <div class='cell'>{$row["name"]}</div>
-            <div class='cell'>{$row["type1"]}</div>
-            <div class='cell'>{$row["type2"]}</div>";
-            
+            <div class='cell number'>{$row["id"]}</div>
+            <div class='cell'>{$row["name"]}</div>";
+
+            if ( isset( $row['type2'] ) ) {
+                echo "<div class='cell'>{$row["type1"]}</div>
+                    <div class='cell'>{$row["type2"]}</div>";
+            }
+            else {
+                echo "<div class='cell flex2'>{$row["type1"]}</div>";
+            }
+
             if ( $loggedIn ) {
                 echo "<div class='cell'>
                 <form action='pokemon.php?delete={$row["id"]}' method='post'>
@@ -74,16 +79,16 @@ if ( isset ( $_GET['delete'] ) ) {
             </div>";
             }
 
-        echo "</div>";
-            }
+            echo "</div>";
         }
-        else {
-            echo "No Content";
-        }
-        ?>
+    }
+    else {
+        echo "No Content";
+    }
+    ?>
 
-    </div>
-    <?php
+</div>
+<?php
 
 if ( $loggedIn ) {
     echo "
@@ -100,19 +105,19 @@ if ( $loggedIn ) {
             <div class='field'>
                 <label for='type1'>Type 1</label>
                 <select name='type1' id='type1'>";
-                    foreach ( $types as $type ) {
-                        echo "<option value='{$type["id"]}'>{$type["name"]}</option>";
-                    }
-                echo "</select>
+    foreach ( $types as $type ) {
+        echo "<option value='{$type["id"]}'>{$type["name"]}</option>";
+    }
+    echo "</select>
             </div>
             <div class='field'>
                 <label for='type2'>Type 2</label>
                 <select name='type2' id='type2'>
                     <option value>-- Please Select --</option>";
-                    foreach ( $types as $type ) {
-                        echo "<option value='{$type["id"]}'>{$type["name"]}</option>";
-                    }
-                echo "</select>
+    foreach ( $types as $type ) {
+        echo "<option value='{$type["id"]}'>{$type["name"]}</option>";
+    }
+    echo "</select>
             </div>
             <div class='submit'>
                 <button type='submit' name='submit'>UPLOAD</button>
