@@ -14,7 +14,7 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     $loginStatement->bind_param( "ss", $username, $password );
     $loginStatement->execute();
 
-    $loginResult = $loginStatement->get_result();
+    $loginStatement->bind_result( $loginResult );
 
     if ( $loginResult->num_rows !== 1 ) {
         $_SESSION['loggedin'] = false;
