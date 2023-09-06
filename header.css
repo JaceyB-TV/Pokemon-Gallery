@@ -66,6 +66,14 @@ header nav a:hover {
     line-height: 3em;
 }
 
+.message .red {
+    background-color: var(--failure-color);
+    width: 2em;
+    color: var(--dark-color);
+    text-align: center;
+    line-height: 3em;
+}
+
 .message .text {
     padding: 1em;
     flex: 1;
