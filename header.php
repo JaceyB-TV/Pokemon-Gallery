@@ -32,6 +32,9 @@ if ( isset( $_GET['message'] ) ) {
         case "delete":
             $msg = "Successfully deleted record from database.";
             break;
+        case "login":
+            $msg = "Welcome, successfully logged in.";
+            break;
 
         default:
             $msg = "Success";
@@ -45,6 +48,10 @@ if ( isset( $_GET['message'] ) ) {
 }
 else if ( isset( $_GET['error'] ) ) {
     switch ( $_GET['error'] ) {
+        case "login":
+            $error = "Something went wrong, please try again.";
+            break;
+
         default:
             $error = "Error";
             break;
