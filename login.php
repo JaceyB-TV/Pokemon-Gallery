@@ -7,7 +7,8 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $loginSql = "";
+    $loginSql = "SELECT username, password FROM user
+                 WHERE username = ? AND password = ?";
 
     $loginStatement = $connection->prepare($loginSql);
     $loginStatement->bind_param("ss", $username, $password);
@@ -39,7 +40,7 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
             <input type="password" name="password" id="password" placeholder="Password"/>
         </div>
         <div class="submit">
-            <button type="submit" name="submit">UPLOAD</button>
+            <button type="submit" name="submit">LOG IN</button>
         </div>
     </form>
 </div>
