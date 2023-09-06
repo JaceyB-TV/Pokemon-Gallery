@@ -13,10 +13,10 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     $loginStatement = $connection->prepare( $loginSql );
     $loginStatement->bind_param( "ss", $username, $password );
     $loginStatement->execute();
+    $loginStatement->bind_result( $loginUsername, $loginPassword );
+    $loginStatement->fetch();
 
-    $loginStatement->bind_result( $loginResult );
-
-    if ( $loginResult->num_rows !== 1 ) {
+    if ( !isset( $loginUsername ) || !isset( $loginPassword ) ) {
         $_SESSION['loggedin'] = false;
         header( "Location: login.php?error=login" );
         die();
