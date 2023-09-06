@@ -35,7 +35,7 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
             <label for="username">Username</label>
             <input type="text" name="username" id="username" placeholder="Username"/>
         </div>
-        <div>
+        <div class="field">
             <label for="password">Password</label>
             <input type="password" name="password" id="password" placeholder="Password"/>
         </div>
