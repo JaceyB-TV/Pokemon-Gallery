@@ -67,17 +67,19 @@ header nav a:hover {
 
 .message .green, .error .red {
     width: 2em;
-    color: var(--dark-color);
     text-align: center;
     line-height: 3em;
+    font-weight: bold;
 }
 
 .message .green {
     background-color: var(--success-color);
+    color: var(--dark-color);
 }
 
 .error .red {
     background-color: var(--failure-color);
+    color: var(--light-color);
 }
 
 .message .text, .error .text {
