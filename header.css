@@ -51,30 +51,36 @@ header nav a:hover {
     width: 100%;
 }
 
-.message {
-    border: var(--success-color) 2px solid;
+.message, .error {
     margin: 1em auto;
     width: 80%;
     display: flex;
 }
 
+.message {
+    border: var(--success-color) 2px solid;
+}
+
+.error {
+    border: var(--failure-color) 2px solid;
+}
+
+.message .green, .message .red {
+    width: 2em;
+    color: var(--dark-color);
+    text-align: center;
+    line-height: 3em;
+}
+
 .message .green {
     background-color: var(--success-color);
-    width: 2em;
-    color: var(--dark-color);
-    text-align: center;
-    line-height: 3em;
 }
 
-.message .red {
+.error .red {
     background-color: var(--failure-color);
-    width: 2em;
-    color: var(--dark-color);
-    text-align: center;
-    line-height: 3em;
 }
 
-.message .text {
+.message .text, .error .text {
     padding: 1em;
     flex: 1;
 }
