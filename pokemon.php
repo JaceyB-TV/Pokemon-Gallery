@@ -56,23 +56,24 @@ if ( isset ( $_GET['delete'] ) ) {
             ?>
         </tr>
         <?php
-        while ( $pokemonResult->num_rows > 0 ) {
-            if ( $row = $pokemonResult->fetch_assoc() ) {
+        if ( $pokemonResult->num_rows > 0 ) {
+            while ( $row = $pokemonResult->fetch_assoc() ) {
                 echo "<tr>
         <td>{$row["id"]}</td>
         <td>{$row["name"]}</td>";
 
                 if ( isset ( $row['type2'] ) ) {
-                    echo "<td style='background-color: {$row["type1_colour"]}; '>{$row["type1"]}</td>
-    <td style='background-color: {$row["type2_colour"]}; '>{$row["type2"]}</td>";
+                    echo "<td style='background-color: {$row["type1_color"]}; '>{$row["type1"]}</td>
+    <td style='background-color: {$row["type2_color"]}; '>{$row["type2"]}</td>";
                 }
                 else {
-                    echo "<td colspan='2' style='background-color: {$row["type1_colour"]}; '>{$row["type1"]}</td>";
+                    echo "<td colspan='2' style='background-color: {$row["type1_color"]}; '>{$row["type1"]}</td>";
                 }
 
                 echo "</tr>";
             }
-        } else {
+        }
+        else {
             echo "<tr><td colspan='4'>No Content</td></tr>";
         }
         ?>
