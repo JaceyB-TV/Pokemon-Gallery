@@ -44,49 +44,39 @@ if ( isset ( $_GET['delete'] ) ) {
 ?>
 
 <div class="table">
-    <div class="header row">
-        <div class="cell number">#</div>
-        <div class="cell">Pokémon</div>
-        <div class="cell flex2">Type</div>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Pokémon</th>
+            <th colspan='2'>Type</th>
+            <?php
+            if ( $loggedIn ) {
+                echo "<th></th>";
+            }
+            ?>
+        </tr>
         <?php
-        if ( $loggedIn ) {
-            echo "<div class='cell'></div>";
+        if ( $pokemonResult->num_rows > 0 ) {
+            if ( $row = $pokemonResult->fetch_assoc() ) {
+                echo "<tr>
+        <td>{$row["id"]}</td>
+        <td>{$row["name"]}</td>";
+
+                if ( isset ( $row['type2'] ) ) {
+                    echo "<td style='background-color: {$row["type1_color"]}; '>{$row["type1"]}</td>
+    <td style='background-color: {$row["type2_color"]}; '>{$row["type2"]}</td>";
+                }
+                else {
+                    echo "<td colspan='2' style='background-color: {$row["type1_color"]}; '>{$row["type1"]}</td>";
+                }
+
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='4'>No Content</td></tr>";
         }
         ?>
-    </div>
-    <?php
-    if ( $pokemonResult->num_rows > 0 ) {
-        while ( $row = $pokemonResult->fetch_assoc() ) {
-            echo "
-        <div class=\"row\">
-            <div class='cell number'>{$row["id"]}</div>
-            <div class='cell'>{$row["name"]}</div>";
-
-            if ( isset( $row['type2'] ) ) {
-                echo "<div class='cell' style='background-color: {$row["type1_colour"]} ;'>{$row["type1"]}</div>
-                    <div class='cell' style='background-color: {$row["type2_colour"]} ;'>{$row["type2"]}</div>";
-            }
-            else {
-                echo "<div class='cell flex2' style='background-color: {$row["type1_colour"]} ;'>{$row["type1"]}</div>";
-            }
-
-            if ( $loggedIn ) {
-                echo "<div class='cell'>
-                <form action='pokemon.php?delete={$row["id"]}' method='post'>
-                    <input type='hidden'/>
-                    <input type='submit' name='submit' value='Delete'>
-                </form>
-            </div>";
-            }
-
-            echo "</div>";
-        }
-    }
-    else {
-        echo "No Content";
-    }
-    ?>
-
+    </table>
 </div>
 <?php
 

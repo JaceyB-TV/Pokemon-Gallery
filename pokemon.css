@@ -1,46 +1,31 @@
-.table {
-    display: flex;
-    flex-flow: column nowrap;
+.table table {
     width: 80%;
     margin: 1em auto;
     border: var(--light-color) 1px solid;
+    border-spacing: 0;
 }
 
-.table .header {
+.table th {
     background-color: var(--light-color);
     font-weight: bold;
     font-size: 1.2em;
-}
-
-.table .header .cell {
     color: var(--dark-color);
 }
 
-.table .row {
-    display: flex;
-    flex-flow: row nowrap;
-    width: 100%;
+.table tr {
+
 }
 
-.table .cell {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 5px 0;
-
+.table td {
     background-color: transparent;
+    text-align: center;
+    padding: 5px 0;
 }
 
-.table .cell.number {
-    flex: 0.5;
+.table td.number {
+    width: 20%;
 }
 
-.table .cell.flex2 {
-    flex: 2;
-}
-
-.table .row:nth-of-type(even) {
+.table tr:nth-of-type(even) {
     background-color: rgba(255, 255, 255, 0.1);
 }
