@@ -65,7 +65,7 @@ header nav a:hover {
     border: var(--failure-color) 2px solid;
 }
 
-.message .green, .message .red {
+.message .green, .error .red {
     width: 2em;
     color: var(--dark-color);
     text-align: center;

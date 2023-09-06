@@ -57,7 +57,7 @@ else if ( isset( $_GET['error'] ) ) {
             break;
     }
 
-    echo "<div class='message'>
+    echo "<div class='error'>
     <div class='red'>&check;</div>
     <div class='text'>$error</div>
 </div>";
