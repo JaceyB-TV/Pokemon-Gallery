@@ -12,10 +12,6 @@
     color: var(--dark-color);
 }
 
-.table tr {
-
-}
-
 .table td {
     background-color: transparent;
     text-align: center;
