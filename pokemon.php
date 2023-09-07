@@ -60,7 +60,7 @@ if ( isset ( $_GET['delete'] ) ) {
         <tr>
             <th class='number'>#</th>
             <th>Pokémon</th>
-            <th colspan='2'>Type</th>
+            <th class="type" colspan='2'>Type</th>
             <?php
             if ( $loggedIn ) {
                 echo "<th class='action'>Actions</th>";
