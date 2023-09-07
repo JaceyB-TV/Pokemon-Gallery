@@ -87,4 +87,8 @@ else if ( isset( $_GET['error'] ) ) {
 }
 ?>
 
+<div class="login">
+    <a href="/login.php">&nbsp;&nbsp;</a>
+</div>
+
 <div class="content">
