@@ -3,10 +3,17 @@
 include_once "header.php";
 include_once "secret.php";
 
-$gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
+if ( $_GET['showAll'] ) {
+    $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
+               FROM pokemon AS p
+               LEFT JOIN gallery AS g ON g.pokemon_id = p.id 
+               ORDER BY p.id ASC";
+} else {
+    $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
                FROM gallery AS g
                JOIN pokemon AS p ON p.id = g.pokemon_id
                ORDER BY datetime DESC";
+}
 
 $gallery = $connection->query( $gallerySql );
 
