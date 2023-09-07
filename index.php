@@ -10,13 +10,6 @@ $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
 
 $gallery = $connection->query( $gallerySql );
 
-$pokemonSql = "SELECT p.id, p.name
-               FROM pokemon AS p
-               LEFT JOIN gallery AS g ON g.pokemon_id = p.id
-               WHERE g.id IS NULL";
-
-$pokemon = $connection->query( $pokemonSql );
-
 if ( isset( $_POST['pokemon'] ) ) {
     $pokemonId = $_POST['pokemon'];
     $now = time();
@@ -44,6 +37,7 @@ if ( isset( $_POST['pokemon'] ) ) {
 }
 
 ?>
+
     <div class="gallery">
 
         <?php
@@ -66,8 +60,14 @@ if ( isset( $_POST['pokemon'] ) ) {
 <?php
 
     if ( $loggedIn ) {
+        $pokemonSql = "SELECT p.id, p.name
+               FROM pokemon AS p
+               LEFT JOIN gallery AS g ON g.pokemon_id = p.id
+               WHERE g.id IS NULL";
 
-    echo "<div class='upload'>
+        $pokemon = $connection->query( $pokemonSql );
+
+    echo "    <div class='upload'>
         <form action='index.php' method='post' enctype='multipart/form-data'>
             <div class='field'>
                 <label for='pokemon'>Pokémon</label>

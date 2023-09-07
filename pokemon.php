@@ -51,23 +51,27 @@ if ( isset ( $_GET['delete'] ) ) {
             <th colspan='2'>Type</th>
             <?php
             if ( $loggedIn ) {
-                echo "<th></th>";
+                echo "<th>Actions</th>";
             }
             ?>
         </tr>
         <?php
         if ( $pokemonResult->num_rows > 0 ) {
             while ( $row = $pokemonResult->fetch_assoc() ) {
-                echo "<tr>
-        <td>{$row["id"]}</td>
-        <td>{$row["name"]}</td>";
+                echo "<tr><td>{$row["id"]}</td><td>{$row["name"]}</td>";
 
                 if ( isset ( $row['type2'] ) ) {
                     echo "<td style='background-color: {$row["type1_colour"]}; '>{$row["type1"]}</td>
-    <td style='background-color: {$row["type2_colour"]}; '>{$row["type2"]}</td>";
+                        <td style='background-color: {$row["type2_colour"]}; '>{$row["type2"]}</td>";
                 }
                 else {
                     echo "<td colspan='2' style='background-color: {$row["type1_colour"]}; '>{$row["type1"]}</td>";
+                }
+
+                if ( $loggedIn ) {
+                    echo "<td><form action='pokemon.php?delete={$row["id"]}' method='post'>
+                            <input type='submit' name='submit' value='X'>
+                        </form></td>";
                 }
 
                 echo "</tr>";
@@ -96,18 +100,22 @@ if ( $loggedIn ) {
             <div class='field'>
                 <label for='type1'>Type 1</label>
                 <select name='type1' id='type1'>";
+
     foreach ( $types as $type ) {
         echo "<option value='{$type["id"]}'>{$type["name"]}</option>";
     }
+
     echo "</select>
             </div>
             <div class='field'>
                 <label for='type2'>Type 2</label>
                 <select name='type2' id='type2'>
                     <option value>-- Please Select --</option>";
+
     foreach ( $types as $type ) {
         echo "<option value='{$type["id"]}'>{$type["name"]}</option>";
     }
+
     echo "</select>
             </div>
             <div class='submit'>
