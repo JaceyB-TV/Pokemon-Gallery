@@ -8,7 +8,8 @@ if ( $_GET['showAll'] ) {
                FROM pokemon AS p
                LEFT JOIN gallery AS g ON g.pokemon_id = p.id 
                ORDER BY p.id ASC";
-} else {
+}
+else {
     $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
                FROM gallery AS g
                JOIN pokemon AS p ON p.id = g.pokemon_id
@@ -51,13 +52,13 @@ if ( isset( $_POST['pokemon'] ) ) {
         while ( $row = $gallery->fetch_assoc() ) {
             $date = date( "d/m/Y", $row["datetime"] );
 
-            echo "
-    <a class='item'>
-        <div style='background-image: url({$row["filename"]});'></div>
-        <h3>{$row["id"]} {$row["name"]}</h3>
-        <p>$date</p>
-        <p>Requested by <b>{$row["viewer"]}</b></p>
-    </a>";
+            echo "<a class='item'><div style='background-image: url({$row["filename"]});'></div><h3>{$row["id"]} {$row["name"]}</h3>";
+
+            if ( $row['viewer'] ) {
+                echo "<p>$date</p><p>Requested by <b>{$row["viewer"]}</b></p>";
+            }
+
+            echo "</a>";
         }
 
         ?>
@@ -66,22 +67,22 @@ if ( isset( $_POST['pokemon'] ) ) {
 
 <?php
 
-    if ( $loggedIn ) {
-        $pokemonSql = "SELECT p.id, p.name
+if ( $loggedIn ) {
+    $pokemonSql = "SELECT p.id, p.name
                FROM pokemon AS p
                LEFT JOIN gallery AS g ON g.pokemon_id = p.id
                WHERE g.id IS NULL";
 
-        $pokemon = $connection->query( $pokemonSql );
+    $pokemon = $connection->query( $pokemonSql );
 
     echo "    <div class='upload'>
         <form action='index.php' method='post' enctype='multipart/form-data'>
             <div class='field'>
                 <label for='pokemon'>Pokémon</label>
                 <select name='pokemon' id='pokemon'>";
-                    while ( $p = $pokemon->fetch_assoc() ) {
-                        echo "<option value='" . $p["id"] . "'>" . $p["name"] . "</option>";
-                    }
+    while ( $p = $pokemon->fetch_assoc() ) {
+        echo "<option value='" . $p["id"] . "'>" . $p["name"] . "</option>";
+    }
     echo "</select>
             </div>
             <div class='field'>
@@ -97,7 +98,7 @@ if ( isset( $_POST['pokemon'] ) ) {
             </div>
         </form>
     </div>";
-    }
+}
 
 include_once "footer.php";
 
