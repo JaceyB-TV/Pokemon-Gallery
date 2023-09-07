@@ -18,17 +18,28 @@ if ( $_GET['logout'] ) {
 
 $loggedIn = isset( $_SESSION["loggedin"] ) && $_SESSION["loggedin"] === true;
 
+$page = 0;
+
+switch ( $_SERVER['PHP_SELF'] ) {
+    case "/index.php":
+        $page = 1;
+        break;
+    case "/pokemon.php":
+        $page = 2;
+        break;
+}
+
 ?>
 <body>
 <header>
     <h1>Pokédex</h1>
     <h2>by Jacey</h2>
     <nav>
-        <a href="/">Gallery</a>
-        <a href="/pokemon.php">Pokémon</a>
+        <a href="/"<?php echo $page === 1 ? " class='current'" : "" ?>>Gallery</a>
+        <a href="/pokemon.php"<?php echo $page === 2 ? " class='current'" : "" ?>>Pokémon</a>
         <?php
         if ( $loggedIn ) {
-            echo "<a href='.?logout=true'>Logout</a>";
+            echo "<a href='" . $_SERVER['PHP_SELF'] . "?logout=true'>Logout</a>";
         }
         ?>
     </nav>
