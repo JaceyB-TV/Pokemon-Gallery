@@ -6,7 +6,7 @@
     <title>Pokédex by Jacey</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="style.css.php<?php echo "?date=" . time() ?>"></link>
+    <link type="text/css" rel="stylesheet" href="style.css<?php echo "?date=" . time() ?>"></link>
 </head>
 <?php
 
