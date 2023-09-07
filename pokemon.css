@@ -22,6 +22,10 @@
     width: 20%;
 }
 
+.table th.type {
+    width: 170px;
+}
+
 .table th.action {
     width: 10%;
 }
