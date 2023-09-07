@@ -43,6 +43,18 @@ if ( isset ( $_GET['delete'] ) ) {
 
 ?>
 
+<style>
+    <?php
+    foreach ( $types as $type ) {
+        echo "
+        .table div.{$type["name"]} {
+            background-color: {$type["colour"]};
+            border-color: {$type["border"]};
+        }";
+    }
+    ?>
+</style>
+
 <div class="table">
     <table>
         <tr>
