@@ -9,7 +9,7 @@ $pokemonSql = "SELECT p.id, p.name, t1.name AS type1, t2.name AS type2, t1.colou
 		       LEFT JOIN type AS t2 ON t2.id = p.type2";
 $pokemonResult = $connection->query( $pokemonSql );
 
-$typeSql = "SELECT id, name FROM type";
+$typeSql = "SELECT id, name, colour, border FROM type";
 $typesResult = $connection->query( $typeSql );
 $types = array();
 if ( $typesResult->num_rows > 0 ) {
