@@ -85,10 +85,10 @@ else if ( isset( $_GET['error'] ) ) {
     <div class='text'>$error</div>
 </div>";
 }
-?>
 
-<div class="login">
-    <a href="/login.php">&nbsp;&nbsp;</a>
-</div>
+if ( !$loggedIn ) {
+    echo "<div class='login'><a href='/login.php'>&nbsp;&nbsp;</a></div>";
+}
+?>
 
 <div class="content">
