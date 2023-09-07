@@ -8,21 +8,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <link type="text/css" rel="stylesheet" href="style.css<?php echo "?date=" . time() ?>"></link>
 </head>
-<body>
-    <header>
-        <h1>Pokédex</h1>
-        <h2>by Jacey</h2>
-        <nav>
-            <a href="/">Gallery</a>
-            <a href="/pokemon.php">Pokémon</a>
-        </nav>
-    </header>
-
 <?php
 
 session_start();
 
+if ( $_GET['logout'] ) {
+    $_SESSION["loggedin"] = false;
+}
+
 $loggedIn = isset( $_SESSION["loggedin"] ) && $_SESSION["loggedin"] === true;
+
+?>
+<body>
+<header>
+    <h1>Pokédex</h1>
+    <h2>by Jacey</h2>
+    <nav>
+        <a href="/">Gallery</a>
+        <a href="/pokemon.php">Pokémon</a>
+        <?php
+        if ( $loggedIn ) {
+            echo "<a href='.?logout=true'>Logout</a>";
+        }
+        ?>
+    </nav>
+</header>
+
+<?php
 
 if ( isset( $_GET['message'] ) ) {
     switch ( $_GET['message'] ) {
@@ -64,4 +76,4 @@ else if ( isset( $_GET['error'] ) ) {
 }
 ?>
 
-    <div class="content">
+<div class="content">
