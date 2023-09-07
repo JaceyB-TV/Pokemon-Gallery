@@ -1,6 +1,6 @@
-@import "header.css";
-@import "index.css";
-@import "pokemon.css";
+@import "header.css<?php echo "?date=" . time() ?>";
+@import "index.css<?php echo "?date=" . time() ?>";
+@import "pokemon.css<?php echo "?date=" . time() ?>";
 
 :root {
     --background-color: #222;
