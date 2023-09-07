@@ -65,7 +65,7 @@ if ( isset ( $_GET['delete'] ) ) {
                         <td style='background-color: {$row["type2_colour"]}; '>{$row["type2"]}</td>";
                 }
                 else {
-                    echo "<td colspan='2' style='background-color: {$row["type1_colour"]}; '>{$row["type1"]}</td>";
+                    echo "<td colspan='2'><div class='type' style='background-color: {$row["type1_colour"]}; '>{$row["type1"]}</div></td>";
                 }
 
                 if ( $loggedIn ) {
