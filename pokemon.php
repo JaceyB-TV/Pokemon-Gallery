@@ -73,11 +73,11 @@ if ( isset ( $_GET['delete'] ) ) {
                 echo "<tr><td>{$row["id"]}</td><td>{$row["name"]}</td>";
 
                 if ( isset ( $row['type2'] ) ) {
-                    echo "<td><div class='type' style='background-color: {$row["type1_colour"]}; '>{$row["type1"]}</div></td>
-                        <td><div class='type' style='background-color: {$row["type2_colour"]}; '>{$row["type2"]}</div></td>";
+                    echo "<td><div class='type {$row["type1"]}'>{$row["type1"]}</div></td>
+                        <td><div class='type {$row["type2"]}'>{$row["type2"]}</div></td>";
                 }
                 else {
-                    echo "<td colspan='2'><div class='type' style='background-color: {$row["type1_colour"]}; '>{$row["type1"]}</div></td>";
+                    echo "<td colspan='2'><div class='type {$row["type1"]}'>{$row["type1"]}</div></td>";
                 }
 
                 if ( $loggedIn ) {
