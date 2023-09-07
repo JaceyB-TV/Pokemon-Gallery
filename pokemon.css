@@ -18,8 +18,12 @@
     padding: 5px 0;
 }
 
-.table td.number {
+.table th.number {
     width: 20%;
+}
+
+.table th.action {
+    width: 10%;
 }
 
 .table tr:nth-of-type(even) {
