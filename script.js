@@ -1,0 +1,24 @@
+const openModal = (a) => {
+    const modal = $("#modal-wrapper")[0],
+        modalImage = $("#modal-content")[0],
+        modalCaption = $("#modal-caption").eq(0);
+
+    const link = $(a),
+        image = link.children("div")[0],
+        h3 = link.children("h3").eq(0).text(),
+        paragraphs = link.children("p"),
+        date = paragraphs.eq(0).text(),
+        requested = paragraphs.eq(1).text();
+
+    modalImage.src = image.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+
+    modalCaption.html(h3 + " " + date + " " + requested);
+
+    modal.style.display = "block";
+};
+
+const closeModal = () => {
+    const modal = $("#modal-wrapper")[0];
+
+    modal.style.display = "none";
+};

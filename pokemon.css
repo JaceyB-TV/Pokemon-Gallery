@@ -1,0 +1,43 @@
+.table table {
+    width: 80%;
+    margin: 1em auto;
+    border: var(--light-color) 1px solid;
+    border-spacing: 0;
+}
+
+.table th {
+    background-color: var(--light-color);
+    font-weight: bold;
+    font-size: 1.2em;
+    color: var(--dark-color);
+}
+
+.table td {
+    background-color: transparent;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.table th.number {
+    width: 20%;
+}
+
+.table th.type {
+    width: 170px;
+}
+
+.table th.action {
+    width: 10%;
+}
+
+.table tr:nth-of-type(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.table div.type {
+    margin: auto;
+    width: 70px;
+    border-radius: 4px;
+    border: 2px solid;
+    color: white;
+}
