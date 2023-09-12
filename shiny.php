@@ -17,23 +17,27 @@ $shinyResult = $connection->query( $shinySql );
 			$shinies[$shiny["pokemon_id"]] = $shiny;
 		}
 
-		$id = 0;
-		while ( $id <= 1009 ) {
-			$shiny = $shinies[++$id];
+		$id = 1;
+		while ( $id <= 1010 ) {
+			$exists = array_key_exists($id, $shinies);
+
 			$pokemonNumber = sprintf('%03d', $id);
 
-			if ( !isset($shiny) ) {
-				echo "<a class='item' href='javascript:void(0);'>
-					<div style='background-image: url(https://www.serebii.net/Shiny/SV/new/$pokemonNumber.png); '></div>
-						<p>$id</p>
-					</a>";
-				continue;
+			$date = "";
+			$class = "item gray";
+
+			if ( $exists ) {
+				$date = $shinies[$id]["caught_date"];
+				$class = "item";
 			}
 
-			echo "<a class='item' href='javascript:void(0);'>
+			echo "<a class='$class' href='javascript:void(0);'>
 					<div style='background-image: url(https://www.serebii.net/Shiny/SV/new/$pokemonNumber.png); '></div>
+					<p>$date</p>
 					<p>$id</p>
 				</a>";
+
+			$id++;
 		}
 		?>
 	</div>

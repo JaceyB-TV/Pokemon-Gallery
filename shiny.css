@@ -16,6 +16,10 @@
     transition: 0.3s;
 }
 
+.shiny a.gray div {
+    filter: grayscale(1);
+}
+
 .shiny a div {
     width: 100px;
     height: 100px;

@@ -13,7 +13,7 @@
 
 session_start();
 
-if ( $_GET['logout'] ) {
+if ( isset( $_GET['logout'] ) && $_GET['logout'] ) {
     $_SESSION["loggedin"] = false;
 }
 
