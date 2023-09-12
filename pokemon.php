@@ -82,7 +82,7 @@ if ( isset ( $_GET['delete'] ) ) {
 
                 if ( $loggedIn ) {
                     echo "<td><form action='pokemon.php?delete={$row["id"]}' method='post'>
-                            <input type='submit' name='submit' value='X'>
+                            <input type='submit' name='submit' value='&times;'>
                         </form></td>";
                 }
 

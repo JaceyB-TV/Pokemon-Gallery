@@ -52,7 +52,7 @@ if ( isset( $_POST['pokemon'] ) ) {
         while ( $row = $gallery->fetch_assoc() ) {
             $date = date( "d/m/Y", $row["datetime"] );
 
-            echo "<a class='item'><div style='background-image: url({$row["filename"]});'></div><h3>{$row["id"]} {$row["name"]}</h3>";
+            echo "<a class='item' onclick='openModal(this)' href='javascript:void(0);'><div style='background-image: url({$row["filename"]});'></div><h3>{$row["id"]} {$row["name"]}</h3>";
 
             if ( $row['viewer'] ) {
                 echo "<p>$date</p><p>Requested by <b>{$row["viewer"]}</b></p>";
@@ -63,6 +63,12 @@ if ( isset( $_POST['pokemon'] ) ) {
 
         ?>
 
+    </div>
+
+    <div id="modal-wrapper" class="modal-wrapper">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modal-content" alt="Modal Image" />
+        <div id="modal-caption"></div>
     </div>
 
 <?php
