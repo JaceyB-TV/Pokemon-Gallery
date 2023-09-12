@@ -17,6 +17,8 @@ $shinyResult = $connection->query( $shinySql );
 			$shinies[$shiny["pokemon_id"]] = $shiny;
 		}
 
+		$showAll = isset( $_GET["showAll"] ) && $_GET["showAll"];
+
 		$id = 1;
 		while ( $id <= 1010 ) {
 			$exists = array_key_exists($id, $shinies);
@@ -29,6 +31,9 @@ $shinyResult = $connection->query( $shinySql );
 			if ( $exists ) {
 				$date = $shinies[$id]["caught_date"];
 				$class = "item";
+			} else if ( !$showAll ) {
+				$id++;
+				continue;
 			}
 
 			echo "<a class='$class' href='javascript:void(0);'>
