@@ -10,7 +10,7 @@ const openModal = (a) => {
         date = paragraphs.eq(0).text(),
         requested = paragraphs.eq(1).text();
 
-    modalImage.src = image.style.backgroundImage;
+    modalImage.src = image.style.backgroundImage.slice(4, -1).replace(/"/g, "");
 
     modalCaption.html(h3 + " " + date + " " + requested);
 
