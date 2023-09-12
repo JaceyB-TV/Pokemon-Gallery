@@ -1,0 +1,26 @@
+.shiny {
+    width: 80%;
+    margin: 1em auto;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.shiny a {
+    flex: 1;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.shiny a div {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.2);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

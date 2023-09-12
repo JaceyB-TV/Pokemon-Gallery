@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans+Mono:100,300,400,500,700,900');
-
 .gallery {
     width: 80%;
     margin: 1em auto;
@@ -87,7 +85,7 @@
     text-align: center;
     color: #ccc;
     padding: 10px 0;
-    height: 150px;
+    height: calc(1em + 10px);
 }
 
 .modal-wrapper .modal-content, .modal-wrapper #modal-caption {

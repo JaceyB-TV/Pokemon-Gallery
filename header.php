@@ -28,6 +28,9 @@ switch ( $_SERVER['PHP_SELF'] ) {
     case "/pokemon.php":
         $page = 2;
         break;
+    case "/shiny.php":
+        $page = 3;
+        break;
 }
 
 ?>
@@ -38,6 +41,7 @@ switch ( $_SERVER['PHP_SELF'] ) {
     <nav>
         <a href="/"<?php echo $page === 1 ? " class='current'" : "" ?>>Gallery</a>
         <a href="/pokemon.php"<?php echo $page === 2 ? " class='current'" : "" ?>>Pokémon</a>
+        <a href="/shiny.php"<?php echo $page === 3 ? " class='current'" : "" ?>>Shinies</a>
         <?php
         if ( $loggedIn ) {
             echo "<a href='" . $_SERVER['PHP_SELF'] . "?logout=true'>Logout</a>";
