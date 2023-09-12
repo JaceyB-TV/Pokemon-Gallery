@@ -66,7 +66,7 @@ if ( isset( $_POST['pokemon'] ) ) {
     </div>
 
     <div id="modal-wrapper" class="modal-wrapper">
-        <span class="modal-close">&times;</span>
+        <span class="modal-close" onclick="closeModal()">&times;</span>
         <img class="modal-content" id="modal-content" alt="Modal Image" />
         <div id="modal-caption"></div>
     </div>
