@@ -3,7 +3,7 @@
 include_once "header.php";
 include_once "secret.php";
 
-if ( $_GET['showAll'] ) {
+if ( isset( $_GET["showAll"] ) && $_GET["showAll"] === "true" ) {
     $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
                FROM pokemon AS p
                LEFT JOIN gallery AS g ON g.pokemon_id = p.id 

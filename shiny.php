@@ -28,7 +28,7 @@ $shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
 
     <div class="shiny">
         <?php
-        $showAll = isset( $_GET["showAll"] ) && $_GET["showAll"] === true;
+        $showAll = isset( $_GET["showAll"] ) && $_GET["showAll"] === "true";
 
         $id = 0;
         while ( $id <= 1010 ) {
