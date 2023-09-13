@@ -22,7 +22,7 @@ if ( isset( $_POST['id'] ) ) {
     $id = $_POST['id'];
     $name = $_POST['name'];
     $type1 = $_POST['type1'];
-    $type2 = $_POST['type2'];
+    $type2 = $_POST['type2'] === "" || $_POST['type2'] === 0 ? null : $_POST['type2'];
 
     $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, name, type1, type2) VALUES (?, ?, ?, ?)" );
     $insertStatement->bind_param( "isii", $id, $name, $type1, $type2 );
