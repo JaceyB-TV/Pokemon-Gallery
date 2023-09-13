@@ -1,0 +1,65 @@
+.progress {
+    margin: 1em auto;
+    width: 80%;
+    border: 2px solid var(--dark-color);
+}
+
+.progress div {
+    height: 1em;
+    background-color: var(--light-color);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 0.5em;
+}
+
+.progress div p {
+    position: absolute;
+    background: transparent;
+    color: var(--dark-color);
+    font-weight: bold;
+    text-shadow: -1px -1px 1px var(--light-color),
+    -1px 1px 1px var(--light-color),
+    1px -1px 1px var(--light-color),
+    1px 1px 1px var(--light-color);
+}
+
+.shiny {
+    width: 80%;
+    margin: 1em auto;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.shiny a {
+    flex: 1;
+    padding: 0 0.5em 1em 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shiny a.gray div {
+    filter: grayscale(1);
+}
+
+.shiny a div {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.2);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media only screen and (max-width: 700px) {
+    .progress {
+        width: 90%;
+    }
+
+    .shiny {
+        width: 100%;
+    }
+}

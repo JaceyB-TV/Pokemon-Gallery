@@ -12,7 +12,7 @@ const openModal = (a) => {
 
     modalImage.src = image.style.backgroundImage.slice(4, -1).replace(/"/g, "");
 
-    modalCaption.html(h3 + " " + date + " " + requested);
+    modalCaption.html("<span>" + h3 + " " + date + "</span> <span>" + requested + "</span>");
 
     modal.style.display = "block";
 };
