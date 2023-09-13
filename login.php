@@ -24,7 +24,7 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
 
     if ( hash_hmac( "md5", $password, $loginSalt ) !== $loginPassword ) {
         $_SESSION['loggedin'] = false;
-        header( "Location: login.php?error=login." . hash_hmac( "md5", $password, $loginSalt ) );
+        header( "Location: login.php?error=login" );
         die();
     }
 
