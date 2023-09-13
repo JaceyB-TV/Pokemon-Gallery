@@ -16,6 +16,19 @@ while ( $shiny = $shinyResult->fetch_assoc() ) {
 $shinyCount = count( $shinies );
 $shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
 
+if ( isset( $_POST['pokemon'] ) ) {
+    $pokemonId = $_POST['pokemon'];
+    $date = $_POST['date'];
+
+    // TODO: errors
+
+    $insertStatement = $connection->prepare( "INSERT INTO shiny (pokemon_id, caught_date) VALUES (?, ?)" );
+    $insertStatement->bind_param( "si", $pokemonId, $date );
+    $insertStatement->execute();
+
+    header( "Location: shiny.php?message=success" );
+}
+
 ?>
 
     <div class="progress">
@@ -57,6 +70,35 @@ $shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
     </div>
 
 <?php
+
+if ( $loggedIn ) {
+    $pokemonSql = "SELECT p.id, p.name
+               FROM pokemon AS p
+               LEFT JOIN shiny AS s ON s.pokemon_id = p.id
+               WHERE s.id IS NULL";
+
+    $pokemon = $connection->query( $pokemonSql );
+
+    echo "    <div class='upload'>
+        <form action='shiny.php' method='post'>
+            <div class='field'>
+                <label for='pokemon'>Pokémon</label>
+                <select name='pokemon' id='pokemon'>";
+    while ( $p = $pokemon->fetch_assoc() ) {
+        echo "<option value='" . $p["id"] . "'>" . $p["name"] . "</option>";
+    }
+    echo "</select>
+            </div>
+            <div class='field'>
+                <label for='date'>Date</label>
+                <input type='date' name='date' id='date'>
+            </div>
+            <div class='submit'>
+                <button type='submit' name='submit'>UPLOAD</button>
+            </div>
+        </form>
+    </div>";
+}
 
 include_once "footer.php";
 
