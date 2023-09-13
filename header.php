@@ -79,6 +79,15 @@ else if ( isset( $_GET['error'] ) ) {
         case "login":
             $error = "Something went wrong, please try again.";
             break;
+        case "fields":
+            $error = "Missing fields, please try again.";
+            break;
+        case "database":
+            $error = "Error preparing database, please try again.";
+            break;
+        case "database":
+            $error = "Error inserting into database, please try again.";
+            break;
 
         default:
             $error = "Error";

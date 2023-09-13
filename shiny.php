@@ -18,13 +18,26 @@ $shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
 
 if ( isset( $_POST['pokemon'] ) ) {
     $pokemonId = $_POST['pokemon'];
+    $gameId = $_POST['game_id'];
     $date = $_POST['date'];
 
-    // TODO: errors
+    if ( !$pokemonId || !$gameId || !$date ) {
+        header( "Location: shiny.php?error=fields" );
+        die();
+    }
 
-    $insertStatement = $connection->prepare( "INSERT INTO shiny (pokemon_id, caught_date) VALUES (?, ?)" );
-    $insertStatement->bind_param( "si", $pokemonId, $date );
+    if ( !$insertStatement = $connection->prepare( "INSERT INTO shiny (pokemon_id, game_id, caught_date) VALUES (?, ?, ?)" ) ) {
+        header( "Location: shiny.php?error=prepare" );
+        die();
+    }
+    
+    $insertStatement->bind_param( "sss", $pokemonId, $gameId, $date );
     $insertStatement->execute();
+
+    if ( $insertStatement->error !== "" ) {
+        header( "Location: shiny.php?error=database" );
+        die();
+    }
 
     header( "Location: shiny.php?message=success" );
 }
@@ -79,6 +92,10 @@ if ( $loggedIn ) {
 
     $pokemon = $connection->query( $pokemonSql );
 
+    $gameSql = "SELECT g.id, g.name FROM game AS g";
+
+    $games = $connection->query( $gameSql );
+
     echo "    <div class='upload'>
         <form action='shiny.php' method='post'>
             <div class='field'>
@@ -90,6 +107,15 @@ if ( $loggedIn ) {
     echo "</select>
             </div>
             <div class='field'>
+            <label for='game_id'>Game</label>
+            <select name='game_id' id='game_id'>";
+
+    while ( $g = $games->fetch_assoc() ) {
+        echo "<option value='" . $g["id"] . "'>" . $g["name"] . "</option>";
+    }
+
+    echo "</select>
+            </div><div class='field'>
                 <label for='date'>Date</label>
                 <input type='date' name='date' id='date'>
             </div>
