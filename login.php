@@ -16,7 +16,7 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     $loginStatement->bind_result( $loginUsername, $loginPassword, $loginSalt );
     $loginStatement->fetch();
 
-    if ( !isset( $loginUsername ) || !isset( $loginSalt ) ) {
+    if ( !isset( $loginUsername ) || !isset( $loginPassword ) || !isset( $loginSalt ) ) {
         $_SESSION['loggedin'] = false;
         header( "Location: login.php?error=login" );
         die();
