@@ -16,6 +16,32 @@ while ( $shiny = $shinyResult->fetch_assoc() ) {
 $shinyCount = count( $shinies );
 $shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
 
+if ( isset( $_POST['pokemon'] ) ) {
+    $pokemonId = $_POST['pokemon'];
+    $gameId = $_POST['game_id'];
+    $date = $_POST['date'];
+
+    if ( !$pokemonId || !$gameId || !$date ) {
+        header( "Location: shiny.php?error=fields" );
+        die();
+    }
+
+    if ( !$insertStatement = $connection->prepare( "INSERT INTO shiny (pokemon_id, game_id, caught_date) VALUES (?, ?, ?)" ) ) {
+        header( "Location: shiny.php?error=prepare" );
+        die();
+    }
+    
+    $insertStatement->bind_param( "sss", $pokemonId, $gameId, $date );
+    $insertStatement->execute();
+
+    if ( $insertStatement->error !== "" ) {
+        header( "Location: shiny.php?error=database" );
+        die();
+    }
+
+    header( "Location: shiny.php?message=success" );
+}
+
 ?>
 
     <div class="progress">
@@ -57,6 +83,48 @@ $shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
     </div>
 
 <?php
+
+if ( $loggedIn ) {
+    $pokemonSql = "SELECT p.id, p.name
+               FROM pokemon AS p
+               LEFT JOIN shiny AS s ON s.pokemon_id = p.id
+               WHERE s.id IS NULL";
+
+    $pokemon = $connection->query( $pokemonSql );
+
+    $gameSql = "SELECT g.id, g.name FROM game AS g";
+
+    $games = $connection->query( $gameSql );
+
+    echo "    <div class='upload'>
+        <form action='shiny.php' method='post'>
+            <div class='field'>
+                <label for='pokemon'>Pokémon</label>
+                <select name='pokemon' id='pokemon'>";
+    while ( $p = $pokemon->fetch_assoc() ) {
+        echo "<option value='" . $p["id"] . "'>" . $p["name"] . "</option>";
+    }
+    echo "</select>
+            </div>
+            <div class='field'>
+            <label for='game_id'>Game</label>
+            <select name='game_id' id='game_id'>";
+
+    while ( $g = $games->fetch_assoc() ) {
+        echo "<option value='" . $g["id"] . "'>" . $g["name"] . "</option>";
+    }
+
+    echo "</select>
+            </div><div class='field'>
+                <label for='date'>Date</label>
+                <input type='date' name='date' id='date'>
+            </div>
+            <div class='submit'>
+                <button type='submit' name='submit'>UPLOAD</button>
+            </div>
+        </form>
+    </div>";
+}
 
 include_once "footer.php";
 
