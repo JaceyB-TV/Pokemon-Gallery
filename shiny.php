@@ -14,14 +14,14 @@ while ( $shiny = $shinyResult->fetch_assoc() ) {
 }
 
 $shinyCount = count( $shinies );
-$shinyPercentage = $shinyCount / 1010;
+$shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
 
 ?>
 
     <div class="progress">
-        <div style="width:<?php echo $shinyPercentage ?>%; ">
+        <div style="width:<?php echo $shinyPercentage ?>; ">
             <p>
-                <?php echo $shinyCount ?> / 1010 (<?php echo $shinyPercentage ?>%)
+                <?php echo $shinyCount ?> / 1010 (<?php echo $shinyPercentage ?>)
             </p>
         </div>
     </div>
