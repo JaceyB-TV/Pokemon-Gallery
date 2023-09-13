@@ -6,7 +6,7 @@
 @import "shiny.css";
 
 :root {
-    --background-color: #222;
+    --background-color: #363732;
     --light-color: #dbad8c;
     --dark-color: #835548;
     --success-color: yellowgreen;
@@ -15,6 +15,7 @@
 
 * {
     font-family: 'Noto Sans Mono', sans-serif;
+    font-size: 16px;
     margin: 0;
     padding: 0;
     color: var(--light-color);

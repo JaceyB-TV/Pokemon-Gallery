@@ -14,13 +14,10 @@
 
 .gallery a {
     flex: 1;
-    padding: 0.5em;
-
+    padding: 0 0.5em 1em 0.5em;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    transition: 0.3s;
 }
 
 .gallery a:hover {
@@ -95,12 +92,18 @@
 
 .modal-wrapper .modal-close {
     position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
+    top: 16px;
+    right: 16px;
+    color: var(--dark-color);
     font-size: 40px;
     font-weight: bold;
     transition: 0.3s;
+    background: transparent;
+    line-height: 26px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
 }
 
 .modal-wrapper .modal-close:hover, .modal-wrapper .modal-close:focus {
@@ -112,5 +115,16 @@
 @media only screen and (max-width: 700px) {
     .modal-wrapper .modal-content {
         width: 100%;
+    }
+
+    .modal-wrapper #modal-caption {
+        display: flex;
+        flex-direction: column;
+        height: calc(2em + 10px);
+    }
+
+
+    .modal-wrapper .modal-close {
+        right: 1px;
     }
 }
