@@ -7,24 +7,30 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $loginSql = "SELECT username, password FROM user
-                 WHERE username = ? AND password = ?";
+    $loginSql = "SELECT username, password, salt FROM user
+                 WHERE username = ?";
 
     $loginStatement = $connection->prepare( $loginSql );
-    $loginStatement->bind_param( "ss", $username, $password );
+    $loginStatement->bind_param( "s", $username );
     $loginStatement->execute();
-    $loginStatement->bind_result( $loginUsername, $loginPassword );
+    $loginStatement->bind_result( $loginUsername, $loginPassword, $loginSalt );
     $loginStatement->fetch();
 
-    if ( !isset( $loginUsername ) || !isset( $loginPassword ) ) {
+    if ( !isset( $loginUsername ) || !isset( $loginSalt ) ) {
+        $_SESSION['loggedin'] = false;
+        header( "Location: login.php?error=login" );
+        die();
+    }
+
+    if ( hash_hmac( "md5", $password, $loginSalt ) !== $loginPassword ) {
         $_SESSION['loggedin'] = false;
         header( "Location: login.php?error=login" );
         die();
     }
 
     $_SESSION['loggedin'] = true;
-
     header( "Location: index.php?message=login" );
+    die();
 }
 
 ?>
