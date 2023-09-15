@@ -4,7 +4,7 @@ include_once "header.php";
 
 ?>
 
-<p>Whoops, missing page.</p>
+<p class="info">Whoops, missing page.</p>
 
 <?php
 

@@ -26,6 +26,11 @@ a {
     text-decoration: none;
 }
 
+.content p.info {
+    width: 80%;
+    margin: 1em auto;
+}
+
 .upload {
     width: calc(80% - 1em);
     margin: 1em auto;
@@ -66,7 +71,15 @@ a {
     font-weight: bold;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
+    .content p.info {
+        width: calc(100% - 3em);
+    }
+
+    .upload {
+        width: calc(100% - 3em);
+    }
+
     .upload button {
         width: 100%;
     }
