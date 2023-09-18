@@ -42,11 +42,11 @@ switch ( $_SERVER['PHP_SELF'] ) {
         <a href="/"<?php echo $page === 1 ? " class='current'" : "" ?>>Gallery</a>
         <a href="/shiny.php"<?php echo $page === 2 ? " class='current'" : "" ?>>Shinies</a>
         <?php
-        if ( $loggedIn ) {
+        if ( $loggedIn || $page === 3 ) {
             $link = "<a href='/pokemon.php'";
             
             if ( $page === 3 ) {
-                $link .= " class='current'";
+                $link .= " class='`current'";
             }
 
             $link .= ">Pokémon</a>";
