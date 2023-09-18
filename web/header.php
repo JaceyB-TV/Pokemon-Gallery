@@ -46,7 +46,7 @@ switch ( $_SERVER['PHP_SELF'] ) {
             $link = "<a href='/pokemon.php'";
             
             if ( $page === 3 ) {
-                $link .= " class='`current'";
+                $link .= " class='current'";
             }
 
             $link .= ">Pokémon</a>";
