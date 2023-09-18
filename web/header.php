@@ -52,7 +52,9 @@ switch ( $_SERVER['PHP_SELF'] ) {
             $link .= ">Pokémon</a>";
 
             echo $link;
-            
+        }
+
+        if ( $loggedIn ) {
             echo "<a href='" . $_SERVER['PHP_SELF'] . "?logout=true'>Logout</a>";
         }
         ?>
