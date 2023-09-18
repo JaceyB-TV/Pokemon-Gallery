@@ -41,9 +41,18 @@ switch ( $_SERVER['PHP_SELF'] ) {
     <nav>
         <a href="/"<?php echo $page === 1 ? " class='current'" : "" ?>>Gallery</a>
         <a href="/shiny.php"<?php echo $page === 2 ? " class='current'" : "" ?>>Shinies</a>
-        <a href="/pokemon.php"<?php echo $page === 3 ? " class='current'" : "" ?>>Pokémon</a>
         <?php
         if ( $loggedIn ) {
+            $link = "<a href='/pokemon.php'";
+            
+            if ( $page === 3 ) {
+                $link .= " class='current'";
+            }
+
+            $link .= ">Pokémon</a>";
+
+            echo $link;
+            
             echo "<a href='" . $_SERVER['PHP_SELF'] . "?logout=true'>Logout</a>";
         }
         ?>
