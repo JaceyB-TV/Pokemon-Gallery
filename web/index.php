@@ -46,6 +46,11 @@ if ( isset( $_POST['pokemon'] ) ) {
 
 ?>
 
+    <p class="info">
+        My name is Jacey and welcome to my Pokédex page! I draw Pokémon for fun. You can request a drawing while I'm
+        streaming over at <u><a href="https://twitch.tv/JaceyB">Twitch</a></u>. Feel free to come say hi.
+    </p>
+
     <div class="gallery">
 
         <?php
