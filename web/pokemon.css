@@ -42,6 +42,21 @@
     color: white;
 }
 
+.table form {
+    background: transparent;
+}
+
+.table button {
+    height: 26px;
+    width: 26px;
+    cursor: pointer;
+    border: var(--light-color) 1px solid;
+    border-radius: 13px;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 700px) {
     .table table {
         width: calc(100% - 2em);
