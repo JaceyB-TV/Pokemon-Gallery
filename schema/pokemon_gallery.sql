@@ -185,6 +185,37 @@ CREATE TABLE `pokemon` (
   CONSTRAINT `pokemon_ibfk_4` FOREIGN KEY (`type2`) REFERENCES `type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+--
+-- Dumping data for table `pokemon`
+--
+
+INSERT INTO `pokemon` (`id`, `name`, `type1`, `type2`) VALUES
+(1, 'Bulbasaur', 4, 8),
+(4, 'Charmander', 2, NULL),
+(25, 'Pikachu', 5, NULL),
+(38, 'Ninetales', 2, NULL),
+(58, 'Growlithe', 2, NULL),
+(65, 'Alakazam', 11, NULL),
+(83, 'Farfetch\'d', 7, NULL),
+(92, 'Gastly', 14, 8),
+(123, 'Scyther', 12, 10),
+(134, 'Vaporeon', 3, NULL),
+(216, 'Teddiursa', 1, NULL),
+(245, 'Suicune', 3, NULL),
+(302, 'Sableye', 16, 14),
+(418, 'Buizel', 3, NULL),
+(427, 'Buneary', 1, NULL),
+(479, 'Wash Rotom', 5, 3),
+(532, 'Timburr', 7, NULL),
+(591, 'Amoonguss', 4, 8),
+(736, 'Grubbin', 12, NULL),
+(737, 'Charjabug', 12, 5),
+(738, 'Vikavolt', 12, 5),
+(888, 'Zacian', 18, NULL),
+(889, 'Zamazenta', 7, NULL),
+(915, 'Lechonk', 1, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -202,6 +233,21 @@ CREATE TABLE `gallery` (
   KEY `pokemon_id` (`pokemon_id`),
   CONSTRAINT `gallery_ibfk_1` FOREIGN KEY (`pokemon_id`) REFERENCES `pokemon` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `gallery`
+--
+
+INSERT INTO `gallery` (`id`, `pokemon_id`, `datetime`, `filename`, `viewer`) VALUES
+(1, 25, 1693854000, 'img/gallery/25.png', 'Aine_ni20'),
+(2, 1, 1694459590, 'img/gallery/1.64ff66c64830e0.27772607.png', 'jpo6388'),
+(3, 427, 1694460323, 'img/gallery/427.64ff69a30f1fb9.53857902.png', 'xLucyLouux'),
+(4, 92, 1694463039, 'img/gallery/92.64ff743f948b87.06654013.png', 'OverlordStefen'),
+(5, 65, 1694464561, 'img/gallery/65.64ff7a313a64c1.37830228.png', 'Aine_ni20'),
+(6, 123, 1694467884, 'img/gallery/123.64ff872c3968d5.93037254.png', 'xLucyLouux'),
+(7, 38, 1694717459, 'img/gallery/38.650356130bef53.48616629.png', 'Aine_ni20'),
+(8, 58, 1694718091, 'img/gallery/58.6503588bd070b9.29153213.png', 'Aine_ni20'),
+(9, 479, 1695671417, 'img/gallery/479.6511e479e75158.40599596.png', 'ElderTotoro');
 
 -- --------------------------------------------------------
 
@@ -224,6 +270,26 @@ CREATE TABLE `shiny` (
   CONSTRAINT `shiny_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`),
   CONSTRAINT `shiny_ibfk_2` FOREIGN KEY (`pokemon_id`, `gender_id`, `form_id`) REFERENCES `pokemon` (`id`, `gender_id`, `form_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `shiny`
+--
+
+(1, 4, 1, '2023-09-02', ''),
+(2, 83, 1, '2023-09-05', ''),
+(3, 134, 1, '2023-08-14', ''),
+(4, 245, 4, '2020-11-09', ''),
+(5, 302, 1, '2023-08-21', ''),
+(6, 418, 1, '2023-09-11', ''),
+(7, 591, 5, '2020-08-10', ''),
+(8, 888, 4, '2021-11-15', ''),
+(9, 889, 5, '2021-11-15', ''),
+(10, 736, 1, '2023-09-23', ''),
+(11, 737, 1, '2023-09-23', ''),
+(12, 738, 1, '2023-09-23', ''),
+(13, 915, 9, '2022-11-20', ''),
+(14, 216, 10, '2023-09-27', ''),
+(15, 532, 9, '2023-09-28', '');
 
 -- --------------------------------------------------------
 
