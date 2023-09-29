@@ -44,6 +44,12 @@ if ( isset( $_POST['pokemon'] ) ) {
 
 ?>
 
+    <p class="info">
+        My name is Jacey and welcome to my Shiny page! I am currently trying to complete a shiny living dex. You can
+        join in with the journey while I'm streaming over at <u><a href="https://twitch.tv/JaceyB">Twitch</a></u>.
+        Feel free to come say hi.
+    </p>
+
     <div class="progress">
         <div style="width:<?php echo $shinyPercentage ?>; ">
             <p>
@@ -99,7 +105,7 @@ if ( $loggedIn ) {
     echo "    <div class='upload'>
         <form action='shiny.php' method='post'>
             <div class='field'>
-                <label for='pokemon'>Pokémon</label>
+                <label for='pokemon'>Pokï¿½mon</label>
                 <select name='pokemon' id='pokemon'>";
     while ( $p = $pokemon->fetch_assoc() ) {
         echo "<option value='" . $p["id"] . "'>" . $p["name"] . "</option>";
