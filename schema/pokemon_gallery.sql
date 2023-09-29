@@ -9,12 +9,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `pokemon_gallery`
 --
@@ -40,15 +34,15 @@ CREATE TABLE `game` (
 --
 
 INSERT INTO `game` (`id`, `name`) VALUES
-(6, 'Brilliant Diamond'),
 (1, 'Go'),
-(8, 'Legends: Arceus'),
-(3, 'Let\'s Go, Eevee!'),
 (2, 'Let\'s Go, Pikachu!'),
-(9, 'Scarlett'),
-(5, 'Shield'),
-(7, 'Shining Pearl'),
+(3, 'Let\'s Go, Eevee!'),
 (4, 'Sword'),
+(5, 'Shield'),
+(6, 'Brilliant Diamond'),
+(7, 'Shining Pearl'),
+(8, 'Legends: Arceus'),
+(9, 'Scarlet'),
 (10, 'Violet');
 
 -- --------------------------------------------------------
@@ -63,7 +57,8 @@ CREATE TABLE `type` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `colour` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `border` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -93,6 +88,83 @@ INSERT INTO `type` (`id`, `name`, `colour`, `border`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `gender`
+--
+
+DROP TABLE IF EXISTS `gender`;
+CREATE TABLE `gender` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `gender`
+--
+
+INSERT INTO `gender` (`id`, `name`) VALUES
+(1, 'None/Unknown'),
+(2, 'Male'),
+(3, 'Female');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `form_type`
+--
+
+DROP TABLE IF EXISTS `form_type`;
+CREATE TABLE `form_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `form_type`
+--
+
+INSERT INTO `form_type` (`id`, `name`) VALUES
+(1, 'Regional'),
+(2, 'Mega Evolution'),
+(3, 'Gigantamax'),
+(4, 'Terastallised'),
+(5, 'Unown'),
+(6, 'Castform'),
+(7, 'Rotom');
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `form`
+--
+
+DROP TABLE IF EXISTS `form`;
+CREATE TABLE `form` (
+  `id` int(11) NOT NULL,
+  `form_type_id` INT(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  CONSTRAINT `form_ibfk_1` FOREIGN KEY (`form_type_id`) REFERENCES `form_type` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `form`
+--
+
+INSERT INTO `form` (`id`, `form_type_id`, `name`) VALUES
+(1, 1, 'Original'),
+(2, 1, 'Alolan'),
+(3, 1, 'Hisuian'),
+(4, 1, 'Galarian'),
+(5, 1, 'Paldean');
+
+-- --------------------------------------------------------
+--
 -- Table structure for table `pokemon`
 --
 
@@ -100,13 +172,17 @@ DROP TABLE IF EXISTS `pokemon`;
 CREATE TABLE `pokemon` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gender_id` int(11) NOT NULL,
+  `form_id` int(11) NOT NULL,
   `type1` int(11) NOT NULL,
   `type2` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`, `gender_id`, `form_id`),
   KEY `type1` (`type1`),
   KEY `type2` (`type2`),
-  CONSTRAINT `pokemon_ibfk_1` FOREIGN KEY (`type1`) REFERENCES `type` (`id`),
-  CONSTRAINT `pokemon_ibfk_2` FOREIGN KEY (`type2`) REFERENCES `type` (`id`)
+  CONSTRAINT `pokemon_ibfk_1` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`id`),
+  CONSTRAINT `pokemon_ibfk_2` FOREIGN KEY (`form_id`) REFERENCES `form` (`id`),
+  CONSTRAINT `pokemon_ibfk_3` FOREIGN KEY (`type1`) REFERENCES `type` (`id`),
+  CONSTRAINT `pokemon_ibfk_4` FOREIGN KEY (`type2`) REFERENCES `type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -137,6 +213,8 @@ DROP TABLE IF EXISTS `shiny`;
 CREATE TABLE `shiny` (
   `id` int(11) NOT NULL,
   `pokemon_id` int(11) NOT NULL,
+  `gender_id` int(11) NOT NULL,
+  `form_id` int(11) NOT NULL,
   `game_id` int(11) NOT NULL,
   `caught_date` date NOT NULL,
   `filename` varchar(255) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
@@ -144,7 +222,7 @@ CREATE TABLE `shiny` (
   KEY `game_id` (`game_id`),
   KEY `pokemon_id` (`pokemon_id`),
   CONSTRAINT `shiny_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`),
-  CONSTRAINT `shiny_ibfk_2` FOREIGN KEY (`pokemon_id`) REFERENCES `pokemon` (`id`)
+  CONSTRAINT `shiny_ibfk_2` FOREIGN KEY (`pokemon_id`, `gender_id`, `form_id`) REFERENCES `pokemon` (`id`, `gender_id`, `form_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -165,7 +243,3 @@ CREATE TABLE `user` (
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
