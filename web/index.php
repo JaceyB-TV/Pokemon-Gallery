@@ -4,13 +4,13 @@ include_once "header.php";
 include_once "secret.php";
 
 if ( isset( $_GET["showAll"] ) && $_GET["showAll"] === "true" ) {
-    $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
+    $gallerySql = "SELECT p.id, p.number, p.name, g.filename, g.datetime, g.viewer
                FROM pokemon AS p
                LEFT JOIN gallery AS g ON g.pokemon_id = p.id 
                ORDER BY p.id ASC";
 }
 else {
-    $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
+    $gallerySql = "SELECT p.id, p.number, p.name, g.filename, g.datetime, g.viewer
                FROM gallery AS g
                JOIN pokemon AS p ON p.id = g.pokemon_id
                ORDER BY datetime DESC";
@@ -57,7 +57,7 @@ if ( isset( $_POST['pokemon'] ) ) {
         while ( $row = $gallery->fetch_assoc() ) {
             $date = date( "d/m/Y", $row["datetime"] );
 
-            echo "<a class='item' onclick='openModal(this)' href='javascript:void(0);'><div style='background-image: url({$row["filename"]});'></div><h3>{$row["id"]} {$row["name"]}</h3>";
+            echo "<a class='item' onclick='openModal(this)' href='javascript:void(0);'><div style='background-image: url({$row["filename"]});'></div><h3>{$row["number"]} {$row["name"]}</h3>";
 
             if ( $row['viewer'] ) {
                 echo "<p>$date</p><p>Requested by <b>{$row["viewer"]}</b></p>";
