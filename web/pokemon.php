@@ -5,6 +5,7 @@ include_once "secret.php";
 
 $pokemonSql = "SELECT
                    p.id
+                   , p.number
                    , p.name
                    , g.id AS gender_id
                    , g.name AS gender_name
@@ -16,7 +17,8 @@ $pokemonSql = "SELECT
                JOIN gender AS g ON g.id = p.gender_id
 		       JOIN form AS f ON f.id = p.form_id
 		       JOIN type AS t1 ON t1.id = p.type1
-		       LEFT JOIN type AS t2 ON t2.id = p.type2";
+		       LEFT JOIN type AS t2 ON t2.id = p.type2
+		       ORDER BY p.number";
 $pokemonResult = $connection->query( $pokemonSql );
 
 $typeSql = "SELECT id, name, colour, border FROM type ORDER BY id";
@@ -28,16 +30,16 @@ if ( $typesResult->num_rows > 0 ) {
     }
 }
 
-if ( isset( $_POST[ 'id' ] ) ) {
-    $id = $_POST[ 'id' ];
+if ( isset( $_POST[ 'number' ] ) ) {
+    $number = $_POST[ 'number' ];
     $name = $_POST[ 'name' ];
     $gender_id = $_POST[ 'gender' ];
     $form_id = $_POST[ 'form' ];
     $type1 = $_POST[ 'type1' ];
     $type2 = $_POST[ 'type2' ] === "" || $_POST[ 'type2' ] === 0 ? null : $_POST[ 'type2' ];
 
-    $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, name, gender_id, form_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?)" );
-    $insertStatement->bind_param( "isiiii", $id, $name, $gender_id, $form_id, $type1, $type2 );
+    $insertStatement = $connection->prepare( "INSERT INTO pokemon (number, name, gender_id, form_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?)" );
+    $insertStatement->bind_param( "isiiii", $number, $name, $gender_id, $form_id, $type1, $type2 );
     $insertStatement->execute();
 
     if ( $insertStatement->error !== "" ) {
@@ -50,11 +52,9 @@ if ( isset( $_POST[ 'id' ] ) ) {
 
 if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
     $id = $_GET[ 'id' ];
-    $gender_id = $_GET[ 'gender_id' ];
-    $form_id = $_GET[ 'form_id' ];
 
-    $deleteStatement = $connection->prepare( "DELETE FROM pokemon WHERE id = ? AND gender_id = ? AND form_id = ?" );
-    $deleteStatement->bind_param( "iii", $id, $gender_id, $form_id );
+    $deleteStatement = $connection->prepare( "DELETE FROM pokemon WHERE id = ?" );
+    $deleteStatement->bind_param( "i", $id );
     $deleteStatement->execute();
 
     if ( $deleteStatement->error !== "" ) {
@@ -99,7 +99,7 @@ if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
             while ( $row = $pokemonResult->fetch_assoc() ) {
                 echo "
         <tr>
-            <td>{$row["id"]}</td>
+            <td>{$row["number"]}</td>
             <td>{$row["name"]}</td>
             <td>{$row["gender_name"]}</td>
             <td>{$row["form_name"]}</td>";
@@ -123,7 +123,7 @@ if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
                 if ( $loggedIn ) {
                     echo "
             <td>
-                <form action='pokemon.php?delete=true&id={$row["id"]}&gender_id={$row["gender_id"]}&form_id={$row["form_id"]}' method='post'>
+                <form action='pokemon.php?delete=true&id={$row["id"]}' method='post'>
                     <input type='submit' name='submit' value='&times;'>
                 </form>
             </td>";
@@ -165,8 +165,8 @@ if ( $loggedIn ) {
 <div class='upload'>
     <form action='pokemon.php' method='post'>
         <div class='field'>
-            <label for='id'>#</label>
-            <input type='number' name='id' id='id' placeholder='#'/>
+            <label for='number'>#</label>
+            <input type='number' name='number' id='number' placeholder='#'/>
         </div>
         <div class='field'>
             <label for='name'>Name</label>

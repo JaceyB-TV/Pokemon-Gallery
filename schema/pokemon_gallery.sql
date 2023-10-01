@@ -23,7 +23,7 @@ USE `pokemon_gallery`;
 
 DROP TABLE IF EXISTS `game`;
 CREATE TABLE `game` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
@@ -53,7 +53,7 @@ INSERT INTO `game` (`id`, `name`) VALUES
 
 DROP TABLE IF EXISTS `type`;
 CREATE TABLE `type` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `colour` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `border` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -85,6 +85,8 @@ INSERT INTO `type` (`id`, `name`, `colour`, `border`) VALUES
 (17, 'Steel', '#B8B8D0', '#787887'),
 (18, 'Fairy', '#EE99AC', '#9B6470');
 
+ALTER TABLE `type` AUTO_INCREMENT=19;
+
 -- --------------------------------------------------------
 
 --
@@ -93,7 +95,7 @@ INSERT INTO `type` (`id`, `name`, `colour`, `border`) VALUES
 
 DROP TABLE IF EXISTS `gender`;
 CREATE TABLE `gender` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
@@ -108,6 +110,8 @@ INSERT INTO `gender` (`id`, `name`) VALUES
 (2, 'Male'),
 (3, 'Female');
 
+ALTER TABLE `gender` AUTO_INCREMENT=4;
+
 -- --------------------------------------------------------
 
 --
@@ -116,7 +120,7 @@ INSERT INTO `gender` (`id`, `name`) VALUES
 
 DROP TABLE IF EXISTS `form_type`;
 CREATE TABLE `form_type` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
@@ -135,6 +139,8 @@ INSERT INTO `form_type` (`id`, `name`) VALUES
 (6, 'Castform'),
 (7, 'Rotom');
 
+ALTER TABLE `form_type` AUTO_INCREMENT=8;
+
 -- --------------------------------------------------------
 
 --
@@ -143,7 +149,7 @@ INSERT INTO `form_type` (`id`, `name`) VALUES
 
 DROP TABLE IF EXISTS `form`;
 CREATE TABLE `form` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `form_type_id` INT(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
@@ -162,6 +168,8 @@ INSERT INTO `form` (`id`, `form_type_id`, `name`) VALUES
 (4, 1, 'Galarian'),
 (5, 1, 'Paldean');
 
+ALTER TABLE `form` AUTO_INCREMENT=6;
+
 -- --------------------------------------------------------
 --
 -- Table structure for table `pokemon`
@@ -169,13 +177,14 @@ INSERT INTO `form` (`id`, `form_type_id`, `name`) VALUES
 
 DROP TABLE IF EXISTS `pokemon`;
 CREATE TABLE `pokemon` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `gender_id` int(11) NOT NULL,
   `form_id` int(11) NOT NULL,
   `type1` int(11) NOT NULL,
   `type2` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`, `gender_id`, `form_id`),
+  PRIMARY KEY (`id`),
   KEY `type1` (`type1`),
   KEY `type2` (`type2`),
   CONSTRAINT `pokemon_ibfk_1` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`id`),
@@ -188,31 +197,35 @@ CREATE TABLE `pokemon` (
 -- Dumping data for table `pokemon`
 --
 
-INSERT INTO `pokemon` (`id`, `name`, `gender_id`, `form_id`, `type1`, `type2`) VALUES
-(1, 'Bulbasaur', 1, 1, 4, 8),
-(4, 'Charmander', 1, 1, 2, NULL),
-(25, 'Pikachu', 3, 1, 5, NULL),
-(38, 'Ninetales', 1, 1, 2, NULL),
-(58, 'Growlithe', 1, 1, 2, NULL),
-(65, 'Alakazam', 1, 1, 11, NULL),
-(83, 'Farfetch\'d', 1, 1, 7, NULL),
-(92, 'Gastly', 1, 1, 14, 8),
-(123, 'Scyther', 1, 1, 12, 10),
-(134, 'Vaporeon', 1, 1, 3, NULL),
-(216, 'Teddiursa', 1, 1, 1, NULL),
-(245, 'Suicune', 1, 1, 3, NULL),
-(302, 'Sableye', 1, 1, 16, 14),
-(418, 'Buizel', 1, 1, 3, NULL),
-(427, 'Buneary', 1, 1, 1, NULL),
-(479, 'Wash Rotom', 1, 1, 5, 3),
-(532, 'Timburr', 1, 1, 7, NULL),
-(591, 'Amoonguss', 1, 1, 4, 8),
-(736, 'Grubbin', 1, 1, 12, NULL),
-(737, 'Charjabug', 1, 1, 12, 5),
-(738, 'Vikavolt', 1, 1, 12, 5),
-(888, 'Zacian', 1, 1, 18, NULL),
-(889, 'Zamazenta', 1, 1, 7, NULL),
-(915, 'Lechonk', 1, 1, 1, NULL);
+INSERT INTO `pokemon` (`id`, `number`, `name`, `gender_id`, `form_id`, `type1`, `type2`) VALUES
+(1, 25, 'Pikachu', 3, 1, 5, NULL),
+(2, 1, 'Bulbasaur', 1, 1, 4, 8),
+(3, 427, 'Buneary', 1, 1, 1, NULL),
+(4, 92, 'Gastly', 1, 1, 14, 8),
+(5, 65, 'Alakazam', 1, 1, 11, NULL),
+(6, 123, 'Scyther', 1, 1, 12, 10),
+(7, 4, 'Charmander', 1, 1, 2, NULL),
+(8, 83, "Farfetch'd", 1, 4, 7, NULL),
+(9, 134, 'Vaporeon', 1, 1, 3, NULL),
+(10, 245, 'Suicune', 1, 1, 3, NULL),
+(11, 302, 'Sableye', 1, 1, 16, 14),
+(12, 418, 'Buizel', 1, 1, 3, NULL),
+(13, 591, 'Amoonguss', 1, 1, 4, 8),
+(14, 888, 'Zacian', 1, 1, 18, NULL),
+(15, 889, 'Zamazenta', 1, 1, 7, NULL),
+(16, 736, 'Grubbin', 1, 1, 12, NULL),
+(17, 737, 'Charjabug', 1, 1, 12, 5),
+(18, 738, 'Vikavolt', 1, 1, 12, 5),
+(19, 915, 'Lechonk', 1, 1, 1, NULL),
+(20, 38, 'Ninetales', 1, 1, 2, NULL),
+(21, 58, 'Growlithe', 1, 1, 2, NULL),
+(22, 479, 'Wash Rotom', 1, 1, 5, 3),
+(23, 216, 'Teddiursa', 1, 1, 1, NULL),
+(24, 532, 'Timburr', 1, 1, 7, NULL),
+(25, 35, 'Clefairy', 1, 1, 18, NULL),
+(26, 916, 'Oinkologne', 3, 1, 1, NULL);
+
+ALTER TABLE `pokemon` AUTO_INCREMENT=27;
 
 -- --------------------------------------------------------
 
@@ -222,32 +235,32 @@ INSERT INTO `pokemon` (`id`, `name`, `gender_id`, `form_id`, `type1`, `type2`) V
 
 DROP TABLE IF EXISTS `gallery`;
 CREATE TABLE `gallery` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `pokemon_id` int(11) NOT NULL,
-  `gender_id` int(11) NOT NULL,
-  `form_id` int(11) NOT NULL,
   `datetime` int(11) NOT NULL,
   `filename` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `viewer` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `pokemon_id` (`pokemon_id`),
-  CONSTRAINT `gallery_ibfk_1` FOREIGN KEY (`pokemon_id`, `gender_id`, `form_id`) REFERENCES `pokemon` (`id`, `gender_id`, `form_id`)
+  CONSTRAINT `gallery_ibfk_1` FOREIGN KEY (`pokemon_id`) REFERENCES `pokemon` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `gallery`
 --
 
-INSERT INTO `gallery` (`id`, `pokemon_id`, `gender_id`, `form_id`, `datetime`, `filename`, `viewer`) VALUES
-(1, 25, 3, 1, 1693854000, 'img/gallery/25.png', 'Aine_ni20'),
-(2, 1, 1, 1, 1694459590, 'img/gallery/1.64ff66c64830e0.27772607.png', 'jpo6388'),
-(3, 427, 1, 1, 1694460323, 'img/gallery/427.64ff69a30f1fb9.53857902.png', 'xLucyLouux'),
-(4, 92, 1, 1, 1694463039, 'img/gallery/92.64ff743f948b87.06654013.png', 'OverlordStefen'),
-(5, 65, 1, 1, 1694464561, 'img/gallery/65.64ff7a313a64c1.37830228.png', 'Aine_ni20'),
-(6, 123, 1, 1, 1694467884, 'img/gallery/123.64ff872c3968d5.93037254.png', 'xLucyLouux'),
-(7, 38, 1, 1, 1694717459, 'img/gallery/38.650356130bef53.48616629.png', 'Aine_ni20'),
-(8, 58, 1, 1, 1694718091, 'img/gallery/58.6503588bd070b9.29153213.png', 'Aine_ni20'),
-(9, 479, 1, 1, 1695671417, 'img/gallery/479.6511e479e75158.40599596.png', 'ElderTotoro');
+INSERT INTO `gallery` (`id`, `pokemon_id`, `datetime`, `filename`, `viewer`) VALUES
+(1, 1, 1693854000, 'img/gallery/25.png', 'Aine_ni20'),
+(2, 2, 1694459590, 'img/gallery/1.64ff66c64830e0.27772607.png', 'jpo6388'),
+(3, 3, 1694460323, 'img/gallery/427.64ff69a30f1fb9.53857902.png', 'xLucyLouux'),
+(4, 4, 1694463039, 'img/gallery/92.64ff743f948b87.06654013.png', 'OverlordStefen'),
+(5, 5, 1694464561, 'img/gallery/65.64ff7a313a64c1.37830228.png', 'Aine_ni20'),
+(6, 6, 1694467884, 'img/gallery/123.64ff872c3968d5.93037254.png', 'xLucyLouux'),
+(7, 20, 1694717459, 'img/gallery/38.650356130bef53.48616629.png', 'Aine_ni20'),
+(8, 21, 1694718091, 'img/gallery/58.6503588bd070b9.29153213.png', 'Aine_ni20'),
+(9, 22, 1695671417, 'img/gallery/479.6511e479e75158.40599596.png', 'ElderTotoro');
+
+ALTER TABLE `gallery` AUTO_INCREMENT=10;
 
 -- --------------------------------------------------------
 
@@ -257,10 +270,8 @@ INSERT INTO `gallery` (`id`, `pokemon_id`, `gender_id`, `form_id`, `datetime`, `
 
 DROP TABLE IF EXISTS `shiny`;
 CREATE TABLE `shiny` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `pokemon_id` int(11) NOT NULL,
-  `gender_id` int(11) NOT NULL,
-  `form_id` int(11) NOT NULL,
   `game_id` int(11) NOT NULL,
   `caught_date` date NOT NULL,
   `filename` varchar(255) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
@@ -268,29 +279,33 @@ CREATE TABLE `shiny` (
   KEY `game_id` (`game_id`),
   KEY `pokemon_id` (`pokemon_id`),
   CONSTRAINT `shiny_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`),
-  CONSTRAINT `shiny_ibfk_2` FOREIGN KEY (`pokemon_id`, `gender_id`, `form_id`) REFERENCES `pokemon` (`id`, `gender_id`, `form_id`)
+  CONSTRAINT `shiny_ibfk_2` FOREIGN KEY (`pokemon_id`) REFERENCES `pokemon` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `shiny`
 --
 
-INSERT INTO `shiny` (`id`, `pokemon_id`, `gender_id`, `form_id`, `game_id`, `caught_date`) VALUES
-(1, 4, 1, 1, 1, '2023-09-02'),
-(2, 83, 1, 1, 1, '2023-09-05'),
-(3, 134, 1, 1, 1, '2023-08-14'),
-(4, 245, 1, 1, 4, '2020-11-09'),
-(5, 302, 1, 1, 1, '2023-08-21'),
-(6, 418, 1, 1, 1, '2023-09-11'),
-(7, 591, 1, 1, 5, '2020-08-10'),
-(8, 888, 1, 1, 4, '2021-11-15'),
-(9, 889, 1, 1, 5, '2021-11-15'),
-(10, 736, 1, 1, 1, '2023-09-23'),
-(11, 737, 1, 1, 1, '2023-09-23'),
-(12, 738, 1, 1, 1, '2023-09-23'),
-(13, 915, 1, 1, 9, '2022-11-20'),
-(14, 216, 1, 1, 10, '2023-09-27'),
-(15, 532, 1, 1, 9, '2023-09-28');
+INSERT INTO `shiny` (`id`, `pokemon_id`, `game_id`, `caught_date`) VALUES
+(1, 7, 1, '2023-09-02'),
+(2, 8, 1, '2023-09-05'),
+(3, 9, 1, '2023-08-14'),
+(4, 10, 4, '2020-11-09'),
+(5, 11, 1, '2023-08-21'),
+(6, 12, 1, '2023-09-11'),
+(7, 13, 5, '2020-08-10'),
+(8, 14, 4, '2021-11-15'),
+(9, 15, 5, '2021-11-15'),
+(10, 16, 1, '2023-09-23'),
+(11, 17, 1, '2023-09-23'),
+(12, 18, 1, '2023-09-23'),
+(13, 19, 9, '2022-11-20'),
+(14, 23, 10, '2023-09-27'),
+(15, 24, 9, '2023-09-28'),
+(16, 25, 9, '2023-09-30'),
+(17, 26, 9, '2023-09-30');
+
+ALTER TABLE `shiny` AUTO_INCREMENT=18;
 
 -- --------------------------------------------------------
 
@@ -300,7 +315,7 @@ INSERT INTO `shiny` (`id`, `pokemon_id`, `gender_id`, `form_id`, `game_id`, `cau
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `salt` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,

@@ -3,15 +3,15 @@
 include_once "header.php";
 include_once "secret.php";
 
-$shinySql = "SELECT s.id, s.pokemon_id, p.name AS pokemon_name, s.gender_id, g.name AS gender_name, s.form_id, f.name AS form_name, s.caught_date
+$shinySql = "SELECT s.id, s.pokemon_id, p.number AS pokemon_number, p.name AS pokemon_name, p.gender_id, g.name AS gender_name, p.form_id, f.name AS form_name, s.caught_date
              FROM shiny AS s
              JOIN pokemon AS p ON p.id = s.pokemon_id
-             JOIN gender AS g ON g.id = s.gender_id
-             JOIN form AS f ON f.id = s.form_id";
+             JOIN gender AS g ON g.id = p.gender_id
+             JOIN form AS f ON f.id = p.form_id";
 $shinyResult = $connection->query( $shinySql );
 $shinies = array();
 while ( $shiny = $shinyResult->fetch_assoc() ) {
-    $shinies[ $shiny[ "pokemon_id" ] ] = $shiny;
+    $shinies[ $shiny[ "pokemon_number" ] ] = $shiny;
 }
 
 $shinyCount = count( $shinies );
@@ -44,6 +44,18 @@ if ( isset( $_POST[ 'pokemon' ] ) ) {
 }
 
 if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
+    $id = $_GET[ 'id' ];
+
+    $deleteStatement = $connection->prepare( "DELETE FROM shiny WHERE id = ?" );
+    $deleteStatement->bind_param( "i", $id );
+    $deleteStatement->execute();
+
+    if ( $deleteStatement->error !== "" ) {
+        header( "Location: shiny.php?error=delete" );
+        echo "" . $deleteStatement->error;
+        die();
+    }
+
     header( "Location: shiny.php?message=delete" );
 }
 ?>
@@ -79,11 +91,12 @@ if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
             continue;
         }
 
+        // -f for female
+
         echo "
         <a class='$class' href='javascript:void(0);'>
             <div style='background-image: url(https://www.serebii.net/Shiny/SV/new/$pokemonNumber.png); '></div>
             <p>$date</p>
-            <p>$id</p>
         </a>";
     }
     ?>
@@ -91,8 +104,9 @@ if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
 </div><?php
 
 if ( $loggedIn ) {
-    $pokemonSql = "SELECT p.id, p.name
+    $pokemonSql = "SELECT p.id, p.name AS pokemon_name, p.gender_id, p.form_id, f.name AS form_name
                FROM pokemon AS p
+               JOIN form AS f ON f.id = p.form_id
                LEFT JOIN shiny AS s ON s.pokemon_id = p.id
                WHERE s.id IS NULL";
     $pokemonResult = $connection->query( $pokemonSql );
@@ -103,18 +117,39 @@ if ( $loggedIn ) {
     $pokemonOptions = "";
     foreach ( $pokemon as $p ) {
         $id = $p[ 'id' ];
-        $name = $p[ 'name' ];
-        $pokemonOptions .= "\n\t\t\t\t\t<option value='$id'>$name</option>";
+        $pokemon = $p[ 'pokemon_name' ];
+        $gender = $p[ 'gender_id' ];
+        $formId = $p[ 'form_id' ];
+        $form = $p[ 'form_name' ];
+
+        $pokemonValue = "";
+
+        if ( $formId > 1 ) {
+            $pokemonValue .= "$form ";
+        }
+
+        $pokemonValue .= $pokemon;
+
+        if ( isset( $gender ) ) {
+            if ( $gender === '2' ) {
+                $pokemonValue .= " ♂";
+            }
+            else if ( $gender === '3' ) {
+                $pokemonValue .= " ♀";
+            }
+        }
+
+        $pokemonOptions .= "\n\t\t\t\t\t<option value='$id'>$pokemonValue</option>";
     }
 
-    $gameSql = "SELECT g.id, g.name FROM game AS g";
+    $gameSql = "SELECT g.id, g.name FROM game AS g ORDER BY g.id";
     $gamesResult = $connection->query( $gameSql );
     $games = array();
     while ( $g = $gamesResult->fetch_assoc() ) {
         $games[] = $g;
     }
     $gameOptions = "";
-    foreach ( $game as $g ) {
+    foreach ( $games as $g ) {
         $id = $g[ 'id' ];
         $name = $g[ 'name' ];
         $gameOptions .= "\n\t\t\t\t\t<option value='$id'>$name</option>";
@@ -156,11 +191,8 @@ if ( $loggedIn ) {
 
     foreach ( $shinies as $shiny ) {
         $id = $shiny[ 'id' ];
-        $pokemonId = $shiny[ "pokemon_id" ];
         $pokemon = $shiny[ "pokemon_name" ];
-        $genderId = $shiny[ "gender_id" ];
         $gender = $shiny[ "gender_name" ];
-        $formId = $shiny[ "form_id" ];
         $form = $shiny[ "form_name" ];
 
         echo "
@@ -170,12 +202,12 @@ if ( $loggedIn ) {
                 <td>$gender</td>
                 <td>$form</td>
                 <td style='width: 42px;'>
-                    <form action='shiny.php?delete=true&id=$id&gender_id=$genderId&form_id=$formId' method='post'>
+                    <form action='shiny.php?delete=true&id=$id' method='post'>
                         <button type='submit' name='submit'>&#xe065;</button>
                     </form>
                 </td>
                 <td style='width: 42px;'>
-                    <form action='shiny.php?delete=true&id=$id&gender_id=$genderId&form_id=$formId' method='post'>
+                    <form action='shiny.php?delete=true&id=$id' method='post'>
                         <button type='submit' name='submit'>&times;</button>
                     </form>
                 </td>
