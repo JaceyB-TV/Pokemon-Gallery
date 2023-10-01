@@ -55,9 +55,11 @@ switch ( $_SERVER['PHP_SELF'] ) {
         }
 
         if ( $loggedIn ) {
-            echo "<a href='" . $_SERVER['PHP_SELF'] . "?logout=true'>Logout</a>";
+            echo "
+        <a href='" . $_SERVER['PHP_SELF'] . "?logout=true'>Logout</a>";
         }
         ?>
+
     </nav>
 </header>
 
@@ -96,8 +98,11 @@ else if ( isset( $_GET['error'] ) ) {
         case "prepare":
             $error = "Error preparing database, please try again.";
             break;
-        case "database":
+        case "insert":
             $error = "Error inserting into database, please try again.";
+            break;
+        case "delete":
+            $error = "Error deleting from database, please try again.";
             break;
 
         default:
