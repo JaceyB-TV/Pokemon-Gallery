@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="script.js<?php echo "?date=" . time() ?>"></script>
-    <link type="text/css" rel="stylesheet" href="style.css<?php echo "?date=" . time() ?>"></link>
+    <link type="text/css" rel="stylesheet" href="../css/style.css<?php echo "?date=" . time() ?>"></link>
 </head>
 <?php
 
@@ -25,10 +25,10 @@ switch ( $_SERVER['PHP_SELF'] ) {
     case "/index.php":
         $page = 1;
         break;
-    case "/shiny.php":
+    case "/shiny/index.php":
         $page = 2;
         break;
-    case "/pokemon.php":
+    case "/pokemon/index.php":
         $page = 3;
         break;
 }
@@ -40,10 +40,10 @@ switch ( $_SERVER['PHP_SELF'] ) {
     <h2>by Jacey</h2>
     <nav>
         <a href="/"<?php echo $page === 1 ? " class='current'" : "" ?>>Gallery</a>
-        <a href="/shiny.php"<?php echo $page === 2 ? " class='current'" : "" ?>>Shinies</a>
+        <a href="/shiny"<?php echo $page === 2 ? " class='current'" : "" ?>>Shinies</a>
         <?php
         if ( $loggedIn || $page === 3 ) {
-            $link = "<a href='/pokemon.php'";
+            $link = "<a href='/pokemon'";
             
             if ( $page === 3 ) {
                 $link .= " class='current'";

@@ -1,7 +1,7 @@
 <?php
 
-include_once "header.php";
-include_once "secret.php";
+include_once "common/header.php";
+include_once "secret/secret.php";
 
 if ( isset( $_GET["showAll"] ) && $_GET["showAll"] === "true" ) {
     $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer

@@ -3,4 +3,4 @@
 *.lnk
 
 web/img/gallery/
-web/secret.php
+web/secret/secret.php

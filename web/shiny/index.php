@@ -1,7 +1,7 @@
 <?php
 
-include_once "header.php";
-include_once "secret.php";
+include_once "../common/header.php";
+include_once "../secret/secret.php";
 
 $shinySql = "SELECT s.id, s.pokemon_id, p.number AS pokemon_number, p.name AS pokemon_name, p.gender_id, g.name AS gender_name, p.form_id, f.name AS form_name, s.caught_date
              FROM shiny AS s
@@ -23,12 +23,12 @@ if ( isset( $_POST[ 'pokemon' ] ) ) {
     $date = $_POST[ 'date' ];
 
     if ( !$pokemonId || !$gameId || !$date ) {
-        header( "Location: shiny.php?error=fields" );
+        header( "Location: shiny?error=fields" );
         die();
     }
 
     if ( !$insertStatement = $connection->prepare( "INSERT INTO shiny (pokemon_id, game_id, caught_date) VALUES (?, ?, ?)" ) ) {
-        header( "Location: shiny.php?error=prepare" );
+        header( "Location: shiny?error=prepare" );
         die();
     }
 
@@ -36,11 +36,11 @@ if ( isset( $_POST[ 'pokemon' ] ) ) {
     $insertStatement->execute();
 
     if ( $insertStatement->error !== "" ) {
-        header( "Location: shiny.php?error=insert" );
+        header( "Location: shiny?error=insert" );
         die();
     }
 
-    header( "Location: shiny.php?message=success" );
+    header( "Location: shiny?message=success" );
 }
 
 if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
@@ -51,12 +51,12 @@ if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
     $deleteStatement->execute();
 
     if ( $deleteStatement->error !== "" ) {
-        header( "Location: shiny.php?error=delete" );
+        header( "Location: shiny?error=delete" );
         echo "" . $deleteStatement->error;
         die();
     }
 
-    header( "Location: shiny.php?message=delete" );
+    header( "Location: shiny?message=delete" );
 }
 ?>
 <p class="info">
@@ -157,7 +157,7 @@ if ( $loggedIn ) {
 
     echo "
     <div class='upload'>
-        <form action='shiny.php' method='post'>
+        <form action='shiny' method='post'>
             <div class='field'>
                 <label for='pokemon'>Pokémon</label>
                 <select name='pokemon' id='pokemon'>$pokemonOptions
@@ -202,12 +202,12 @@ if ( $loggedIn ) {
                 <td>$gender</td>
                 <td>$form</td>
                 <td style='width: 42px;'>
-                    <form action='shiny.php?delete=true&id=$id' method='post'>
+                    <form action='/shiny?delete=true&id=$id' method='post'>
                         <button type='submit' name='submit'>&#xe065;</button>
                     </form>
                 </td>
                 <td style='width: 42px;'>
-                    <form action='shiny.php?delete=true&id=$id' method='post'>
+                    <form action='/shiny?delete=true&id=$id' method='post'>
                         <button type='submit' name='submit'>&times;</button>
                     </form>
                 </td>
