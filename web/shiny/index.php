@@ -75,7 +75,7 @@ if ( isset ( $_GET[ 'delete' ] ) && $_GET[ 'delete' ] === "true" ) {
     $showAll = isset( $_GET[ "showAll" ] ) && $_GET[ "showAll" ] === "true";
 
     $id = 0;
-    while ( $id < 1010 ) {
+    while ( $id < 1021 ) {
         $exists = array_key_exists( ++$id, $shinies );
 
         $pokemonNumber = sprintf( '%03d', $id );
