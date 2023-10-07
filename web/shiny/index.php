@@ -76,8 +76,11 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 <div class="shiny"><?php
     $showAll = isset( $_GET["showAll"] ) && $_GET["showAll"] === "true";
 
-    foreach ( $shinies as $shiny ) {
-        $pokemonNumber = sprintf( '%03d', $shiny["pokemon_number"] );
+    $id = 0;
+    while ( $id < 1010 ) {
+        $exists = array_key_exists( ++$id, $shinies );
+
+        $pokemonNumber = sprintf( '%03d', $id );
 
         $date = $shiny["caught_date"];
         $class = "item";
