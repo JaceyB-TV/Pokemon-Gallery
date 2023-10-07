@@ -30,7 +30,8 @@ $pokemonUpdate = $connection->prepare( "UPDATE pokemon SET `type1` = ?, type2 = 
 $count = 0;
 foreach ( $pokemon as $p ) {
     try {
-        $data = file_get_contents( "https://pokeapi.co/api/v2/pokemon/" . strtolower( $p['name'] ) );
+        $data = file_get_contents( "https://pokeapi.co/api/v2/pokemon/"
+            . strtolower( str_replace(" ", "-", $p['name']) ) );
 
         if ( !isset( $data ) || $data == null ) {
             echo print_r( "Failed to load info for pokemon: " . $p['name'], true ) . "<br>";
