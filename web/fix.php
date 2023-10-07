@@ -51,4 +51,4 @@ foreach ( $pokemon as $p ) {
     }
 }
 
-echo "<a href='fix.php?offset=" . ( $offset + $limit ) . "'>Next >></a>";
+echo "<a href='fix.php?offset=" . ( $offset + $limit ) . "&limit=$limit'>Next >></a>";
