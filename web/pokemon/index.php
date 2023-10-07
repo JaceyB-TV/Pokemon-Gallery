@@ -6,6 +6,7 @@ include_once "../dao/type.php";
 include_once "../secret/secret.php";
 
 if ( isset( $_POST['number'] ) ) {
+    $id = $_POST['id'];
     $number = $_POST['number'];
     $name = $_POST['name'];
     $gender_id = $_POST['gender'];
@@ -13,8 +14,8 @@ if ( isset( $_POST['number'] ) ) {
     $type1 = $_POST['type1'];
     $type2 = ( $_POST['type2'] === "" || $_POST['type2'] === 0 ) ? null : $_POST['type2'];
 
-    $insertStatement = $connection->prepare( "INSERT INTO pokemon (number, name, gender_id, form_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?)" );
-    $insertStatement->bind_param( "isiiii", $number, $name, $gender_id, $form_id, $type1, $type2 );
+    $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, number, name, gender_id, form_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?, ?)" );
+    $insertStatement->bind_param( "isiiii", $id, $number, $name, $gender_id, $form_id, $type1, $type2 );
     $insertStatement->execute();
 
     if ( $insertStatement->error !== "" ) {
@@ -150,6 +151,10 @@ if ( $loggedIn ) {
     echo "
 <div class='upload'>
     <form action='pokemon' method='post'>
+        <div class='field'>
+            <label for='id'>ID</label>
+            <input type='number' name='id' id='id' placeholder='ID'/>
+        </div>
         <div class='field'>
             <label for='number'>#</label>
             <input type='number' name='number' id='number' placeholder='#'/>

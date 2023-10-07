@@ -1,7 +1,7 @@
 <?php
 
-include_once "header.php";
-include_once "secret.php";
+include_once "../common/header.php";
+include_once "../secret/secret.php";
 
 if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     $username = $_POST['username'];
@@ -18,18 +18,18 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
 
     if ( !isset( $loginUsername ) || !isset( $loginPassword ) || !isset( $loginSalt ) ) {
         $_SESSION['loggedin'] = false;
-        header( "Location: login.php?error=login" );
+        header( "Location: /main/login.php?error=login" );
         die();
     }
 
     if ( hash_hmac( "md5", $password, $loginSalt ) !== $loginPassword ) {
         $_SESSION['loggedin'] = false;
-        header( "Location: login.php?error=login" );
+        header( "Location: /main/login.php?error=login" );
         die();
     }
 
     $_SESSION['loggedin'] = true;
-    header( "Location: index.php?message=login" );
+    header( "Location: /index.php?message=login" );
     die();
 }
 
@@ -53,7 +53,7 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
 
 <?php
 
-include "footer.php";
+include "../common/footer.php";
 
 $connection->close();
 

@@ -1,6 +1,6 @@
 <?php
 
-include_once "header.php";
+include_once "../common/header.php";
 
 ?>
 
@@ -8,6 +8,6 @@ include_once "header.php";
 
 <?php
 
-include "footer.php";
+include "../common/footer.php";
 
 ?>
