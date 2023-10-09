@@ -15,7 +15,7 @@ if ( isset( $_POST['number'] ) ) {
     $type2 = ( $_POST['type2'] === "" || $_POST['type2'] === 0 ) ? null : $_POST['type2'];
 
     $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, number, name, gender_id, form_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?, ?)" );
-    $insertStatement->bind_param( "isiiii", $id, $number, $name, $gender_id, $form_id, $type1, $type2 );
+    $insertStatement->bind_param( "iisiiii", $id, $number, $name, $gender_id, $form_id, $type1, $type2 );
     $insertStatement->execute();
 
     if ( $insertStatement->error !== "" ) {
@@ -35,7 +35,6 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 
     if ( $deleteStatement->error !== "" ) {
         header( "Location: /pokemon?error=delete" );
-        echo "" . $deleteStatement->error;
         die();
     }
 
@@ -46,7 +45,7 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 
 <style>
     <?php
-    $types = $type_dao->selectAll();
+    $types = $type_dao->findAll();
     foreach ( $types as $type ) {
         echo "
         .table div.{$type["name"]} {
@@ -72,7 +71,7 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
             ?>
 
         </tr><?php
-        $pokemon = $pokemon_dao->selectAll();
+        $pokemon = $pokemon_dao->findAll();
 
         if ( count( $pokemon ) === 0 ) {
             echo "<tr><td colspan='7'>No Content</td></tr>";
@@ -150,7 +149,7 @@ if ( $loggedIn ) {
 
     echo "
 <div class='upload'>
-    <form action='pokemon' method='post'>
+    <form action='' method='post'>
         <div class='field'>
             <label for='id'>ID</label>
             <input type='number' name='id' id='id' placeholder='ID'/>

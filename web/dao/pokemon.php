@@ -4,7 +4,7 @@ require_once 'dao.php';
 
 class PokemonDAO extends DAO
 {
-    function selectAll()
+    function findAll()
     {
         $query = "SELECT
                     p.id

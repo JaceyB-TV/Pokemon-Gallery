@@ -4,7 +4,7 @@ require_once 'dao.php';
 
 class TypeDAO extends DAO
 {
-    function selectAll()
+    function findAll()
     {
         $query = "SELECT id, name, colour, border FROM type ORDER BY id";
 

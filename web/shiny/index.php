@@ -2,24 +2,15 @@
 
 include_once "../common/header.php";
 include_once "../secret/secret.php";
+include_once "../dao/shiny.php";
 
-$shinySql = "SELECT s.id, s.pokemon_id, p.number AS pokemon_number, p.name AS pokemon_name, p.gender_id, g.name AS gender_name, p.form_id, f.name AS form_name, s.caught_date
-             FROM shiny AS s
-             JOIN pokemon AS p ON p.id = s.pokemon_id
-             JOIN gender AS g ON g.id = p.gender_id
-             JOIN form AS f ON f.id = p.form_id
-             ORDER BY s.id DESC";
-$shinyResult = $connection->query( $shinySql );
-$shinies = array();
-while ( $shiny = $shinyResult->fetch_assoc() ) {
-    $shinies[] = $shiny;
-}
+$showAll = isset( $_GET["showAll"] ) && $_GET["showAll"] === "true";
 
+$shinies = $shiny_dao->findAll( $showAll );
 $shinyCount = count( $shinies );
 $shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
 
 if ( isset( $_POST['pokemon'] ) ) {
-
     $pokemonId = $_POST['pokemon'];
     $gameId = $_POST['game_id'];
     $date = $_POST['date'];
@@ -74,27 +65,25 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
     </div>
 </div>
 <div class="shiny"><?php
-    $showAll = isset( $_GET["showAll"] ) && $_GET["showAll"] === "true";
+    foreach ( $shinies as $shiny ) {
+        $exists = isset( $shiny['id'] );
 
-    $id = 0;
-    while ( $id < 1010 ) {
-        $exists = array_key_exists( ++$id, $shinies );
+        $pokemonNumber = sprintf( '%03d', $shiny['pokemon_number'] );
 
-        $pokemonNumber = sprintf( '%03d', $id );
+        $date = null;
+        $class = "item gray";
 
-        $date = $shiny["caught_date"];
-        $class = "item";
-
-        if ( $shiny['gender_id'] === '3' ) {
-            $pokemonNumber .= '-f';
+        if ( $exists ) {
+            $date = $shiny["caught_date"];
+            $class = "item";
         }
 
-        switch ( $shiny['form_id'] ) {
-            case '4':
-            {
-                $pokemonNumber .= '-g';
-                break;
-            }
+        if ( isset( $shiny['gender_suffix'] ) ) {
+            $pokemonNumber .= $shiny['gender_suffix'];
+        }
+
+        if ( isset( $shiny['form_suffix'] ) ) {
+            $pokemonNumber .= $shiny['form_suffix'];
         }
 
         echo "
@@ -132,12 +121,13 @@ if ( $loggedIn ) {
                 <td>$id</td>
                 <td>$pokemon</td>
                 <td>$gender</td>
-                <td>$form</td>
-                <td style='width: 42px;'>
-                    <form action='/shiny/edit.php?id=$id' method='post'>
-                        <button type='submit' name='submit'>&#xe065;</button>
-                    </form>
-                </td>
+                <td>$form</td>";
+//                <td style='width: 42px;'>
+//                    <form action='/shiny/edit.php?id=$id' method='post'>
+//                        <button type='submit' name='submit'>&#xe065;</button>
+//                    </form>
+//                </td>
+        echo "
                 <td style='width: 42px;'>
                     <form action='/shiny?delete=true&id=$id' method='post'>
                         <button type='submit' name='submit'>&times;</button>

@@ -99,18 +99,20 @@ DROP TABLE IF EXISTS `gender`;
 CREATE TABLE `gender` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `suffix` varchar(20) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `suffix` (`suffix`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `gender`
 --
 
-INSERT INTO `gender` (`id`, `name`) VALUES
-(1, 'None/Unknown'),
-(2, 'Male'),
-(3, 'Female');
+INSERT INTO `gender` (`id`, `name`, `suffix`) VALUES
+(1, 'None/Unknown', null),
+(2, 'Male', null),
+(3, 'Female', '-f');
 
 ALTER TABLE `gender` AUTO_INCREMENT=4;
 
@@ -154,8 +156,10 @@ CREATE TABLE `form` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `form_type_id` INT(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `suffix` varchar(20) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `suffix` (`form_type_id`, `suffix`),
   CONSTRAINT `form_ibfk_1` FOREIGN KEY (`form_type_id`) REFERENCES `form_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -163,14 +167,19 @@ CREATE TABLE `form` (
 -- Dumping data for table `form`
 --
 
-INSERT INTO `form` (`id`, `form_type_id`, `name`) VALUES
-(1, 1, 'Original'),
-(2, 1, 'Alolan'),
-(3, 1, 'Hisuian'),
-(4, 1, 'Galarian'),
-(5, 1, 'Paldean');
+INSERT INTO `form` (`id`, `form_type_id`, `name`, `suffix`) VALUES
+(1, 1, 'Original', null),
+(2, 1, 'Alolan', '-a'),
+(3, 1, 'Hisuian', '-h'),
+(4, 1, 'Galarian', '-g'),
+(5, 1, 'Paldean', '-p'),
+(6, 7, 'Heat', '-h'),
+(7, 7, 'Wash', '-w'),
+(8, 7, 'Frost', '-f'),
+(9, 7, 'Fan', '-s'),
+(10, 7, 'Mow', '-m');
 
-ALTER TABLE `form` AUTO_INCREMENT=6;
+ALTER TABLE `form` AUTO_INCREMENT=11;
 
 -- --------------------------------------------------------
 --
