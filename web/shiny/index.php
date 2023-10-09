@@ -3,12 +3,14 @@
 include_once "../common/header.php";
 include_once "../secret/secret.php";
 include_once "../dao/shiny.php";
+include_once "../dao/pokemon.php";
 
 $showAll = isset( $_GET["showAll"] ) && $_GET["showAll"] === "true";
 
 $shinies = $shiny_dao->findAll( $showAll );
-$shinyCount = count( $shinies );
-$shinyPercentage = sprintf( "%.2f%%", $shinyCount / 1010 );
+$shinyCount = $shiny_dao->countAll();
+$pokemonCount = $pokemon_dao->countAll();
+$shinyPercentage = sprintf( "%.2f%%", $shinyCount / $pokemonCount * 100 );
 
 if ( isset( $_POST['pokemon'] ) ) {
     $pokemonId = $_POST['pokemon'];
@@ -58,9 +60,9 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
     Feel free to come say hi.
 </p>
 <div class="progress">
-    <div style="width:<?php echo $shinyPercentage ?>; ">
+    <div style="width: calc(<?php echo $shinyPercentage ?> - 1em); ">
         <p>
-            <?php echo $shinyCount ?> / 1010 (<?php echo $shinyPercentage ?>)
+            <?php echo $shinyCount ?> / <?php echo $pokemonCount ?> (<?php echo $shinyPercentage ?>)
         </p>
     </div>
 </div>

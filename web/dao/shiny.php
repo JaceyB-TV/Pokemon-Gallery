@@ -17,6 +17,13 @@ class ShinyDAO extends DAO
         return $statement->get_result()->fetch_all( MYSQLI_ASSOC )[0];
     }
 
+    function countAll()
+    {
+        $query = "SELECT COUNT(*) AS cnt FROM shiny";
+
+        return $this->execute( $query )[0]['cnt'];
+    }
+
     function findAll( $includeMissing = false )
     {
         if ( $includeMissing ) {
