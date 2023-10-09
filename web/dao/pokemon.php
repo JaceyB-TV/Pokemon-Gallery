@@ -4,13 +4,14 @@ require_once 'dao.php';
 
 class PokemonDAO extends DAO
 {
-    function countAll() {
+    function countAll()
+    {
         $query = "SELECT COUNT(*) AS cnt FROM pokemon";
 
         return $this->execute( $query )[0]['cnt'];
     }
 
-    function findAll()
+    function findAll( $offset = 0, $limit = 50 )
     {
         $query = "SELECT
                     p.id

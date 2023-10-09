@@ -22,3 +22,12 @@ const closeModal = () => {
 
     modal.style.display = "none";
 };
+
+const toggleMenu = () => {
+    var x = document.getElementById("links");
+    if (x.style.display === "block") {
+        x.style.display = "none";
+    } else {
+        x.style.display = "block";
+    }
+};

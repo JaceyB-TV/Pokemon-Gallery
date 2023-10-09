@@ -1,0 +1,53 @@
+.upload {
+    width: calc(80% - 1em);
+    margin: 1em auto;
+    border: var(--light-color) 1px solid;
+    border-radius: 1em;
+    padding: 0.5em;
+}
+
+.upload div.field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5em;
+}
+
+.upload label {
+
+}
+
+.upload input, .upload select, .upload button {
+    padding: 15px;
+    border: var(--light-color) 1px solid;
+    border-radius: 4px;
+}
+
+.upload div.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em;
+}
+
+.upload button {
+    width: 25%;
+    cursor: pointer;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 700px) {
+    .content p.info {
+        width: calc(100% - 3em);
+    }
+
+    .upload {
+        width: calc(100% - 3em);
+    }
+
+    .upload button {
+        width: 100%;
+    }
+}
