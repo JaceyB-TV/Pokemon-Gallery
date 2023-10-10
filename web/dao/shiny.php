@@ -77,12 +77,12 @@ class ShinyDAO extends DAO
             }
             case "3":
             {
-                $query .= " ORDER BY s.caught_date DESC, p.id DESC";
+                $query .= " ORDER BY s.caught_date DESC, s.id DESC, p.id DESC";
                 break;
             }
             case "4":
             {
-                $query .= " ORDER BY s.caught_date ASC, p.id ASC";
+                $query .= " ORDER BY s.caught_date ASC, s.id ASC, p.id ASC";
                 break;
             }
         }
