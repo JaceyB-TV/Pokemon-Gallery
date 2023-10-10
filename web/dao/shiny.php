@@ -24,7 +24,7 @@ class ShinyDAO extends DAO
         return $this->execute( $query )[0]['cnt'];
     }
 
-    function findAll( $includeMissing = false )
+    function findAll( $includeMissing = false, $sort = 1 )
     {
         if ( $includeMissing ) {
             $query = "SELECT
@@ -42,8 +42,7 @@ class ShinyDAO extends DAO
                 FROM pokemon AS p
                 JOIN gender AS g ON g.id = p.gender_id
                 JOIN form AS f ON f.id = p.form_id
-                LEFT JOIN shiny AS s ON s.pokemon_id = p.id
-                ORDER BY p.id";
+                LEFT JOIN shiny AS s ON s.pokemon_id = p.id";
         }
         else {
             $query = "SELECT
@@ -61,8 +60,31 @@ class ShinyDAO extends DAO
                 FROM shiny AS s
                 JOIN pokemon AS p ON p.id = s.pokemon_id
                 JOIN gender AS g ON g.id = p.gender_id
-                JOIN form AS f ON f.id = p.form_id
-                ORDER BY s.id DESC";
+                JOIN form AS f ON f.id = p.form_id";
+        }
+
+        switch ( $sort ) {
+            case "1":
+            default:
+            {
+                $query .= " ORDER BY s.id ASC";
+                break;
+            }
+            case "2":
+            {
+                $query .= " ORDER BY s.id DESC";
+                break;
+            }
+            case "3":
+            {
+                $query .= " ORDER BY s.caught_date DESC, s.id DESC";
+                break;
+            }
+            case "4":
+            {
+                $query .= " ORDER BY s.caught_date ASC, s.id ASC";
+                break;
+            }
         }
 
         return $this->execute( $query );

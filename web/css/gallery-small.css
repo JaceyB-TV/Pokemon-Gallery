@@ -4,7 +4,7 @@
     display: flex;
     flex-flow: row wrap;
     align-items: flex-start;
-    align-content: flex-start;
+    justify-content: flex-start;
 }
 
 .shiny a {
@@ -29,10 +29,6 @@
 }
 
 @media only screen and (max-width: 700px) {
-    .progress {
-        width: 90%;
-    }
-
     .shiny {
         width: 100%;
     }

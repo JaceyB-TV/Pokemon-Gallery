@@ -23,3 +23,9 @@
     1px -1px 1px var(--light-color),
     1px 1px 1px var(--light-color);
 }
+
+@media only screen and (max-width: 700px) {
+    .progress {
+        width: 90%;
+    }
+}

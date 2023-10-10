@@ -24,10 +24,15 @@ const closeModal = () => {
 };
 
 const toggleMenu = () => {
-    var x = document.getElementById("links");
+    const x = document.getElementById("links");
+
     if (x.style.display === "block") {
         x.style.display = "none";
     } else {
         x.style.display = "block";
     }
+};
+
+const sort = (value) => {
+    window.location.search = "?sort=" + value;
 };

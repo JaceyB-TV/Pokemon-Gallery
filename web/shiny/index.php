@@ -7,7 +7,7 @@ include_once "../dao/pokemon.php";
 
 $showAll = isset( $_GET["showAll"] ) && $_GET["showAll"] === "true";
 
-$shinies = $shiny_dao->findAll( $showAll );
+$shinies = $shiny_dao->findAll( $showAll, $_GET['sort'] );
 $shinyCount = $shiny_dao->countAll();
 $pokemonCount = $pokemon_dao->countAll();
 $shinyPercentage = sprintf( "%.2f%%", $shinyCount / $pokemonCount * 100 );
@@ -66,7 +66,22 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
         </p>
     </div>
 </div>
-<div class="shiny"><?php
+
+<div style="width: 80%; margin: 1em auto; display: flex; flex-flow: row; align-items: flex-end; justify-content: flex-end; ">
+    <?php
+    $sort = $_GET['sort'];
+    ?>
+    <label for='sort'>Sort by:&nbsp;</label>
+    <select id='sort' onchange="sort(this.value)">
+        <option value="1"<?php echo $sort === '1' ? " selected" : ""?>>Number: Lowest to Highest</option>
+        <option value="2"<?php echo $sort === '2' ? " selected" : ""?>>Number: Highest to Lowest</option>
+        <option value="3"<?php echo $sort === '3' ? " selected" : ""?>>Caught: Newest to Oldest</option>
+        <option value="4"<?php echo $sort === '4' ? " selected" : ""?>>Caught: Oldest to Newest</option>
+    </select>
+</div>
+
+<div class="shiny">
+    <?php
     foreach ( $shinies as $shiny ) {
         $exists = isset( $shiny['id'] );
 

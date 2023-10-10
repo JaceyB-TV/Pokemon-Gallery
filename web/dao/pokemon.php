@@ -26,7 +26,8 @@ class PokemonDAO extends DAO
                 JOIN form AS f ON f.id = p.form_id
                 JOIN type AS t1 ON t1.id = p.type1
                 LEFT JOIN type AS t2 ON t2.id = p.type2
-                ORDER BY p.number, p.gender_id, p.form_id";
+                ORDER BY p.number, p.gender_id, p.form_id
+                LIMIT " . $limit . " OFFSET " . $offset;
 
         return $this->execute( $query );
     }
