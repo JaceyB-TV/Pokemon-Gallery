@@ -33,6 +33,39 @@ const toggleMenu = () => {
     }
 };
 
+const setSearchParam = (key, value) => {
+    const existing = window.location.search,
+        searchParams = {};
+
+    existing.split("&").forEach(s => {
+        const sp = s.split("=");
+        searchParams[sp[0].startsWith("?") ? sp[0].substring(1) : sp[0]] = sp[1];
+    });
+
+    if (searchParams[key] === value) {
+        return;
+    }
+
+    if (key && value) {
+        searchParams[key] = value;
+    }
+
+    let search = "";
+    Object.keys(searchParams).forEach(key => {
+        if (!key || !searchParams[key]) {
+            return;
+        }
+
+        if (search.length) {
+            search += "&";
+        }
+
+        search += key + "=" + searchParams[key];
+    });
+
+    window.location.search = "?" + search;
+};
+
 const sort = (value) => {
-    window.location.search = "?sort=" + value;
+    setSearchParam("sort", value);
 };

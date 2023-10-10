@@ -61,8 +61,8 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
         <tr>
             <th class='number'>#</th>
             <th>Pokémon</th>
-            <th>Gender</th>
-            <th>Form</th>
+            <th class="hide">Gender</th>
+            <th class="hide">Form</th>
             <th class="type" colspan='2'>Type</th>
             <?php
             if ( $loggedIn ) {
@@ -71,7 +71,12 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
             ?>
 
         </tr><?php
-        $pokemon = $pokemon_dao->findAll();
+
+        $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
+        $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 50;
+
+        $pokemon_count = $pokemon_dao->countAll();
+        $pokemon = $pokemon_dao->findAll( $offset, $limit );
 
         if ( count( $pokemon ) === 0 ) {
             echo "<tr><td colspan='7'>No Content</td></tr>";
@@ -90,8 +95,8 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
         <tr>
             <td>$number</td>
             <td>$name</td>
-            <td>$gender</td>
-            <td>$form</td>";
+            <td class='hide'>$gender</td>
+            <td class='hide'>$form</td>";
 
                 if ( isset ( $type2 ) ) {
                     echo "
@@ -122,8 +127,31 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
         </tr>";
             }
         }
+
+        $first = 0;
+
+        $prev = $offset - $limit;
+        if ( $prev < 0 ) {
+            $prev = 0;
+        }
+
+        $next = $offset + $limit;
+        if ( $next > $pokemon_count ) {
+            $next = floor( $pokemon_count / $limit ) * $limit;
+        }
+
+        $last = floor( $pokemon_count / $limit ) * $limit;
+
         ?>
 
+        <tr>
+            <th colspan="7">
+                <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $first; ?>')"><< First</a>
+                <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $prev; ?>')">< Previous</a>
+                <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $next; ?>')">Next ></a>
+                <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $last; ?>')">Last >></a>
+            </th>
+        </tr>
     </table>
 </div>
 <?php

@@ -34,4 +34,7 @@ a {
     margin: 1em auto;
 }
 
-
+.lazy {
+    width: 80%;
+    margin: 1em auto;
+}

@@ -12,6 +12,12 @@
     color: var(--dark-color);
 }
 
+.table th div, .table th span, .table th a {
+    background: transparent;
+    font-weight: bold;
+    color: var(--dark-color);
+}
+
 .table td {
     background-color: transparent;
     text-align: center;
@@ -64,6 +70,10 @@
 
     .table th.type {
         width: 150px;
+    }
+
+    .table .hide {
+        display: none;
     }
 
     .table div.type {
