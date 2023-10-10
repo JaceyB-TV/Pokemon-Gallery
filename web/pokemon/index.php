@@ -58,8 +58,17 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 
 <div class="table">
     <table>
-        <tr>
-            <th class='number'>ID</th>
+        <tr><?php
+            $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
+            $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 50;
+            $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
+
+            if ( $missing ) {
+                echo "
+            <th class='number'>ID</th>";
+            }
+            ?>
+
             <th class='number'>#</th>
             <th>Pokémon</th>
             <th class="hide">Gender</th>
@@ -72,12 +81,6 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
             ?>
 
         </tr><?php
-
-        $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
-        $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 50;
-
-        $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
-
         $pokemon_count = $pokemon_dao->countAll( $missing );
         $pokemon = $pokemon_dao->findAll( $offset, $limit, $missing );
 
@@ -95,8 +98,12 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
                 $type2 = $row['type2'];
 
                 echo "
-        <tr>
-            <td>$id</td>
+        <tr>";
+                if ( $missing ) {
+                    echo "
+            <td>$id</td>";
+                }
+                echo "
             <td>$number</td>
             <td>$name</td>
             <td class='hide'>$gender</td>
