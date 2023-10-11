@@ -42,7 +42,9 @@ $pages = array(
     new Page( "/", "/index.php", "Gallery" ),
     new Page( "/shiny", "/shiny/index.php", "Shinies" ),
     new Page( "/pokemon", "/pokemon/index.php", "Pokémon", true ),
-    new Page( "/main/login.php", null, "Login", false, true ),
+    new Page( "/pokemon?form=true", null, "Form", true ),
+    new Page( "/pokemon?missing=true", null, "Missing", true ),
+    new Page( "/main/login.php", "/main/login.php", "Login", false, true ),
     new Page( "?logout=true", null, "Logout", true )
 );
 
