@@ -1,4 +1,5 @@
-const openModal = (a) => {
+const openModal = (a) =>
+{
     const modal = $("#modal-wrapper")[0],
         modalImage = $("#modal-content")[0],
         modalCaption = $("#modal-caption").eq(0);
@@ -17,55 +18,72 @@ const openModal = (a) => {
     modal.style.display = "block";
 };
 
-const closeModal = () => {
+const closeModal = () =>
+{
     const modal = $("#modal-wrapper")[0];
 
     modal.style.display = "none";
 };
 
-const toggleMenu = () => {
+const toggleMenu = (force) =>
+{
     const x = document.getElementById("links");
 
-    if (x.style.display === "block") {
+    if (x.style.display === "block")
+    {
         x.style.display = "none";
-    } else {
+    } else
+    {
         x.style.display = "block";
     }
 };
 
-const setSearchParam = (key, value) => {
+const setSearchParam = (key, value) =>
+{
     const existing = window.location.search,
         searchParams = {};
 
-    existing.split("&").forEach(s => {
+    existing.split("&").forEach(s =>
+    {
         const sp = s.split("=");
         searchParams[sp[0].startsWith("?") ? sp[0].substring(1) : sp[0]] = sp[1];
     });
 
-    if (searchParams[key] === value) {
+    if (searchParams[key] === value)
+    {
         return;
     }
 
-    if (key && value) {
+    if (key && value)
+    {
         searchParams[key] = value;
     }
 
     let search = "";
-    Object.keys(searchParams).forEach(key => {
-        if (!key || !searchParams[key]) {
+    Object.keys(searchParams).forEach(key =>
+    {
+        if (!key)
+        {
             return;
         }
 
-        if (search.length) {
+        if (search.length)
+        {
             search += "&";
         }
 
-        search += key + "=" + searchParams[key];
+        search += key;
+
+        if (searchParams[key] !== undefined)
+        {
+            search += "=" + searchParams[key];
+        }
     });
 
     window.location.search = "?" + search;
 };
 
-const sort = (value) => {
+const sort = (value) =>
+{
     setSearchParam("sort", value);
 };

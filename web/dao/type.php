@@ -6,7 +6,7 @@ class TypeDAO extends DAO
 {
     function findAll()
     {
-        $query = "SELECT id, name, colour, border FROM type ORDER BY id";
+        $query = "SELECT * FROM type ORDER BY id";
 
         return $this->execute($query);
     }

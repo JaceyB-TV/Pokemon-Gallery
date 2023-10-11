@@ -1,6 +1,5 @@
 <?php
 
-
 class DAO
 {
     function execute( $query )

@@ -58,7 +58,18 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 
 <div class="table">
     <table>
-        <tr>
+        <tr><?php
+            $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
+            $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 25;
+            $weird_form = isset( $_GET['form'] ) && $_GET['form'] === "true";
+            $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
+
+            if ( $weird_form || $missing ) {
+                echo "
+            <th class='number'>ID</th>";
+            }
+            ?>
+
             <th class='number'>#</th>
             <th>Pokémon</th>
             <th class="hide">Gender</th>
@@ -66,33 +77,34 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
             <th class="type" colspan='2'>Type</th>
             <?php
             if ( $loggedIn ) {
-                echo "<th class='action'>Actions</th>";
+                echo "<th class='action' colspan='2'>Actions</th>";
             }
             ?>
 
         </tr><?php
-
-        $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
-        $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 50;
-
-        $pokemon_count = $pokemon_dao->countAll();
-        $pokemon = $pokemon_dao->findAll( $offset, $limit );
+        $pokemon_count = $pokemon_dao->countAll( $weird_form, $missing );
+        $pokemon = $pokemon_dao->findAll( $offset, $limit, $weird_form, $missing );
 
         if ( count( $pokemon ) === 0 ) {
-            echo "<tr><td colspan='7'>No Content</td></tr>";
+            echo "<tr><td colspan='20'>No Content</td></tr>";
         }
         else {
             foreach ( $pokemon as $row ) {
-                $id = $row['id'];
+                $id = isset( $row['id'] ) ? $row['id'] : $row['pokemon_id'];
                 $number = $row['number'];
                 $name = $row['name'];
-                $gender = $row['gender_name'];
+                $gender = $row['gender_short_name'];
                 $form = $row['form_name'];
                 $type1 = $row['type1'];
                 $type2 = $row['type2'];
 
                 echo "
-        <tr>
+        <tr>";
+                if ( $missing ) {
+                    echo "
+            <td>$id</td>";
+                }
+                echo "
             <td>$number</td>
             <td>$name</td>
             <td class='hide'>$gender</td>
@@ -116,6 +128,11 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 
                 if ( $loggedIn ) {
                     echo "
+            <td style='width: 42px; '>
+                <form action='/pokemon/edit.php?id=$id' method='post'>
+                    <button type='submit' name='submit'>&#xe065;</button>
+                </form>
+            </td>
             <td style='width: 42px; '>
                 <form action='/pokemon?delete=true&id=$id' method='post'>
                     <button type='submit' name='submit'>&times;</button>
@@ -145,7 +162,7 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
         ?>
 
         <tr>
-            <th colspan="7">
+            <th colspan="20">
                 <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $first; ?>')"><< First</a>
                 <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $prev; ?>')">< Previous</a>
                 <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $next; ?>')">Next ></a>
@@ -157,93 +174,7 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 <?php
 
 if ( $loggedIn ) {
-    $genderSql = "SELECT id, name FROM gender ORDER BY id";
-    $genderResult = $connection->query( $genderSql );
-    $genders = array();
-    if ( $genderResult->num_rows > 0 ) {
-        while ( $g = $genderResult->fetch_assoc() ) {
-            $genders[] = $g;
-        }
-    }
-
-    $formSql = "SELECT id, name FROM form ORDER BY id";
-    $formResult = $connection->query( $formSql );
-    $forms = array();
-    if ( $formResult->num_rows > 0 ) {
-        while ( $f = $formResult->fetch_assoc() ) {
-            $forms[] = $f;
-        }
-    }
-
-    echo "
-<div class='upload'>
-    <form action='' method='post'>
-        <div class='field'>
-            <label for='id'>ID</label>
-            <input type='number' name='id' id='id' placeholder='ID'/>
-        </div>
-        <div class='field'>
-            <label for='number'>#</label>
-            <input type='number' name='number' id='number' placeholder='#'/>
-        </div>
-        <div class='field'>
-            <label for='name'>Name</label>
-            <input type='text' name='name' id='name' placeholder='Name'/>
-        </div>
-        <div class='field'>
-            <label for='gender'>Gender</label>
-            <select name='gender' id='gender'>";
-
-    foreach ( $genders as $gender ) {
-        echo "
-                <option value='{$gender["id"]}'>{$gender["name"]}</option>";
-    }
-
-    echo "
-            </select>
-        </div>
-        <div class='field'>
-            <label for='form'>Form</label>
-            <select name='form' id='form'>";
-
-    foreach ( $forms as $form ) {
-        echo "
-                <option value='{$form["id"]}'>{$form["name"]}</option>";
-    }
-
-    echo "
-             </select>
-        </div>
-        <div class='field'>
-            <label for='type1'>Type 1</label>
-            <select name='type1' id='type1'>";
-
-    foreach ( $types as $type ) {
-        echo "
-                <option value='{$type["id"]}'>{$type["name"]}</option>";
-    }
-
-    echo "
-            </select>
-        </div>
-        <div class='field'>
-            <label for='type2'>Type 2</label>
-            <select name='type2' id='type2'>
-                <option value>-- Please Select --</option>";
-
-    foreach ( $types as $type ) {
-        echo "
-                <option value='{$type["id"]}'>{$type["name"]}</option>";
-    }
-
-    echo "
-            </select>
-        </div>
-        <div class='submit'>
-            <button type='submit' name='submit'>UPLOAD</button>
-        </div>
-    </form>
-</div>";
+    include_once 'form.php';
 }
 
 ?>

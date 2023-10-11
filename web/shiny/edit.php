@@ -1,7 +1,7 @@
 <?php
 
 include '../common/header.php';
-include '../secret/secret.php';
+include_once '../secret/secret.php';
 
 if ( !isset( $_GET['id'] ) ) {
     header( "Location: /shiny" );
