@@ -31,15 +31,9 @@ class PokemonDAO extends DAO
 
     function findById( $id )
     {
-        include '../secret/secret.php';
+        $query = "SELECT * FROM pokemon WHERE id = $id";
 
-        $query = "SELECT * FROM pokemon WHERE id = ?";
-
-        $statement = $connection->prepare( $query );
-        $statement->bind_param( "i", $id );
-        $statement->execute();
-
-        return $statement->get_result()->fetch_all( MYSQLI_ASSOC )[0];
+        return $this->execute( $query )[0];
     }
 
     function findAll( $offset = 0, $limit = 50, $weird_form = false, $missing = false )

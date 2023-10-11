@@ -4,24 +4,19 @@ require_once 'dao.php';
 
 class ShinyDAO extends DAO
 {
-    function findById( $id )
-    {
-        include '../secret/secret.php';
-
-        $query = "SELECT * FROM shiny WHERE id = ?";
-
-        $statement = $connection->prepare( $query );
-        $statement->bind_param( "i", $id );
-        $statement->execute();
-
-        return $statement->get_result()->fetch_all( MYSQLI_ASSOC )[0];
-    }
 
     function countAll()
     {
         $query = "SELECT COUNT(*) AS cnt FROM shiny";
 
         return $this->execute( $query )[0]['cnt'];
+    }
+
+    function findById( $id )
+    {
+        $query = "SELECT * FROM shiny WHERE id = $id";
+
+        return $this->execute( $query )[0];
     }
 
     function findAll( $includeMissing = false, $sort = 1 )
