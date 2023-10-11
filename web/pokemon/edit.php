@@ -33,8 +33,8 @@ if ( isset ( $_POST['number'] ) ) {
 
 $pokemon_id = $_GET['id'];
 
-include_once '../dao/pokemon.php';
+include '../dao/pokemon.php';
 
 $found_pokemon = $pokemon_dao->findById( $pokemon_id );
 
-include_once 'form.php';
+include 'form.php';
