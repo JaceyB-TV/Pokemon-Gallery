@@ -105,6 +105,12 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
             <td>$id</td>";
                 }
                 echo "
+        <tr>";
+                if ( $missing ) {
+                    echo "
+            <td>$id</td>";
+                }
+                echo "
             <td>$number</td>
             <td>$name</td>
             <td class='hide'>$gender</td>

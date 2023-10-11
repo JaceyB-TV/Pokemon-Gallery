@@ -99,6 +99,7 @@ DROP TABLE IF EXISTS `gender`;
 CREATE TABLE `gender` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_name` varchar(20) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `suffix` varchar(20) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
@@ -109,10 +110,10 @@ CREATE TABLE `gender` (
 -- Dumping data for table `gender`
 --
 
-INSERT INTO `gender` (`id`, `name`, `suffix`) VALUES
-(1, 'None/Unknown', null),
-(2, 'Male', null),
-(3, 'Female', '-f');
+INSERT INTO `gender` (`id`, `name`, `short_name`, `suffix`) VALUES
+(1, 'None/Unknown', null, null),
+(2, 'Male', '♂', null),
+(3, 'Female', '♀', '-f');
 
 ALTER TABLE `gender` AUTO_INCREMENT=4;
 
