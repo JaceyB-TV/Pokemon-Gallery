@@ -57,16 +57,18 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 </style>
 
 <div class="table">
-    <table>
-        <tr><?php
-            $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
-            $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 25;
-            $weird_form = isset( $_GET['form'] ) && $_GET['form'] === "true";
-            $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
+    <?php
+    $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
+    $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 25;
+    $weird_form = isset( $_GET['form'] ) && $_GET['form'] === "true";
+    $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
+    ?>
 
+    <table>
+        <tr>
+            <?php
             if ( $weird_form || $missing ) {
-                echo "
-            <th class='number'>ID</th>";
+                echo "<th class='number'>ID</th>";
             }
             ?>
 
@@ -98,12 +100,6 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
                 $type1 = $row['type1'];
                 $type2 = $row['type2'];
 
-                echo "
-        <tr>";
-                if ( $missing ) {
-                    echo "
-            <td>$id</td>";
-                }
                 echo "
         <tr>";
                 if ( $missing ) {
