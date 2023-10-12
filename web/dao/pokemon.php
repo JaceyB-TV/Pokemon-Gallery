@@ -45,8 +45,10 @@ class PokemonDAO extends DAO
                         , p.number
                         , p.name
                         , g.name AS gender_name
+                        , g.suffix AS gender_suffix
                         , g.short_name AS gender_short_name
                         , f.name AS form_name
+                        , f.suffix AS form_suffix
                         , t1.name AS type1
                         , t2.name AS type2
                     FROM
@@ -75,8 +77,10 @@ class PokemonDAO extends DAO
                         , p.number
                         , p.name
                         , g.name AS gender_name
+                        , g.suffix AS gender_suffix
                         , g.short_name AS gender_short_name
                         , f.name AS form_name
+                        , f.suffix AS form_suffix
                         , t1.name AS type1
                         , t2.name AS type2
                     FROM pokemon AS p
