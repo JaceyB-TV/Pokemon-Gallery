@@ -110,7 +110,7 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 
                 echo "
         <tr>";
-                if ( $missing ) {
+                if ( $weird_form || $missing ) {
                     echo "
             <td>$id</td>";
                 }
