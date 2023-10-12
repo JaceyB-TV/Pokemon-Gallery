@@ -21,7 +21,7 @@ if ( isset ( $_POST['number'] ) ) {
     $query = "UPDATE pokemon SET number = ?, name = ?, gender_id = ?, form_id = ?, form_suffix_id = ?, type1 = ?, type2 = ? WHERE id = ?";
 
     $updateStatement = $connection->prepare( $query );
-    $updateStatement->bind_param( "isiisiii", $number, $name, $gender_id, $form_id, $form_suffix_id, $type1, $type2, $id );
+    $updateStatement->bind_param( "isiiiiii", $number, $name, $gender_id, $form_id, $form_suffix_id, $type1, $type2, $id );
     $updateStatement->execute();
 
     if ( $updateStatement->error !== "" ) {

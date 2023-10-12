@@ -16,7 +16,7 @@ if ( isset( $_POST['number'] ) ) {
     $type2 = ( $_POST['type2'] === "" || $_POST['type2'] === 0 ) ? null : $_POST['type2'];
 
     $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, number, name, gender_id, form_id, form_suffix_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?, ?)" );
-    $insertStatement->bind_param( "iisiisii", $id, $number, $name, $gender_id, $form_id, $form_suffix_id, $type1, $type2 );
+    $insertStatement->bind_param( "iisiiiii", $id, $number, $name, $gender_id, $form_id, $form_suffix_id, $type1, $type2 );
     $insertStatement->execute();
 
     if ( $insertStatement->error !== "" ) {
