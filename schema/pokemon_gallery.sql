@@ -183,7 +183,37 @@ INSERT INTO `form` (`id`, `form_type_id`, `name`, `suffix`) VALUES
 ALTER TABLE `form` AUTO_INCREMENT=11;
 
 -- --------------------------------------------------------
+
 --
+-- Table structure for table `form_suffix`
+--
+
+DROP TABLE IF EXISTS `form_suffix`;
+CREATE TABLE `form_suffix` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `form_type`
+--
+
+INSERT INTO `form_suffix` (`id`, `name`) VALUES
+(1, '-1'),
+(2, '-2'),
+(3, '-3'),
+(4, '-4'),
+(5, '-5'),
+(6, '-6'),
+(7, '-7'),
+(8, '-8'),
+(9, '-9');
+
+ALTER TABLE `form_suffix` AUTO_INCREMENT=10;
+
+-- ----------------------------------------------------------
 -- Table structure for table `number`
 --
 
@@ -211,15 +241,18 @@ CREATE TABLE `pokemon` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `gender_id` int(11) NOT NULL,
   `form_id` int(11) NOT NULL,
+  `form_suffix_id` int(11) NOT NULL,
   `type1` int(11) NOT NULL,
   `type2` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `type1` (`type1`),
   KEY `type2` (`type2`),
+  KEY `form_suffix_id` (`form_suffix_id`),
   CONSTRAINT `pokemon_ibfk_1` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`id`),
   CONSTRAINT `pokemon_ibfk_2` FOREIGN KEY (`form_id`) REFERENCES `form` (`id`),
   CONSTRAINT `pokemon_ibfk_3` FOREIGN KEY (`type1`) REFERENCES `type` (`id`),
-  CONSTRAINT `pokemon_ibfk_4` FOREIGN KEY (`type2`) REFERENCES `type` (`id`)
+  CONSTRAINT `pokemon_ibfk_4` FOREIGN KEY (`type2`) REFERENCES `type` (`id`),
+  CONSTRAINT `pokemon_ibfk_5` FOREIGN KEY (`form_suffix_id`) REFERENCES `form_suffix` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

@@ -9,13 +9,14 @@ if ( isset( $_POST['number'] ) ) {
     $id = $_POST['id'];
     $number = $_POST['number'];
     $name = $_POST['name'];
-    $gender_id = $_POST['gender'];
-    $form_id = $_POST['form'];
+    $gender_id = $_POST['gender_id'];
+    $form_id = $_POST['form_id'];
+    $form_suffix_id = ( $_POST['form_suffix_id'] === "" ) ? null : $_POST['form_suffix_id'];
     $type1 = $_POST['type1'];
     $type2 = ( $_POST['type2'] === "" || $_POST['type2'] === 0 ) ? null : $_POST['type2'];
 
-    $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, number, name, gender_id, form_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?, ?)" );
-    $insertStatement->bind_param( "iisiiii", $id, $number, $name, $gender_id, $form_id, $type1, $type2 );
+    $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, number, name, gender_id, form_id, form_suffix_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?, ?)" );
+    $insertStatement->bind_param( "iisiisii", $id, $number, $name, $gender_id, $form_id, $form_suffix_id, $type1, $type2 );
     $insertStatement->execute();
 
     if ( $insertStatement->error !== "" ) {
@@ -116,7 +117,7 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
                 echo "
             <td>$number</td>
             <td>
-                <img alt='$name' src='https://pokejungle.net/sprites/shiny/$national_dex$gender_suffix$form_suffix.png'/>
+                <img alt='$name' src='https://pokejungle.net/sprites/shiny/$national_dex$form_suffix$gender_suffix.png'/>
             </td>
             <td>$name</td>
             <td class='hide'>$gender</td>
