@@ -24,6 +24,19 @@ class TwitchDAO extends DAO
         return $this->execute( $query )[0]['param_value'];
     }
 
+    function remove( $key )
+    {
+        include '../secret/secret.php';
+
+        $query = "DELETE FROM twitch WHERE param_key = ?";
+
+        $insertStatement = $connection->prepare( $query );
+        $insertStatement->bind_param( "s", $key );
+        $insertStatement->execute();
+
+        return $insertStatement->error;
+    }
+
     function exists( $key )
     {
         $query = "SELECT * FROM twitch WHERE param_key = '$key'";

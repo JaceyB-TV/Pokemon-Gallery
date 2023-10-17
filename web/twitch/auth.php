@@ -21,11 +21,11 @@ if ( isset( $_GET['accessToken'] ) ) {
     $response = $twitch_dao->set( 'access_token', $access_token );
 
     if ( $response !== '' ) {
-        header( "Location: /twitch/index.php?error=twitch" );
+//        header( "Location: /twitch/index.php?error=twitch" );
         die();
     }
 
-    header( "Location: /twitch?message=success" );
+//    header( "Location: /twitch?message=success" );
 }
 
 ?>
@@ -44,7 +44,7 @@ if ( isset( $_GET['accessToken'] ) ) {
             if (part.startsWith("access_token")) {
                 const accessToken = part.split("=").pop();
 
-                // window.location.href = "?accessToken=" + accessToken;
+                window.location.href = "?accessToken=" + accessToken;
             } else if (part.startsWith("code")) {
                 const accessToken = part.split("=").pop();
 
