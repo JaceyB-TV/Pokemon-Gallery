@@ -90,7 +90,7 @@ if ( isset( $code ) ) {
     die();
 }
 
-$url = "https://api.twitch.tv/helix/clips?broadcaster_id=37516800&first=10";
+$url = "https://api.twitch.tv/helix/clips?broadcaster_id=37516800&first=100";
 
 $curl = curl_init();
 
@@ -100,7 +100,6 @@ $headers = [
 ];
 
 curl_setopt( $curl, CURLOPT_URL, $url );
-//curl_setopt( $curl, CURLOPT_POST, 1 );
 curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
 curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
 
@@ -122,6 +121,9 @@ $count = sizeof( $response->data );
 echo "<p>Located $count clips</p>";
 
 $clips = array();
+
+//print_r( array_keys( get_object_vars( $response ) ) );
+//print_r( $response->pagination->cursor );
 
 foreach ( $response->data as $clip ) {
     $clips[] = array(
@@ -145,7 +147,8 @@ function sortByOrder( $a, $b )
 
 usort( $clips, 'sortByOrder' );
 
-foreach ( $clips as $clip ) {
+for ( $i = 0; $i < 10; $i++ ) {
+    $clip = $clips[$i];
     echo "
 <p>
     <iframe
