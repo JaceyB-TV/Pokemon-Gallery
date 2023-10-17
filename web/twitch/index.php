@@ -2,31 +2,6 @@
 
 include_once '../dao/twitch.php';
 
-
-/**
- * getRandomWeightedElement()
- * Utility function for getting random values with weighting.
- * Pass in an associative array, such as array('A'=>5, 'B'=>45, 'C'=>50)
- * An array like this means that "A" has a 5% chance of being selected, "B" 45%, and "C" 50%.
- * The return value is the array key, A, B, or C in this case.  Note that the values assigned
- * do not have to be percentages.  The values are simply relative to each other.  If one value
- * weight was 2, and the other weight of 1, the value with the weight of 2 has about a 66%
- * chance of being selected.  Also note that weights should be integers.
- *
- * @param array $weightedValues
- */
-function getRandomWeightedElement( array $weightedValues )
-{
-    $rand = mt_rand( 1, (int)array_sum( $weightedValues ) );
-
-    foreach ( $weightedValues as $key => $value ) {
-        $rand -= $value;
-        if ( $rand <= 0 ) {
-            return $key;
-        }
-    }
-}
-
 $client_id = $twitch_dao->get( 'client_id' );
 $client_secret = $twitch_dao->get( 'client_secret' );
 $redirect_uri = $twitch_dao->get( 'redirect_url' );
@@ -115,11 +90,6 @@ if ( !$response ) {
 curl_close( $curl );
 
 $response = json_decode( $response );
-
-$count = sizeof( $response->data );
-
-echo "<p>Located $count clips</p>";
-
 $clips = array();
 
 //print_r( array_keys( get_object_vars( $response ) ) );
@@ -147,15 +117,48 @@ function sortByOrder( $a, $b )
 
 usort( $clips, 'sortByOrder' );
 
-for ( $i = 0; $i < 10; $i++ ) {
-    $clip = $clips[$i];
-    echo "
+$count = sizeof( $response->data );
+echo "<p>Located $count clips</p>";
+
+foreach ( $clips as &$clip ) {
+    $clip['count'] = $count--;
+}
+
+/**
+ * getRandomWeightedElement()
+ * Utility function for getting random values with weighting.
+ * Pass in an associative array, such as array('A'=>5, 'B'=>45, 'C'=>50)
+ * An array like this means that "A" has a 5% chance of being selected, "B" 45%, and "C" 50%.
+ * The return value is the array key, A, B, or C in this case.  Note that the values assigned
+ * do not have to be percentages.  The values are simply relative to each other.  If one value
+ * weight was 2, and the other weight of 1, the value with the weight of 2 has about a 66%
+ * chance of being selected.  Also note that weights should be integers.
+ *
+ * @param array $weightedValues
+ */
+function getRandomWeightedElement( array $weightedValues )
+{
+    $rand = mt_rand( 1, (int)array_sum( array_column( $weightedValues, 'count' ) ) );
+
+    foreach ( $weightedValues as $key => $value ) {
+        $rand -= $value['count'];
+        if ( $rand <= 0 ) {
+            return $value;
+        }
+    }
+}
+
+$clip = getRandomWeightedElement( $clips );
+
+//for ( $i = 0; $i < 10; $i++ ) {
+//    $clip = $clips[$i];
+echo "
 <p>
     <iframe
-            src='${clip["embed_url"]}&parent=jaceyb.co.uk&parent=www.jaceyb.co.uk&localhost'
+            src='${clip["embed_url"]}&parent=jaceyb.co.uk&parent=www.jaceyb.co.uk&parent=localhost'
             height='300'
             width='400'
             allowfullscreen>
     </iframe>
 </p>";
-}
+//}
