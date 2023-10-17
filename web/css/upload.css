@@ -39,10 +39,6 @@
 }
 
 @media only screen and (max-width: 700px) {
-    .content p.info {
-        width: calc(100% - 3em);
-    }
-
     .upload {
         width: calc(100% - 3em);
     }

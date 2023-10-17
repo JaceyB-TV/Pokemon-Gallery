@@ -31,10 +31,18 @@ a {
 
 .content p.info {
     width: 80%;
+    max-width: 600px;
     margin: 1em auto;
+    text-align: center;
 }
 
 .lazy {
     width: 80%;
     margin: 1em auto;
+}
+
+@media only screen and (max-width: 700px) {
+    .content p.info {
+        width: calc(100% - 3em);
+    }
 }
