@@ -2,6 +2,7 @@
 
 include_once '../secret/secret.php';
 include_once '../dao/form.php';
+include_once '../dao/form_suffix.php';
 include_once '../dao/gender.php';
 include_once '../dao/pokemon.php';
 include_once '../dao/type.php';
@@ -12,6 +13,7 @@ if ( isset( $found_pokemon ) ) {
     $found_name = $found_pokemon['name'];
     $found_gender_id = $found_pokemon['gender_id'];
     $found_form_id = $found_pokemon['form_id'];
+    $found_form_suffix_id = $found_pokemon['form_suffix_id'];
     $found_type1_id = $found_pokemon['type1'];
     $found_type2_id = $found_pokemon['type2'];
 }
@@ -24,8 +26,10 @@ else {
 $forms = $form_dao->findAll();
 $genders = $gender_dao->findAll();
 $types = $type_dao->findAll();
+$form_suffixes = $form_suffix_dao->findAll();
 
 $form_options = "";
+$form_suffix_options = "";
 $gender_options = "";
 $type1_options = "";
 $type2_options = "";
@@ -42,7 +46,20 @@ foreach ( $forms as $form ) {
         $form_options .= "
                 <option value='$value'>$caption</option>";
     }
+}
 
+foreach ( $form_suffixes as $form_suffix ) {
+    $value = $form_suffix['id'];
+    $caption = $form_suffix['name'];
+
+    if ( isset( $found_form_suffix_id ) && $value == $found_form_suffix_id ) {
+        $form_suffix_options .= "
+                <option value='$value' selected>$caption</option>";
+    }
+    else {
+        $form_suffix_options .= "
+                <option value='$value'>$caption</option>";
+    }
 }
 
 foreach ( $genders as $gender ) {
@@ -104,16 +121,24 @@ foreach ( $types as $type ) {
             <input type='text' name='name' id='name' placeholder='Name' value="<?php echo $found_name; ?>"/>
         </div>
         <div class='field'>
-            <label for='gender'>Gender</label>
-            <select name='gender' id='gender'><?php
+            <label for='gender_id'>Gender</label>
+            <select name='gender_id' id='gender_id'><?php
                 echo $gender_options; ?>
 
             </select>
         </div>
         <div class='field'>
-            <label for='form'>Form</label>
-            <select name='form' id='form'><?php
+            <label for='form_id'>Form</label>
+            <select name='form_id' id='form_id'><?php
                 echo $form_options; ?>
+
+            </select>
+        </div>
+        <div class='field'>
+            <label for='form_suffix_id'>Form Suffix</label>
+            <select name='form_suffix_id' id='form_suffix_id'>
+                <option value>-- Please Select --</option><?php
+                echo $form_suffix_options; ?>
 
             </select>
         </div>

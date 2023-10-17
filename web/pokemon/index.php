@@ -9,13 +9,14 @@ if ( isset( $_POST['number'] ) ) {
     $id = $_POST['id'];
     $number = $_POST['number'];
     $name = $_POST['name'];
-    $gender_id = $_POST['gender'];
-    $form_id = $_POST['form'];
+    $gender_id = $_POST['gender_id'];
+    $form_id = $_POST['form_id'];
+    $form_suffix_id = ( $_POST['form_suffix_id'] === "" ) ? null : $_POST['form_suffix_id'];
     $type1 = $_POST['type1'];
     $type2 = ( $_POST['type2'] === "" || $_POST['type2'] === 0 ) ? null : $_POST['type2'];
 
-    $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, number, name, gender_id, form_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?, ?)" );
-    $insertStatement->bind_param( "iisiiii", $id, $number, $name, $gender_id, $form_id, $type1, $type2 );
+    $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, number, name, gender_id, form_id, form_suffix_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)" );
+    $insertStatement->bind_param( "iisiiiii", $id, $number, $name, $gender_id, $form_id, $form_suffix_id, $type1, $type2 );
     $insertStatement->execute();
 
     if ( $insertStatement->error !== "" ) {
@@ -57,24 +58,29 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 </style>
 
 <div class="table">
-    <table>
-        <tr><?php
-            $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
-            $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 25;
-            $weird_form = isset( $_GET['form'] ) && $_GET['form'] === "true";
-            $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
+    <?php
+    $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
+    $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 25;
+    $weird_form = isset( $_GET['form'] ) && $_GET['form'] === "true";
+    $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
+    ?>
 
+    <table>
+        <tr>
+            <?php
             if ( $weird_form || $missing ) {
-                echo "
-            <th class='number'>ID</th>";
+                echo "<th class='number'>ID</th>";
             }
             ?>
 
-            <th class='number'>#</th>
+            <th>#</th>
+            <th></th>
             <th>Pokémon</th>
             <th class="hide">Gender</th>
+            <th class="hide">Suffix</th>
             <th class="hide">Form</th>
-            <th class="type" colspan='2'>Type</th>
+            <th class="hide">Suffix</th>
+            <th class="hide type" colspan='2'>Type</th>
             <?php
             if ( $loggedIn ) {
                 echo "<th class='action' colspan='2'>Actions</th>";
@@ -98,36 +104,39 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
                 $type1 = $row['type1'];
                 $type2 = $row['type2'];
 
+                $national_dex = sprintf( '%04d', $number );
+                $gender_suffix = $row['gender_suffix'];
+                $form_suffix = $row['form_suffix'];
+
                 echo "
         <tr>";
-                if ( $missing ) {
-                    echo "
-            <td>$id</td>";
-                }
-                echo "
-        <tr>";
-                if ( $missing ) {
+                if ( $weird_form || $missing ) {
                     echo "
             <td>$id</td>";
                 }
                 echo "
             <td>$number</td>
+            <td>
+                <img alt='$name' src='https://pokejungle.net/sprites/shiny/$national_dex$form_suffix$gender_suffix.png'/>
+            </td>
             <td>$name</td>
             <td class='hide'>$gender</td>
-            <td class='hide'>$form</td>";
+            <td class='hide'>$gender_suffix</td>
+            <td class='hide'>$form</td>
+            <td class='hide'>$form_suffix</td>";
 
                 if ( isset ( $type2 ) ) {
                     echo "
-            <td>
-                <div class='type $type1'>$type1</div>
+            <td class='hide'>
+                <div class=' type $type1'>$type1</div>
             </td>
-            <td>
+            <td class='hide'>
                 <div class='type $type2'>$type2</div>
-            </td>";
+            </tdclass>";
                 }
                 else {
                     echo "
-            <td colspan='2'>
+            <td class='hide' colspan='2'>
                 <div class='type $type1'>$type1</div>
             </td>";
                 }

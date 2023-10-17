@@ -18,22 +18,23 @@
     color: var(--dark-color);
 }
 
-.table td {
-    background-color: transparent;
-    text-align: center;
-    padding: 8px 0;
-}
-
-.table th.number {
-    width: 20%;
-}
-
 .table th.type {
     width: 170px;
 }
 
 .table th.action {
     width: 10%;
+}
+
+.table td {
+    background-color: transparent;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.table td img {
+    width: 26px;
+    background: transparent;
 }
 
 .table tr:nth-of-type(even) {

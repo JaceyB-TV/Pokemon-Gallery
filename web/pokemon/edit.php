@@ -12,15 +12,16 @@ if ( isset ( $_POST['number'] ) ) {
     $id = $_POST['id'];
     $number = $_POST['number'];
     $name = $_POST['name'];
-    $gender_id = $_POST['gender'];
-    $form_id = $_POST['form'];
+    $gender_id = $_POST['gender_id'];
+    $form_id = $_POST['form_id'];
+    $form_suffix_id = ( $_POST['form_suffix_id'] === "" ) ? null : $_POST['form_suffix_id'];
     $type1 = $_POST['type1'];
     $type2 = ( $_POST['type2'] === "" || $_POST['type2'] === 0 ) ? null : $_POST['type2'];
 
-    $query = "UPDATE pokemon SET number = ?, name = ?, gender_id = ?, form_id = ?, type1 = ?, type2 = ? WHERE id = ?";
+    $query = "UPDATE pokemon SET number = ?, name = ?, gender_id = ?, form_id = ?, form_suffix_id = ?, type1 = ?, type2 = ? WHERE id = ?";
 
     $updateStatement = $connection->prepare( $query );
-    $updateStatement->bind_param( "isiiiii", $number, $name, $gender_id, $form_id, $type1, $type2, $id );
+    $updateStatement->bind_param( "isiiiiii", $number, $name, $gender_id, $form_id, $form_suffix_id, $type1, $type2, $id );
     $updateStatement->execute();
 
     if ( $updateStatement->error !== "" ) {
