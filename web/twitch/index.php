@@ -11,32 +11,35 @@ $expires_in = $twitch_dao->get( 'now' ) + $twitch_dao->get( 'expires_in' );
 
 $scope = "chat:read+channel:read:redemptions";
 
-echo "<p>Expires in : $expires_in </p>";
+if ( !isset( $client_id ) || !isset( $client_secret ) || !isset( $redirect_uri ) ) {
+    echo "<p>Missing params:";
 
-if ( date( 'U' ) > $expires_in ) {
-    $url = "https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=$client_id&redirect_uri=$redirect_uri&scope=$scope&state=5";
-
-    $curl = curl_init();
-
-    curl_setopt( $curl, CURLOPT_URL, $url );
-    curl_setopt( $curl, CURLOPT_POST, 1 );
-    curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
-
-    $response = curl_exec( $curl );
-
-    if ( !$response ) {
-        echo curl_error( $curl );
-        die();
+    if ( !isset( $client_id ) ) {
+        echo "<br>  Client ID";
     }
 
-    curl_close( $curl );
+    if ( !isset( $client_secret ) ) {
+        echo "<br>  Client Secret";
+    }
 
-    echo "<p>Finished getting code</p>";
+    if ( !isset( $redirect_uri ) ) {
+        echo "<br>  Redirect URI";
+    }
+
+    echo "</p>";
 
     die();
 }
 
-echo "<p>Expires in : " . isset( $code ) . " </p>";
+echo "<p>Expires at : " . date( "d/m/y H:i:s", $expires_in ) . " </p>";
+
+if ( date( 'U' ) > $expires_in && !isset( $code ) ) {
+    $url = "https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=$client_id&redirect_uri=$redirect_uri&scope=$scope&state=5";
+
+    echo "<p><a href='$url'>Connect with Twitch</a></p>";
+
+    die();
+}
 
 if ( isset( $code ) ) {
     $url = "https://id.twitch.tv/oauth2/token?client_id=$client_id&client_secret=$client_secret&code=$code&grant_type=authorization_code&redirect_uri=$redirect_uri";
@@ -55,7 +58,14 @@ if ( isset( $code ) ) {
         die();
     }
 
+    $http_code = curl_getinfo( $curl, CURLINFO_HTTP_CODE );
+
     curl_close( $curl );
+
+    if ( $http_code != 200 ) {
+        echo "<p>Returned with error code: $http_code</p>";
+        die();
+    }
 
     $twitch_dao->remove( 'code' );
 
@@ -162,7 +172,7 @@ $clip = getRandomWeightedElement( $clips );
 echo "
 <p>
     <iframe
-            src='${clip["embed_url"]}&parent=jaceyb.co.uk&parent=www.jaceyb.co.uk&parent=localhost'
+            src='{$clip["embed_url"]}&parent=jaceyb.co.uk&parent=www.jaceyb.co.uk&parent=localhost'
             height='300'
             width='400'
             allowfullscreen>
