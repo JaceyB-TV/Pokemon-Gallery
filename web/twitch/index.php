@@ -11,6 +11,8 @@ $expires_in = $twitch_dao->get( 'now' ) + $twitch_dao->get( 'expires_in' );
 
 $scope = "chat:read+channel:read:redemptions";
 
+echo "<p>Expires in : $expires_in </p>";
+
 if ( date( 'U' ) > $expires_in ) {
     $url = "https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=$client_id&redirect_uri=$redirect_uri&scope=$scope&state=5";
 
@@ -30,8 +32,12 @@ if ( date( 'U' ) > $expires_in ) {
 
     curl_close( $curl );
 
+    echo "<p>Finished getting code</p>";
+
     die();
 }
+
+echo "<p>Expires in : " . isset( $code ) . " </p>";
 
 if ( isset( $code ) ) {
     $url = "https://id.twitch.tv/oauth2/token?client_id=$client_id&client_secret=$client_secret&code=$code&grant_type=authorization_code&redirect_uri=$redirect_uri";
@@ -61,6 +67,8 @@ if ( isset( $code ) ) {
     $twitch_dao->set( 'expires_in', $response->expires_in );
     $twitch_dao->set( 'refresh_token', $response->refresh_token );
     $twitch_dao->set( 'token_type', $response->token_type );
+
+    echo "<p>Finished getting clips</p>";
 
     die();
 }
