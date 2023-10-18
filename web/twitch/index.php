@@ -1,179 +1,78 @@
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+</style>
+
 <?php
 
 include_once '../dao/twitch.php';
-
-$client_id = $twitch_dao->get( 'client_id' );
-$client_secret = $twitch_dao->get( 'client_secret' );
-$redirect_uri = $twitch_dao->get( 'redirect_url' );
-$code = $twitch_dao->get( 'code' );
-$access_token = $twitch_dao->get( 'access_token' );
-$expires_in = $twitch_dao->get( 'now' ) + $twitch_dao->get( 'expires_in' );
-
-$scope = "chat:read+channel:read:redemptions";
-
-if ( !isset( $client_id ) || !isset( $client_secret ) || !isset( $redirect_uri ) ) {
-    echo "<p>Missing params:";
-
-    if ( !isset( $client_id ) ) {
-        echo "<br>  Client ID";
-    }
-
-    if ( !isset( $client_secret ) ) {
-        echo "<br>  Client Secret";
-    }
-
-    if ( !isset( $redirect_uri ) ) {
-        echo "<br>  Redirect URI";
-    }
-
-    echo "</p>";
-
-    die();
-}
-
-echo "<p>Expires at : " . date( "d/m/y H:i:s", $expires_in ) . " </p>";
-
-if ( date( 'U' ) > $expires_in && !isset( $code ) ) {
-    $url = "https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=$client_id&redirect_uri=$redirect_uri&scope=$scope&state=5";
-
-    echo "<p><a href='$url'>Connect with Twitch</a></p>";
-
-    die();
-}
-
-if ( isset( $code ) ) {
-    $url = "https://id.twitch.tv/oauth2/token?client_id=$client_id&client_secret=$client_secret&code=$code&grant_type=authorization_code&redirect_uri=$redirect_uri";
-
-    $curl = curl_init();
-
-    curl_setopt( $curl, CURLOPT_URL, $url );
-    curl_setopt( $curl, CURLOPT_POST, 1 );
-    curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
-    curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
-
-    $response = curl_exec( $curl );
-
-    if ( !$response ) {
-        echo curl_error( $curl );
-        die();
-    }
-
-    $http_code = curl_getinfo( $curl, CURLINFO_HTTP_CODE );
-
-    curl_close( $curl );
-
-    if ( $http_code != 200 ) {
-        echo "<p>Returned with error code: $http_code</p>";
-        die();
-    }
-
-    $twitch_dao->remove( 'code' );
-
-    $response = json_decode( $response );
-
-    $twitch_dao->set( 'access_token', $response->access_token );
-    $twitch_dao->set( 'now', date( 'U' ) );
-    $twitch_dao->set( 'expires_in', $response->expires_in );
-    $twitch_dao->set( 'refresh_token', $response->refresh_token );
-    $twitch_dao->set( 'token_type', $response->token_type );
-
-    echo "<p>Finished authorisation</p>";
-}
-
-$url = "https://api.twitch.tv/helix/clips?broadcaster_id=37516800&first=100";
-
-$curl = curl_init();
-
-$headers = [
-    "Authorization: Bearer $access_token",
-    "Client-Id: $client_id"
-];
-
-curl_setopt( $curl, CURLOPT_URL, $url );
-curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
-curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
-
-curl_setopt( $curl, CURLOPT_HTTPHEADER, $headers );
-
-$response = curl_exec( $curl );
-
-if ( !$response ) {
-    echo curl_error( $curl );
-    die();
-}
-
-curl_close( $curl );
-
-$response = json_decode( $response );
-$clips = array();
-
-//print_r( array_keys( get_object_vars( $response ) ) );
-//print_r( $response->pagination->cursor );
-
-foreach ( $response->data as $clip ) {
-    $clips[] = array(
-        'created_at' => $clip->created_at,
-        'is_featured' => $clip->is_featured,
-        'embed_url' => $clip->embed_url
-    );
-}
-
-function sortByOrder( $a, $b )
-{
-    if ( $a['created_at'] > $b['created_at'] ) {
-        return -1;
-    }
-    elseif ( $a['created_at'] < $b['created_at'] ) {
-        return 1;
-    }
-
-    return 0;
-}
-
-usort( $clips, 'sortByOrder' );
-
-$count = sizeof( $response->data );
-echo "<p>Located $count clips</p>";
-
-foreach ( $clips as &$clip ) {
-    $clip['count'] = $count--;
-}
+include_once '../dao/twitch_clips.php';
+include_once '../utils/functions.php';
 
 /**
- * getRandomWeightedElement()
- * Utility function for getting random values with weighting.
- * Pass in an associative array, such as array('A'=>5, 'B'=>45, 'C'=>50)
- * An array like this means that "A" has a 5% chance of being selected, "B" 45%, and "C" 50%.
- * The return value is the array key, A, B, or C in this case.  Note that the values assigned
- * do not have to be percentages.  The values are simply relative to each other.  If one value
- * weight was 2, and the other weight of 1, the value with the weight of 2 has about a 66%
- * chance of being selected.  Also note that weights should be integers.
- *
- * @param array $weightedValues
+ * TODO:
+ * 1. Add paging
+ * 2. Add last updated time, only refresh once a week?
+ * 3. Add clips table
+ * 4. Store in clips table
+ * 5. Added "twitch" table to sql
+ * 6. Add logging
  */
-function getRandomWeightedElement( array $weightedValues )
-{
-    $rand = mt_rand( 1, (int)array_sum( array_column( $weightedValues, 'count' ) ) );
 
-    foreach ( $weightedValues as $key => $value ) {
-        $rand -= $value['count'];
-        if ( $rand <= 0 ) {
-            return $value;
-        }
+$twitch_dao->set( 'update_clips', '0' );
+
+if ( $twitch_dao->get( 'update_clips' ) === '1' ) {
+    include_once 'update_clips.php';
+}
+
+$clips = $twitch_clips_dao->selectAll();
+
+$month = date( 'U', strtotime( '-1 month' ) );
+$month6 = date( 'U', strtotime( '-6 month' ) );
+$year = date( 'U', strtotime( '-1 year' ) );
+
+foreach ( $clips as &$c ) {
+    $date = date( 'U', strtotime( $c['created_at'] ) );
+    $c['created_at'] = $date;
+
+    if ( $date > $month ) {
+        $c['weight'] = 100;
+    }
+    elseif ( $date > $month6 ) {
+        $c['weight'] = 50;
+    }
+    elseif ( $date > $year ) {
+        $c['weight'] = 20;
+    }
+    else {
+        $c['weight'] = 1;
     }
 }
 
-$clip = getRandomWeightedElement( $clips );
+if ( sizeof( $clips ) > 0 ) {
+    echo "<table style='padding: 10px; width: 80%; max-width: 800px; margin: auto; '>
+<tr><td>Clip ID</td><td>Created</td><td>Weight</td></tr>";
 
-//for ( $i = 0; $i < 10; $i++ ) {
-//    $clip = $clips[$i];
-echo "
-<p>
-    <iframe
-            src='{$clip["embed_url"]}&parent=jaceyb.co.uk&parent=www.jaceyb.co.uk&parent=localhost'
-            height='300'
-            width='400'
-            allowfullscreen>
-    </iframe>
-</p>";
-//}
+    for ( $i = 0; $i < 10; $i++ ) {
+        $key = getRandomWeightedElement( $clips );
+        $clip = $clips[$key];
+        unset( $clips[$key] );
+
+        $id = $clip['id'];
+        $created = date( 'd/m/Y', $clip['created_at'] );
+        $count = $clip['weight'];
+
+        echo "<tr><td>$id</td><td>$created</td><td>$count</td></tr>";
+    }
+
+    echo "</table>";
+
+//    $key = getRandomWeightedElement( $clips );
+//    $clip = $clips[$key];
+//    unset( $clips[$key] );
+//    echo "<iframe src='{$clip["embed_url"]}&parent=localhost&autoplay=true' height='100%' width='100%'/>";
+}
+?>

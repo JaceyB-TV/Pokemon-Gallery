@@ -323,5 +323,23 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `twitch_clips`
+--
+
+DROP TABLE IF EXISTS `twitch_clips`;
+CREATE TABLE `twitch_clips` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `is_featured` int(1) NOT NULL DEFAULT false,
+  `embed_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_played` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
