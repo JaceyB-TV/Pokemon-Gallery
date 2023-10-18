@@ -77,9 +77,7 @@ if ( isset( $code ) ) {
     $twitch_dao->set( 'refresh_token', $response->refresh_token );
     $twitch_dao->set( 'token_type', $response->token_type );
 
-    echo "<p>Finished getting clips</p>";
-
-    die();
+    echo "<p>Finished authorisation</p>";
 }
 
 $url = "https://api.twitch.tv/helix/clips?broadcaster_id=37516800&first=100";
