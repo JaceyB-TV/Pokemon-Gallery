@@ -4,7 +4,7 @@ require_once 'dao.php';
 
 class TwitchClipsDAO extends DAO
 {
-    function selectAll()
+    function selectAll(): array
     {
         $query = "SELECT * FROM twitch_clips ORDER BY created_at DESC";
 
@@ -20,7 +20,7 @@ class TwitchClipsDAO extends DAO
         return $this->create( $slug, $created_at, $is_featured, $embed_url );
     }
 
-    private function exists( $slug )
+    private function exists( $slug ): bool
     {
         $query = "SELECT * FROM twitch_clips WHERE slug = '$slug'";
 

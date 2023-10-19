@@ -16,13 +16,13 @@ include_once '../utils/functions.php';
  * TODO:
  * 1. Add paging
  * 2. Add last updated time, only refresh once a week?
- * 3. Add clips table
- * 4. Store in clips table
+ * 3. -Add clips table-
+ * 4. -Store in clips table-
  * 5. Added "twitch" table to sql
  * 6. Add logging
  */
 
-$twitch_dao->set( 'update_clips', '0' );
+$twitch_dao->set( 'update_clips', '1' );
 
 if ( $twitch_dao->get( 'update_clips' ) === '1' ) {
     include_once 'update_clips.php';
@@ -54,7 +54,7 @@ foreach ( $clips as &$c ) {
 
 if ( sizeof( $clips ) > 0 ) {
     echo "<table style='padding: 10px; width: 80%; max-width: 800px; margin: auto; '>
-<tr><td>Clip ID</td><td>Created</td><td>Weight</td></tr>";
+    <tr><th>Clip ID</th><th>Created</th><th>Weight</th></tr>";
 
     for ( $i = 0; $i < 10; $i++ ) {
         $key = getRandomWeightedElement( $clips );
@@ -65,10 +65,12 @@ if ( sizeof( $clips ) > 0 ) {
         $created = date( 'd/m/Y', $clip['created_at'] );
         $count = $clip['weight'];
 
-        echo "<tr><td>$id</td><td>$created</td><td>$count</td></tr>";
+        echo "
+    <tr><td>$id</td><td>$created</td><td>$count</td></tr>";
     }
 
-    echo "</table>";
+    echo "
+</table>";
 
 //    $key = getRandomWeightedElement( $clips );
 //    $clip = $clips[$key];

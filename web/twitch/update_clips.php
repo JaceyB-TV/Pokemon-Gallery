@@ -108,7 +108,14 @@ if ( !$response ) {
     die();
 }
 
+$http_code = curl_getinfo( $curl, CURLINFO_HTTP_CODE );
+
 curl_close( $curl );
+
+if ( $http_code != 200 ) {
+    echo "<p>Returned with error code: $http_code</p>";
+    die();
+}
 
 $response = json_decode( $response );
 
