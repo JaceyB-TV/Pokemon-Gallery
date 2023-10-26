@@ -32,6 +32,11 @@
     padding: 8px 0;
 }
 
+.table td img {
+    width: 26px;
+    background: transparent;
+}
+
 .table td i {
     background: transparent;
 }
