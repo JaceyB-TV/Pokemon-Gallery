@@ -346,7 +346,7 @@ CREATE TABLE `shiny` (
   `pokemon_id` int(11) NOT NULL,
   `game_id` int(11) NOT NULL,
   `caught_date` date NOT NULL,
-  `filename` varchar(255) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `clip_url` varchar(255) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `game_id` (`game_id`),
   KEY `pokemon_id` (`pokemon_id`),
