@@ -4,7 +4,7 @@ class Field
 {
     const TEXT = 1;
     const NUMBER = 2;
-    const LIST = 3;
+    const LST = 3;
 
     public $type;
     public $dataIndex;
@@ -31,7 +31,6 @@ class Field
             case $this::TEXT:
             {
                 if ( $this->hidden ) {
-
                     echo "
             <div class='field' style='display: none; '>
                 <label for='$this->dataIndex'>$this->label</label>
@@ -47,7 +46,7 @@ class Field
                 }
                 break;
             }
-            case $this::LIST:
+            case $this::LST:
             {
                 echo "
             <div class='field'>
