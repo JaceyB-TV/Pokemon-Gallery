@@ -27,6 +27,10 @@ $twitch_dao->set( 'update_clips', '0' );
 if ( $twitch_dao->get( 'update_clips' ) === '1' ) {
     include_once 'update_clips.php';
 }
+else if ( isset( $_GET['debug'] ) ) {
+    $expires_in = $twitch_dao->get( 'now' ) + $twitch_dao->get( 'expires_in' );
+    log_msg( "Expires at : " . date( "d/m/y H:i:s", $expires_in ) );
+}
 
 $clips = $twitch_clips_dao->selectAll();
 
