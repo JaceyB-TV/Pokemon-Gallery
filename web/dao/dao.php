@@ -65,11 +65,14 @@ class DAO
     {
         include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
+        $id = $record['id'];
+        unset( $record['id'] );
+
         $field_count = count( $record );
         $keys = join( " = ?, ", array_keys( $record ) );
         $types = str_repeat( "s", $field_count );
 
-        $query = "UPDATE $this->db_name SET $keys = ? WHERE id = {$record['id']}";
+        $query = "UPDATE $this->db_name SET $keys = ? WHERE id = $id";
 
         $statement = $connection->prepare( $query );
         if ( !$statement ) {

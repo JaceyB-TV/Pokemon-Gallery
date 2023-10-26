@@ -100,7 +100,7 @@ class Field
             }
 
             $options .= "
-                    <option value='{$record["name"]}' $selected>{$record["name"]}</option>";
+                    <option value='{$record["id"]}' $selected>{$record["name"]}</option>";
         }
 
         return $options;
