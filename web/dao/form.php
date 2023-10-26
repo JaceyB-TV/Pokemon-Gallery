@@ -4,14 +4,17 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dao/dao.php';
 
 class FormDAO extends DAO
 {
-    function findAll()
+    protected $db_name = 'form';
+
+    public function findAll(): array
     {
         $query = "SELECT * FROM form ORDER BY id";
 
         return $this->execute( $query );
     }
 
-    function findAllForDisplay() {
+    public function findAllForDisplay(): array
+    {
         $query = "
         SELECT 
             f.id
@@ -25,7 +28,13 @@ class FormDAO extends DAO
             id";
 
         return $this->execute( $query );
+    }
 
+    public function findById( $id ): array
+    {
+        $query = "SELECT * FROM form WHERE id = $id";
+
+        return $this->execute( $query )[0];
     }
 }
 

@@ -1,30 +1,18 @@
 <?php
 
-class Column
-{
-    public $dataIndex;
-    public $displayField;
-    public $text;
-    public $hidden;
-
-    public function __construct( $dataIndex, $text = null, $displayField = null, $hidden = false )
-    {
-        $this->dataIndex = $dataIndex;
-        $this->displayField = isset( $displayField ) ? $displayField : $this->dataIndex;
-        $this->text = isset( $text ) ? $text : $this->displayField;
-        $this->hidden = $hidden;
-    }
-}
+require_once $_SERVER['DOCUMENT_ROOT'] . '/common/column.php';
 
 class Table
 {
     public $columns;
     public $records;
+    public $loggedIn;
 
-    public function __construct( $columns, $records )
+    public function __construct( $columns, $records, $loggedIn = false )
     {
         $this->columns = $columns;
         $this->records = $records;
+        $this->loggedIn = $loggedIn;
     }
 
     function echo_me()
@@ -45,6 +33,11 @@ class Table
                 <th>$column->text</th>";
         }
 
+        if ( $this->loggedIn ) {
+            $header .= "
+                <th colspan='2'>Actions</th>";
+        }
+
         $header .= "
             </tr>";
 
@@ -61,6 +54,20 @@ class Table
 
                 $row .= "
                 <td>{$record[$column->displayField]}</td>";
+            }
+
+            if ( $this->loggedIn ) {
+                $row .= "
+                <td style='width: 42px; '>
+                    <form action='?id={$record['id']}' method='post'>
+                        <button type='submit' name='submit'>&#xe065;</button>
+                    </form>
+                </td>
+                <td style='width: 42px; '>
+                    <form action='?delete=true&id={$record['id']}' method='post'>
+                        <button type='submit' name='submit'>&times;</button>
+                    </form>
+                </td>";
             }
 
             $row .= "
