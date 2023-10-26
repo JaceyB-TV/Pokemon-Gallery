@@ -2,7 +2,7 @@
 
 $root = $_SERVER['DOCUMENT_ROOT'];
 
-echo $root;
+echo file_exists( $root . '/common/header.php' );
 
 include_once $root . '/common/header.php';
 include_once $root . '/common/table.php';
