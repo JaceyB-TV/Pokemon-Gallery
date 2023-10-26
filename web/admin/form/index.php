@@ -2,6 +2,8 @@
 
 $root = $_SERVER['DOCUMENT_ROOT'];
 
+echo $root;
+
 include_once $root . '/common/header.php';
 include_once $root . '/common/table.php';
 include_once $root . '/dao/form.php';
