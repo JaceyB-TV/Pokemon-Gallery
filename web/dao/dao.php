@@ -4,7 +4,7 @@ class DAO
 {
     function execute( $query )
     {
-        include '../secret/secret.php';
+        include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
         $result = $connection->query( $query );
 

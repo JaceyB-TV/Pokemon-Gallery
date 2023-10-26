@@ -1,6 +1,6 @@
 <?php
 
-require_once 'dao.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/dao/dao.php';
 
 class FormSuffixDAO extends DAO
 {
