@@ -4,7 +4,7 @@ class DAO
 {
     protected $db_name;
 
-    protected function execute( $query ): array
+    protected function execute( $query )
     {
         include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
@@ -21,26 +21,26 @@ class DAO
         return $rows;
     }
 
-    public function findById( $id ): array
+    public function findById( $id )
     {
         $query = "SELECT * FROM $this->db_name WHERE id = $id";
 
         return $this->execute( $query )[0];
     }
 
-    public function findAll(): array
+    public function findAll()
     {
         $query = "SELECT * FROM $this->db_name ORDER BY id";
 
         return $this->execute( $query );
     }
 
-    public function findAllForDisplay(): array
+    public function findAllForDisplay()
     {
         return $this->findAll();
     }
 
-    public function create( $record ): string
+    public function create( $record )
     {
         include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
@@ -61,7 +61,7 @@ class DAO
         return $statement->error;
     }
 
-    public function update( $record ): string
+    public function update( $record )
     {
         include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
@@ -81,7 +81,7 @@ class DAO
         return $statement->error;
     }
 
-    public function delete( $id ): string
+    public function delete( $id )
     {
         include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 

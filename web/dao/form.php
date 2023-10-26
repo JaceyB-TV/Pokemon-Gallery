@@ -6,7 +6,7 @@ class FormDAO extends DAO
 {
     protected $db_name = 'form';
 
-    public function findAllForDisplay(): array
+    public function findAllForDisplay()
     {
         $query = "
         SELECT 

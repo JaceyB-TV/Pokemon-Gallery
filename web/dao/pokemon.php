@@ -31,14 +31,14 @@ class PokemonDAO extends DAO
         return $this->execute( $query )[0]['cnt'];
     }
 
-    public function findById( $id ): array
+    public function findById( $id )
     {
         $query = "SELECT * FROM pokemon WHERE id = $id";
 
         return $this->execute( $query )[0];
     }
 
-    public function findAll( $offset = 0, $limit = 50, $weird_form = false, $missing = false ): array
+    public function findAll( $offset = 0, $limit = 50, $weird_form = false, $missing = false )
     {
         if ( $weird_form || $missing ) {
             $query = "SELECT

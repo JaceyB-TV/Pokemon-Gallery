@@ -46,7 +46,7 @@ class TwitchDAO extends DAO
         return sizeof( $this->execute( $query ) ) !== 0;
     }
 
-    public function create( $key, $value ): string
+    public function create( $key, $value )
     {
         include '../secret/secret.php';
 
@@ -59,7 +59,7 @@ class TwitchDAO extends DAO
         return $insertStatement->error;
     }
 
-    public function update( $key, $value ): string
+    public function update( $key, $value )
     {
         include '../secret/secret.php';
 

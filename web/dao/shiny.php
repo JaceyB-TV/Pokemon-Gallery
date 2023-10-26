@@ -13,14 +13,14 @@ class ShinyDAO extends DAO
         return $this->execute( $query )[0]['cnt'];
     }
 
-    public function findById( $id ): array
+    public function findById( $id )
     {
         $query = "SELECT * FROM shiny WHERE id = $id";
 
         return $this->execute( $query )[0];
     }
 
-    public function findAll( $includeMissing = false, $sort = 1 ): array
+    public function findAll( $includeMissing = false, $sort = 1 )
     {
         if ( $includeMissing ) {
             $query = "SELECT
