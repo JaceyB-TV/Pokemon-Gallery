@@ -11,14 +11,16 @@ class Field
     public $label;
     public $lookup;
     public $hidden;
+    public $required;
 
-    public function __construct( $type, $dataIndex, $label = null, $lookup = null, $hidden = false )
+    public function __construct( $type, $dataIndex, $label = null, $lookup = null, $hidden = false, $required = false )
     {
         $this->type = $type;
         $this->dataIndex = $dataIndex;
         $this->label = isset( $label ) ? $label : $this->dataIndex;
         $this->lookup = $lookup;
         $this->hidden = $hidden;
+        $this->required = $required;
     }
 
     public function echo_me( $record )

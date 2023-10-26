@@ -4,13 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dao/dao.php';
 
 class FormSuffixDAO extends DAO
 {
-    function findAll()
-    {
-        $query = "SELECT * FROM form_suffix ORDER BY id";
-
-        return $this->execute( $query );
-    }
-
+    protected $db_name = 'form_suffix';
 }
 
 $form_suffix_dao = new FormSuffixDAO();

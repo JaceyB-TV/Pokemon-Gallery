@@ -4,7 +4,7 @@ class DAO
 {
     protected $db_name;
 
-    protected function execute( $query )
+    protected function execute( $query ): array
     {
         include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
@@ -21,6 +21,25 @@ class DAO
         return $rows;
     }
 
+    public function findById( $id ): array
+    {
+        $query = "SELECT * FROM $this->db_name WHERE id = $id";
+
+        return $this->execute( $query )[0];
+    }
+
+    public function findAll(): array
+    {
+        $query = "SELECT * FROM $this->db_name ORDER BY id";
+
+        return $this->execute( $query );
+    }
+
+    public function findAllForDisplay(): array
+    {
+        return $this->findAll();
+    }
+
     public function create( $record ): string
     {
         include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
@@ -33,6 +52,9 @@ class DAO
         $query = "INSERT INTO $this->db_name ( $keys ) VALUES ( $values )";
 
         $statement = $connection->prepare( $query );
+        if ( !$statement ) {
+            return $statement;
+        }
         $statement->bind_param( $types, ...array_values( $record ) );
         $statement->execute();
 
@@ -49,10 +71,27 @@ class DAO
 
         $query = "UPDATE $this->db_name SET $keys = ? WHERE id = {$record['id']}";
 
-        echo $query;
+        $statement = $connection->prepare( $query );
+        if ( !$statement ) {
+            return $statement;
+        }
+        $statement->bind_param( $types, ...array_values( $record ) );
+        $statement->execute();
+
+        return $statement->error;
+    }
+
+    public function delete( $id ): string
+    {
+        include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
+
+        $query = "DELETE FROM $this->db_name WHERE id = ?";
 
         $statement = $connection->prepare( $query );
-        $statement->bind_param( $types, ...array_values( $record ) );
+        if ( !$statement ) {
+            return $statement;
+        }
+        $statement->bind_param( "i", $id );
         $statement->execute();
 
         return $statement->error;

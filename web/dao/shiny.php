@@ -4,6 +4,7 @@ require_once 'dao.php';
 
 class ShinyDAO extends DAO
 {
+    protected $db_name = "shiny";
 
     function countAll()
     {
@@ -12,14 +13,14 @@ class ShinyDAO extends DAO
         return $this->execute( $query )[0]['cnt'];
     }
 
-    function findById( $id )
+    public function findById( $id ): array
     {
         $query = "SELECT * FROM shiny WHERE id = $id";
 
         return $this->execute( $query )[0];
     }
 
-    function findAll( $includeMissing = false, $sort = 1 )
+    public function findAll( $includeMissing = false, $sort = 1 ): array
     {
         if ( $includeMissing ) {
             $query = "SELECT

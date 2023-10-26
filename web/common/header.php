@@ -44,6 +44,12 @@ $pages = array(
     new Page( "/pokemon", "/pokemon/index.php", "Pokémon", true ),
     new Page( "/pokemon?form=true", null, "Form", true ),
     new Page( "/pokemon?missing=true", null, "Missing", true ),
+
+    new Page( "/admin/type", "/admin/type/index.php", "Type", true ),
+    new Page( "/admin/gender", "/admin/gender/index.php", "Gender", true ),
+    new Page( "/admin/formType", "/admin/formType/index.php", "Form Type", true ),
+    new Page( "/admin/form", "/admin/form/index.php", "Form", true ),
+    new Page( "/admin/formSuffix", "/admin/formSuffix/index.php", "Form Suffix", true ),
     new Page( "/main/login.php", "/main/login.php", "Login", false, true ),
     new Page( "?logout=true", null, "Logout", true )
 );
@@ -60,7 +66,7 @@ $pages = array(
                     continue;
                 }
 
-                $active = ($page->self == $_SERVER['PHP_SELF']) ? " class='active'" : "";
+                $active = ( $page->self == $_SERVER['PHP_SELF'] ) ? " class='active'" : "";
 
                 echo "
             <a href='$page->link'$active>$page->caption</a>";

@@ -60,12 +60,12 @@ class Table
                 $row .= "
                 <td style='width: 42px; '>
                     <form action='?id={$record['id']}' method='post'>
-                        <button type='submit' name='submit'>&#xe065;</button>
+                        <button type='submit' name='submit'><i class='fa fa-pencil'></i></button>
                     </form>
                 </td>
                 <td style='width: 42px; '>
                     <form action='?delete=true&id={$record['id']}' method='post'>
-                        <button type='submit' name='submit'>&times;</button>
+                        <button type='submit' name='submit'><i class='fa fa-trash'></i></button>
                     </form>
                 </td>";
             }

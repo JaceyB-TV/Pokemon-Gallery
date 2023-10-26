@@ -4,12 +4,7 @@ require_once 'dao.php';
 
 class TypeDAO extends DAO
 {
-    function findAll()
-    {
-        $query = "SELECT * FROM type ORDER BY id";
-
-        return $this->execute($query);
-    }
+    protected $db_name = "type";
 }
 
 $type_dao = new TypeDAO();

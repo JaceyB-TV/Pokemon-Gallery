@@ -4,6 +4,8 @@ require_once 'dao.php';
 
 class TwitchDAO extends DAO
 {
+    protected $db_name = "twitch";
+
     function set( $key, $value )
     {
         if ( $this->exists( $key ) ) {
@@ -37,14 +39,14 @@ class TwitchDAO extends DAO
         return $insertStatement->error;
     }
 
-    function exists( $key )
+    public function exists( $key )
     {
         $query = "SELECT * FROM twitch WHERE param_key = '$key'";
 
         return sizeof( $this->execute( $query ) ) !== 0;
     }
 
-    function create( $key, $value )
+    public function create( $key, $value ): string
     {
         include '../secret/secret.php';
 
@@ -57,7 +59,7 @@ class TwitchDAO extends DAO
         return $insertStatement->error;
     }
 
-    function update( $key, $value )
+    public function update( $key, $value ): string
     {
         include '../secret/secret.php';
 

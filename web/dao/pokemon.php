@@ -4,6 +4,8 @@ require_once 'dao.php';
 
 class PokemonDAO extends DAO
 {
+    protected $db_name = "pokemon";
+
     function countAll( $weird_form = false, $missing = false )
     {
         if ( $weird_form || $missing ) {
@@ -29,14 +31,14 @@ class PokemonDAO extends DAO
         return $this->execute( $query )[0]['cnt'];
     }
 
-    function findById( $id )
+    public function findById( $id ): array
     {
         $query = "SELECT * FROM pokemon WHERE id = $id";
 
         return $this->execute( $query )[0];
     }
 
-    function findAll( $offset = 0, $limit = 50, $weird_form = false, $missing = false )
+    public function findAll( $offset = 0, $limit = 50, $weird_form = false, $missing = false ): array
     {
         if ( $weird_form || $missing ) {
             $query = "SELECT

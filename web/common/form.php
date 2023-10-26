@@ -13,7 +13,6 @@ class Form
         $this->record = $record;
     }
 
-
     public function echo_me()
     {
         echo "
@@ -26,7 +25,7 @@ class Form
 
         echo "
             <div class='submit'>
-                <button type='submit' name='submit'>SAVE</button>
+                <button type='submit' name='submit'><span class='fa fa-save'></span> SAVE</button>
             </div>
         </form>
     </div>";

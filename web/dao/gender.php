@@ -4,12 +4,7 @@ require_once 'dao.php';
 
 class GenderDAO extends DAO
 {
-    function findAll()
-    {
-        $query = "SELECT * FROM gender ORDER BY id";
-
-        return $this->execute( $query );
-    }
+    protected $db_name = "gender";
 }
 
 $gender_dao = new GenderDAO();

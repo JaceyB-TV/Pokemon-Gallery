@@ -6,13 +6,6 @@ class FormDAO extends DAO
 {
     protected $db_name = 'form';
 
-    public function findAll(): array
-    {
-        $query = "SELECT * FROM form ORDER BY id";
-
-        return $this->execute( $query );
-    }
-
     public function findAllForDisplay(): array
     {
         $query = "
@@ -28,13 +21,6 @@ class FormDAO extends DAO
             id";
 
         return $this->execute( $query );
-    }
-
-    public function findById( $id ): array
-    {
-        $query = "SELECT * FROM form WHERE id = $id";
-
-        return $this->execute( $query )[0];
     }
 }
 
