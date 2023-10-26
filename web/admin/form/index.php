@@ -2,7 +2,9 @@
 
 $root = $_SERVER['DOCUMENT_ROOT'];
 
-echo file_exists( $root . '/common/header.php' );
+if ( isset( $_GET['debug'] ) ) {
+    echo file_exists( $root . '/common/header.php' );
+}
 
 include_once $root . '/common/header.php';
 include_once $root . '/common/table.php';

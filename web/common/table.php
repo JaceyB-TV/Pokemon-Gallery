@@ -10,8 +10,8 @@ class Column
     public function __construct( $dataIndex, $text = null, $displayField = null, $hidden = false )
     {
         $this->dataIndex = $dataIndex;
-        $this->displayField = $displayField ?? $this->dataIndex;
-        $this->text = $text ?? $this->displayField;
+        $this->displayField = isset( $displayField ) ? $displayField : $this->dataIndex;
+        $this->text = isset( $text ) ? $text : $this->displayField;
         $this->hidden = $hidden;
     }
 }
