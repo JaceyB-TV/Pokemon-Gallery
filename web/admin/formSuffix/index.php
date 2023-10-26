@@ -12,6 +12,6 @@ $columns = array(
 
 $table = new Table( $columns, $form_suffix_dao->findAll() );
 
-$table->print();
+$table->echo_me();
 
 include "../../common/footer.php";

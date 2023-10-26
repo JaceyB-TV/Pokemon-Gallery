@@ -27,7 +27,7 @@ class Table
         $this->records = $records;
     }
 
-    function print()
+    function echo_me()
     {
         $table = "
     <div class='table'>
