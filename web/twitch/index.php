@@ -22,7 +22,7 @@ include_once '../utils/functions.php';
  * 6. Add logging
  */
 
-$twitch_dao->set( 'update_clips', '1' );
+$twitch_dao->set( 'update_clips', '0' );
 
 if ( $twitch_dao->get( 'update_clips' ) === '1' ) {
     include_once 'update_clips.php';

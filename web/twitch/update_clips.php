@@ -82,6 +82,8 @@ if ( isset( $code ) ) {
     $twitch_dao->set( 'token_type', $response->token_type );
 
     log_msg( "Finished authorisation." );
+
+    $access_token = $twitch_dao->get( 'access_token' );
 }
 
 log_msg( "Attempting to load clips." );
