@@ -38,6 +38,11 @@
     font-weight: bold;
 }
 
+.upload button i {
+    color: var(--dark-color);
+    background: transparent;
+}
+
 @media only screen and (max-width: 700px) {
     .upload {
         width: calc(100% - 3em);

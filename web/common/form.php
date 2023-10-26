@@ -25,7 +25,7 @@ class Form
 
         echo "
             <div class='submit'>
-                <button type='submit' name='submit'><span class='fa fa-save'></span> SAVE</button>
+                <button type='submit' name='submit'><i class='fa fa-save'></i> SAVE</button>
             </div>
         </form>
     </div>";

@@ -11,7 +11,7 @@ $columns = array(
     new Column( "name", "Name" ) );
 
 $fields = array(
-    new Field( Field::TEXT, "id", "ID", null, true ),
+    new Field( Field::NUMBER, "id", "ID", null, true ),
     new Field( Field::TEXT, "name", "Name", null, false, true ) );
 
 createBasePage( $loggedIn, $columns, $fields, $form_suffix_dao );

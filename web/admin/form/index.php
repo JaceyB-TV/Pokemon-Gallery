@@ -13,8 +13,8 @@ $columns = array(
     new Column( "suffix", "Suffix" ) );
 
 $fields = array(
-    new Field( Field::TEXT, "id", "ID", null, true, false ),
-    new Field( Field::TEXT, "form_type_id", "Form Type", "form_type", false, true ),
+    new Field( Field::NUMBER, "id", "ID", null, true, false ),
+    new Field( Field::LST, "form_type_id", "Form Type", "form_type", false, true ),
     new Field( Field::TEXT, "name", "Name", null, false, true ),
     new Field( Field::TEXT, "suffix", "Suffix" ) );
 

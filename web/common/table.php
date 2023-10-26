@@ -65,7 +65,7 @@ class Table
                 </td>
                 <td style='width: 42px; '>
                     <form action='?delete=true&id={$record['id']}' method='post'>
-                        <button type='submit' name='submit'><i class='fa fa-trash'></i></button>
+                        <button type='submit' name='submit'><i class='fa fa-trash-o'></i></button>
                     </form>
                 </td>";
             }

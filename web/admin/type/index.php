@@ -13,7 +13,7 @@ $columns = array(
     new Column( "border", "Border" ) );
 
 $fields = array(
-    new Field( Field::TEXT, "id", "ID", null, true ),
+    new Field( Field::NUMBER, "id", "ID", null, true ),
     new Field( Field::TEXT, "name", "Name", null, false, true ),
     new Field( Field::TEXT, "colour", "Colour" ),
     new Field( Field::TEXT, "border", "Border" ) );
