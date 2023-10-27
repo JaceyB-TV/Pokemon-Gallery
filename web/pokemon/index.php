@@ -46,7 +46,7 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
 
 <style>
     <?php
-    $types = $type_dao->findAll();
+    $types = $type_dao->findAll( 0, $type_dao->countAll() );
     foreach ( $types as $type ) {
         echo "
         .table div.{$type["name"]} {
