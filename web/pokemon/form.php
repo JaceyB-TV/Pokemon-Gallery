@@ -23,10 +23,10 @@ else {
     $found_name = '';
 }
 
-$forms = $form_dao->findAll();
-$genders = $gender_dao->findAll();
-$types = $type_dao->findAll();
-$form_suffixes = $form_suffix_dao->findAll();
+$forms = $form_dao->findAll( 0, $form_dao->countAll() );
+$genders = $gender_dao->findAll( 0, $gender_dao->countAll() );
+$types = $type_dao->findAll( 0, $type_dao->countAll() );
+$form_suffixes = $form_suffix_dao->findAll( 0, $form_suffix_dao->countAll() );
 
 $form_options = "";
 $form_suffix_options = "";

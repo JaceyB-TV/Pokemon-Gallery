@@ -88,7 +88,7 @@ class Field
 
         include_once $_SERVER['DOCUMENT_ROOT'] . "/dao/$table.php";
 
-        $records = $$dao->findAll();
+        $records = $$dao->findAll( 0, $$dao->countAll() );
 
         $options = '';
 
