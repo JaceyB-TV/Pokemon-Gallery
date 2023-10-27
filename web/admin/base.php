@@ -14,7 +14,10 @@ function createBasePage( $loggedIn, $columns, $fields, $dao )
         delete( $dao );
     }
 
-    $table = new Table( $columns, $dao->findAllForDisplay(), $loggedIn );
+    $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
+    $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 10;
+
+    $table = new Table( $columns, $dao->findAllForDisplay( $offset, $limit ), $dao->countAll(), $loggedIn );
     $table->echo_me();
 
     if ( $loggedIn ) {

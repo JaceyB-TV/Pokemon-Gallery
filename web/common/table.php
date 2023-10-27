@@ -6,12 +6,14 @@ class Table
 {
     public $columns;
     public $records;
+    public $count;
     public $loggedIn;
 
-    public function __construct( $columns, $records, $loggedIn = false )
+    public function __construct( $columns, $records, $count, $loggedIn = false )
     {
         $this->columns = $columns;
         $this->records = $records;
+        $this->count = $count;
         $this->loggedIn = $loggedIn;
     }
 
@@ -75,6 +77,37 @@ class Table
 
             $table .= $row;
         }
+
+        $column_count = count( $this->columns );
+        if ( $this->loggedIn ) {
+            $column_count += 2;
+        }
+
+        $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
+        $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 10;
+
+        $first = 0;
+        $prev = $offset - $limit;
+        if ( $prev < 0 ) {
+            $prev = 0;
+        }
+        $next = $offset + $limit;
+        if ( $next >= $this->count ) {
+            $next = floor( ($this->count - 1) / $limit ) * $limit;
+        }
+        $last = floor( ($this->count - 1) / $limit ) * $limit;
+
+        $paging = "
+            <tr>
+                <th colspan='$column_count'>
+                    <a href=\"javascript: void(0);\" onclick=\"setSearchParam('offset', '$first')\"><< First</a>
+                    <a href=\"javascript: void(0);\" onclick=\"setSearchParam('offset', '$prev')\">< Previous</a>
+                    <a href=\"javascript: void(0);\" onclick=\"setSearchParam('offset', '$next')\">Next ></a>
+                    <a href=\"javascript: void(0);\" onclick=\"setSearchParam('offset', '$last')\">Last >></a>
+                </th>
+            </tr>";
+
+        $table .= $paging;
 
         $table .= "
         </table>

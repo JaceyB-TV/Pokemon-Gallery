@@ -28,16 +28,23 @@ class DAO
         return $this->execute( $query )[0];
     }
 
-    public function findAll()
+    public function countAll()
     {
-        $query = "SELECT * FROM $this->db_name ORDER BY id";
+        $query = "SELECT COUNT(*) AS cnt FROM $this->db_name";
+
+        return $this->execute( $query )[0]['cnt'];
+    }
+
+    public function findAll( $offset = 0, $limit = 10 )
+    {
+        $query = "SELECT * FROM $this->db_name ORDER BY id LIMIT $limit OFFSET $offset";
 
         return $this->execute( $query );
     }
 
-    public function findAllForDisplay()
+    public function findAllForDisplay( $offset = 0, $limit = 10 )
     {
-        return $this->findAll();
+        return $this->findAll( $offset, $limit );
     }
 
     public function create( $record )
