@@ -23,7 +23,7 @@ if ( isset( $found_pokemon_id ) ) {
 
 $pokemonSql .= " ORDER BY p.id";
 
-$pokemonResult = $connection->query( $pokemonSql );
+$pokemonResult = $GLOBALS['connection']->query( $pokemonSql );
 $pokemon = array();
 while ( $p = $pokemonResult->fetch_assoc() ) {
     $pokemon[] = $p;
@@ -62,7 +62,7 @@ foreach ( $pokemon as $p ) {
 }
 
 $gameSql = "SELECT g.id, g.name, g.default_selection FROM game AS g ORDER BY g.id";
-$gamesResult = $connection->query( $gameSql );
+$gamesResult = $GLOBALS['connection']->query( $gameSql );
 $games = array();
 while ( $g = $gamesResult->fetch_assoc() ) {
     $games[] = $g;

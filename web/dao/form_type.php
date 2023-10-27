@@ -7,4 +7,4 @@ class FormTypeDAO extends DAO
     protected $db_name = 'form_type';
 }
 
-$form_type_dao = new FormTypeDAO();
+$GLOBALS['form_type_dao'] = new FormTypeDAO();

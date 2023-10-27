@@ -18,6 +18,6 @@ $fields = array(
     new Field( Field::TEXT, "colour", "Colour" ),
     new Field( Field::TEXT, "border", "Border" ) );
 
-createBasePage( $loggedIn, $columns, $fields, $type_dao );
+createBasePage( $loggedIn, $columns, $fields, $GLOBALS['type_dao'] );
 
-include "../../common/footer.php";
+include_once $root . "/common/footer.php";

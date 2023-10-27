@@ -5,7 +5,7 @@ include_once '../dao/twitch.php';
 if ( isset( $_GET['code'] ) ) {
     $code = $_GET['code'];
 
-    $response = $twitch_dao->set( 'code', $code );
+    $response = $GLOBALS['twitch_dao']->set( 'code', $code );
 
     if ( $response !== '' ) {
         header( "Location: /twitch/index.php?error=twitch" );
@@ -18,7 +18,7 @@ if ( isset( $_GET['code'] ) ) {
 if ( isset( $_GET['accessToken'] ) ) {
     $access_token = $_GET['accessToken'];
 
-    $response = $twitch_dao->set( 'access_token', $access_token );
+    $response = $GLOBALS['twitch_dao']->set( 'access_token', $access_token );
 
     if ( $response !== '' ) {
 //        header( "Location: /twitch/index.php?error=twitch" );

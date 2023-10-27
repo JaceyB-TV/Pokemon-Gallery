@@ -7,4 +7,4 @@ class GenderDAO extends DAO
     protected $db_name = "gender";
 }
 
-$gender_dao = new GenderDAO();
+$GLOBALS['gender_dao'] = new GenderDAO();

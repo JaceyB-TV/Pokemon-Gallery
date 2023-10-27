@@ -1,7 +1,9 @@
 <?php
 
-include_once "../common/header.php";
-include_once "../secret/secret.php";
+$root = $_SERVER['DOCUMENT_ROOT'];
+
+include_once $root . "/common/header.php";
+include_once $root . "/secret/secret.php";
 
 if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     $username = $_POST['username'];
@@ -10,7 +12,7 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
     $loginSql = "SELECT username, password, salt FROM user
                  WHERE username = ?";
 
-    $loginStatement = $connection->prepare( $loginSql );
+    $loginStatement = $GLOBALS['connection']->prepare( $loginSql );
     $loginStatement->bind_param( "s", $username );
     $loginStatement->execute();
     $loginStatement->bind_result( $loginUsername, $loginPassword, $loginSalt );
@@ -53,8 +55,6 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
 
 <?php
 
-include "../common/footer.php";
+include_once $root . "/common/footer.php";
 
-$connection->close();
-
-?>
+$GLOBALS['connection']->close();

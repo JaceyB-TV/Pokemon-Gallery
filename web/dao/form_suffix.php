@@ -7,4 +7,4 @@ class FormSuffixDAO extends DAO
     protected $db_name = 'form_suffix';
 }
 
-$form_suffix_dao = new FormSuffixDAO();
+$GLOBALS['form_suffix_dao'] = new FormSuffixDAO();

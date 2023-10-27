@@ -1,7 +1,9 @@
 <?php
 
-include '../common/header.php';
-include_once '../secret/secret.php';
+$root = $_SERVER['DOCUMENT_ROOT'];
+
+include_once $root . '/common/header.php';
+include_once $root . '/secret/secret.php';
 
 if ( !isset( $_GET['id'] ) ) {
     header( "Location: /shiny" );
@@ -10,8 +12,8 @@ if ( !isset( $_GET['id'] ) ) {
 
 $shinyId = $_GET['id'];
 
-include_once '../dao/shiny.php';
+include_once $root . '/dao/shiny.php';
 
-$found_shiny = $shiny_dao->findById( $shinyId );
+$found_shiny = $GLOBALS['shiny_dao']->findById( $shinyId );
 
 include 'form.php';

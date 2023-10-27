@@ -2,12 +2,12 @@
 
 include_once '../dao/twitch.php';
 
-$client_id = $twitch_dao->get( 'client_id' );
-$client_secret = $twitch_dao->get( 'client_secret' );
-$redirect_uri = $twitch_dao->get( 'redirect_url' );
-$code = $twitch_dao->get( 'code' );
-$access_token = $twitch_dao->get( 'access_token' );
-$expires_in = $twitch_dao->get( 'now' ) + $twitch_dao->get( 'expires_in' );
+$client_id = $GLOBALS['twitch_dao']->get( 'client_id' );
+$client_secret = $GLOBALS['twitch_dao']->get( 'client_secret' );
+$redirect_uri = $GLOBALS['twitch_dao']->get( 'redirect_url' );
+$code = $GLOBALS['twitch_dao']->get( 'code' );
+$access_token = $GLOBALS['twitch_dao']->get( 'access_token' );
+$expires_in = $GLOBALS['twitch_dao']->get( 'now' ) + $GLOBALS['twitch_dao']->get( 'expires_in' );
 
 $scope = "chat:read+channel:read:redemptions";
 
@@ -57,15 +57,15 @@ if ( isset( $code ) ) {
 
     curl_close( $curl );
 
-    $twitch_dao->remove( 'code' );
+    $GLOBALS['twitch_dao']->remove( 'code' );
 
     $response = json_decode( $response );
 
-    $twitch_dao->set( 'access_token', $response->access_token );
-    $twitch_dao->set( 'now', date( 'U' ) );
-    $twitch_dao->set( 'expires_in', $response->expires_in );
-    $twitch_dao->set( 'refresh_token', $response->refresh_token );
-    $twitch_dao->set( 'token_type', $response->token_type );
+    $GLOBALS['twitch_dao']->set( 'access_token', $response->access_token );
+    $GLOBALS['twitch_dao']->set( 'now', date( 'U' ) );
+    $GLOBALS['twitch_dao']->set( 'expires_in', $response->expires_in );
+    $GLOBALS['twitch_dao']->set( 'refresh_token', $response->refresh_token );
+    $GLOBALS['twitch_dao']->set( 'token_type', $response->token_type );
 
     echo "<p>Finished getting clips</p>";
 

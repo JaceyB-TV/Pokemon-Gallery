@@ -88,9 +88,14 @@ class Field
 
         include_once $_SERVER['DOCUMENT_ROOT'] . "/dao/$table.php";
 
-        $records = $$dao->findAll( 0, $$dao->countAll() );
+        $records = $GLOBALS[$dao]->findAll( 0, $GLOBALS[$dao]->countAll() );
 
         $options = '';
+
+        if ( !$this->required ) {
+            $options .= "
+                    <option value>-- Please Select --</option>";
+        }
 
         foreach ( $records as $record ) {
             $selected = '';

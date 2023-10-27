@@ -1,16 +1,18 @@
 <?php
 
-include_once "../common/header.php";
-include_once "../secret/secret.php";
-include_once "../dao/shiny.php";
-include_once "../dao/pokemon.php";
+$root = $_SERVER['DOCUMENT_ROOT'];
+
+include_once $root . "/common/header.php";
+include_once $root . "/secret/secret.php";
+include_once $root . "/dao/shiny.php";
+include_once $root . "/dao/pokemon.php";
 
 $showAll = isset( $_GET["showAll"] ) && $_GET["showAll"] === "true";
 $sort = isset( $_GET['sort'] ) ? $_GET['sort'] : '1';
 
-$shinies = $shiny_dao->findAll( $showAll, $sort );
-$shinyCount = $shiny_dao->countAll();
-$pokemonCount = $pokemon_dao->countAll();
+$shinies = $GLOBALS['shiny_dao']->findAll( $showAll, $sort );
+$shinyCount = $GLOBALS['shiny_dao']->countAll();
+$pokemonCount = $GLOBALS['pokemon_dao']->countAll();
 $shinyPercentage = sprintf( "%.2f%%", $shinyCount / $pokemonCount * 100 );
 
 if ( isset( $_POST['pokemon'] ) ) {
@@ -23,7 +25,7 @@ if ( isset( $_POST['pokemon'] ) ) {
         die();
     }
 
-    if ( !$insertStatement = $connection->prepare( "INSERT INTO shiny (pokemon_id, game_id, caught_date) VALUES (?, ?, ?)" ) ) {
+    if ( !$insertStatement = $GLOBALS['connection']->prepare( "INSERT INTO shiny (pokemon_id, game_id, caught_date) VALUES (?, ?, ?)" ) ) {
         header( "Location: /shiny?error=prepare" );
         die();
     }
@@ -42,7 +44,7 @@ if ( isset( $_POST['pokemon'] ) ) {
 if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
     $id = $_GET['id'];
 
-    $deleteStatement = $connection->prepare( "DELETE FROM shiny WHERE id = ?" );
+    $deleteStatement = $GLOBALS['connection']->prepare( "DELETE FROM shiny WHERE id = ?" );
     $deleteStatement->bind_param( "i", $id );
     $deleteStatement->execute();
 
@@ -156,8 +158,6 @@ if ( $loggedIn ) {
     </div>";
 }
 
-include_once "../common/footer.php";
+include_once $root . "/common/footer.php";
 
-$connection->close();
-
-?>
+$GLOBALS['connection']->close();

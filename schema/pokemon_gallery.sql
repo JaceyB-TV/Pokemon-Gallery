@@ -45,7 +45,8 @@ VALUES (1, 'Go', false),
        (8, 'Legends: Arceus', false),
        (9, 'Scarlet', true),
        (10, 'Violet', false),
-       (11, 'Trade', false);
+       (11, 'Trade', false),
+       (12, 'Home', false);
 
 -- --------------------------------------------------------
 

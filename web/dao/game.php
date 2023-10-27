@@ -7,4 +7,4 @@ class GameDAO extends DAO
     protected $db_name = "game";
 }
 
-$game_dao = new GameDAO();
+$GLOBALS['game_dao'] = new GameDAO();

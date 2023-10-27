@@ -28,11 +28,11 @@ class TwitchDAO extends DAO
 
     function remove( $key )
     {
-        include '../secret/secret.php';
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
         $query = "DELETE FROM twitch WHERE param_key = ?";
 
-        $insertStatement = $connection->prepare( $query );
+        $insertStatement = $GLOBALS['connection']->prepare( $query );
         $insertStatement->bind_param( "s", $key );
         $insertStatement->execute();
 
@@ -48,11 +48,11 @@ class TwitchDAO extends DAO
 
     public function create( $key, $value )
     {
-        include '../secret/secret.php';
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
         $query = "INSERT INTO twitch ( param_key, param_value ) VALUES (?, ?)";
 
-        $insertStatement = $connection->prepare( $query );
+        $insertStatement = $GLOBALS['connection']->prepare( $query );
         $insertStatement->bind_param( "ss", $key, $value );
         $insertStatement->execute();
 
@@ -61,11 +61,11 @@ class TwitchDAO extends DAO
 
     public function update( $key, $value )
     {
-        include '../secret/secret.php';
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
         $query = "UPDATE twitch SET param_value = ? WHERE param_key = ?";
 
-        $updateStatement = $connection->prepare( $query );
+        $updateStatement = $GLOBALS['connection']->prepare( $query );
         $updateStatement->bind_param( "ss", $value, $key );
         $updateStatement->execute();
 
@@ -74,4 +74,4 @@ class TwitchDAO extends DAO
 
 }
 
-$twitch_dao = new TwitchDAO();
+$GLOBALS['twitch_dao'] = new TwitchDAO();

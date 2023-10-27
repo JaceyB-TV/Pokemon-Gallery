@@ -25,4 +25,4 @@ class FormDAO extends DAO
     }
 }
 
-$form_dao = new FormDAO();
+$GLOBALS['form_dao'] = new FormDAO();

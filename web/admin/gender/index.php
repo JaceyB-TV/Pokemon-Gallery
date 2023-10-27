@@ -18,6 +18,6 @@ $fields = array(
     new Field( Field::TEXT, "short_name", "Short Name" ),
     new Field( Field::TEXT, "suffix", "Suffix" ) );
 
-createBasePage( $loggedIn, $columns, $fields, $gender_dao );
+createBasePage( $loggedIn, $columns, $fields, $GLOBALS['gender_dao'] );
 
-include "../../common/footer.php";
+include_once $root . "/common/footer.php";

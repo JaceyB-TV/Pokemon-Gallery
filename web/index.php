@@ -1,7 +1,9 @@
 <?php
 
-include_once "common/header.php";
-include_once "secret/secret.php";
+$root = $_SERVER['DOCUMENT_ROOT'];
+
+include_once $root . '/common/header.php';
+include_once $root . '/secret/secret.php';
 
 if ( isset( $_GET["showAll"] ) && $_GET["showAll"] === "true" ) {
     $gallerySql = "SELECT p.id, p.name, g.filename, g.datetime, g.viewer
@@ -16,7 +18,7 @@ else {
                ORDER BY datetime DESC";
 }
 
-$gallery = $connection->query( $gallerySql );
+$gallery = $GLOBALS['connection']->query( $gallerySql );
 
 if ( isset( $_POST['pokemon'] ) ) {
     $pokemonId = $_POST['pokemon'];
@@ -35,7 +37,7 @@ if ( isset( $_POST['pokemon'] ) ) {
 
     $fileDestination = "img/gallery/" . $pokemonId . "." . uniqid( "", true ) . ".png";
 
-    $insertStatement = $connection->prepare( "INSERT INTO gallery (pokemon_id, filename, datetime, viewer) VALUES (?, ?, ?, ?)" );
+    $insertStatement = $GLOBALS['connection']->prepare( "INSERT INTO gallery (pokemon_id, filename, datetime, viewer) VALUES (?, ?, ?, ?)" );
     $insertStatement->bind_param( "isis", $pokemonId, $fileDestination, $now, $viewer );
     $insertStatement->execute();
 
@@ -86,7 +88,7 @@ if ( $loggedIn ) {
                WHERE g.id IS NULL
                ORDER BY p.id";
 
-    $pokemon = $connection->query( $pokemonSql );
+    $pokemon = $GLOBALS['connection']->query( $pokemonSql );
 
     echo "    <div class='upload'>
         <form action='index.php' method='post' enctype='multipart/form-data'>
@@ -136,8 +138,6 @@ if ( $loggedIn ) {
     </div>";
 }
 
-include_once "common/footer.php";
+include_once $root . "/common/footer.php";
 
-$connection->close();
-
-?>
+$GLOBALS['connection']->close();

@@ -6,9 +6,9 @@ class DAO
 
     protected function execute( $query )
     {
-        include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
-        $result = $connection->query( $query );
+        $result = $GLOBALS['connection']->query( $query );
 
         $rows = array();
 
@@ -49,7 +49,7 @@ class DAO
 
     public function create( $record )
     {
-        include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
         $field_count = count( $record );
         $keys = join( ", ", array_keys( $record ) );
@@ -58,7 +58,7 @@ class DAO
 
         $query = "INSERT INTO $this->db_name ( $keys ) VALUES ( $values )";
 
-        $statement = $connection->prepare( $query );
+        $statement = $GLOBALS['connection']->prepare( $query );
         if ( !$statement ) {
             return $statement;
         }
@@ -70,7 +70,7 @@ class DAO
 
     public function update( $record )
     {
-        include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
         $id = $record['id'];
         unset( $record['id'] );
@@ -81,7 +81,7 @@ class DAO
 
         $query = "UPDATE $this->db_name SET $keys = ? WHERE id = $id";
 
-        $statement = $connection->prepare( $query );
+        $statement = $GLOBALS['connection']->prepare( $query );
         if ( !$statement ) {
             return $statement;
         }
@@ -93,11 +93,11 @@ class DAO
 
     public function delete( $id )
     {
-        include $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/secret/secret.php';
 
         $query = "DELETE FROM $this->db_name WHERE id = ?";
 
-        $statement = $connection->prepare( $query );
+        $statement = $GLOBALS['connection']->prepare( $query );
         if ( !$statement ) {
             return $statement;
         }

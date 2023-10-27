@@ -14,6 +14,6 @@ $fields = array(
     new Field( Field::NUMBER, "id", "ID", null, true ),
     new Field( Field::TEXT, "name", "Name", null, false, true ) );
 
-createBasePage( $loggedIn, $columns, $fields, $form_type_dao );
+createBasePage( $loggedIn, $columns, $fields, $GLOBALS['form_type_dao'] );
 
-include "../../common/footer.php";
+include_once $root . "/common/footer.php";

@@ -87,4 +87,4 @@ class ShinyDAO extends DAO
     }
 }
 
-$shiny_dao = new ShinyDAO();
+$GLOBALS['shiny_dao'] = new ShinyDAO();

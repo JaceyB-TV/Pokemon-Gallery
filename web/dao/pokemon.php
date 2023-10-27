@@ -100,4 +100,4 @@ class PokemonDAO extends DAO
     }
 }
 
-$pokemon_dao = new PokemonDAO();
+$GLOBALS['pokemon_dao'] = new PokemonDAO();

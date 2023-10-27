@@ -16,6 +16,6 @@ $fields = array(
     new Field( Field::TEXT, "name", "Name", null, false, true ),
     new Field( Field::TEXT, "default_selection", "Default" ) );
 
-createBasePage( $loggedIn, $columns, $fields, $game_dao );
+createBasePage( $loggedIn, $columns, $fields, $GLOBALS['game_dao'] );
 
-include "../../common/footer.php";
+include_once $root . "/common/footer.php";

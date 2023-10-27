@@ -1,5 +1,7 @@
 <?php
 
+$root = $_SERVER['DOCUMENT_ROOT'];
+
 include_once $root . '/common/functions.php';
 include_once $root . '/common/table.php';
 include_once $root . '/common/form.php';

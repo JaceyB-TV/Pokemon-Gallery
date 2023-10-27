@@ -1,120 +1,103 @@
 <?php
 
-include_once "../common/header.php";
-include_once "../dao/pokemon.php";
-include_once "../dao/type.php";
-include_once "../secret/secret.php";
+$root = $_SERVER['DOCUMENT_ROOT'];
 
-if ( isset( $_POST['number'] ) ) {
-    $id = $_POST['id'];
-    $number = $_POST['number'];
-    $name = $_POST['name'];
-    $gender_id = $_POST['gender_id'];
-    $form_id = $_POST['form_id'];
-    $form_suffix_id = ( $_POST['form_suffix_id'] === "" ) ? null : $_POST['form_suffix_id'];
-    $type1 = $_POST['type1'];
-    $type2 = ( $_POST['type2'] === "" || $_POST['type2'] === 0 ) ? null : $_POST['type2'];
+include_once $root . "/common/header.php";
+include_once $root . '/common/functions.php';
+include_once $root . '/common/form.php';
+include_once $root . "/dao/pokemon.php";
+include_once $root . "/dao/type.php";
 
-    $insertStatement = $connection->prepare( "INSERT INTO pokemon (id, number, name, gender_id, form_id, form_suffix_id, type1, type2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)" );
-    $insertStatement->bind_param( "iisiiiii", $id, $number, $name, $gender_id, $form_id, $form_suffix_id, $type1, $type2 );
-    $insertStatement->execute();
+$fields = array(
+    new Field( Field::NUMBER, "id", "ID", null, false, true ),
+    new Field( Field::NUMBER, "number", "#", null, false, true ),
+    new Field( Field::TEXT, "name", "Name", null, false, true ),
+    new Field( Field::LST, "gender_id", "Gender", "gender", false, true ),
+    new Field( Field::LST, "form_id", "Form", "form", false, true ),
+    new Field( Field::LST, "form_suffix_id", "Form Suffix", "form_suffix" ),
+    new Field( Field::LST, "type1", "Type 1", "type", false, true ),
+    new Field( Field::LST, "type2", "Type 2", "type" ) );
 
-    if ( $insertStatement->error !== "" ) {
-        header( "Location: /pokemon?error=insert" );
-        die();
-    }
-
-    header( "Location: /pokemon?message=success" );
+if ( $loggedIn && isset( $_POST['id'] ) ) {
+    create( $fields, $GLOBALS['pokemon_dao'] );
 }
 
-if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
-    $id = $_GET['id'];
-
-    $deleteStatement = $connection->prepare( "DELETE FROM pokemon WHERE id = ?" );
-    $deleteStatement->bind_param( "i", $id );
-    $deleteStatement->execute();
-
-    if ( $deleteStatement->error !== "" ) {
-        header( "Location: /pokemon?error=delete" );
-        die();
-    }
-
-    header( "Location: /pokemon?message=delete" );
+if ( $loggedIn && isset( $_GET['delete'] ) && $_GET['delete'] === 'true' ) {
+    delete( $GLOBALS['pokemon_dao'] );
 }
 
 ?>
-
-<style>
-    <?php
-    $types = $type_dao->findAll( 0, $type_dao->countAll() );
-    foreach ( $types as $type ) {
-        echo "
-        .table div.{$type["name"]} {
-            background-color: {$type["colour"]};
-            border-color: {$type["border"]};
-        }";
-    }
-    ?>
-</style>
-
-<div class="table">
-    <?php
-    $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
-    $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 25;
-    $weird_form = isset( $_GET['form'] ) && $_GET['form'] === "true";
-    $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
-    ?>
-
-    <table>
-        <tr>
-            <?php
-            if ( $weird_form || $missing ) {
-                echo "<th class='number'>ID</th>";
-            }
-            ?>
-
-            <th>#</th>
-            <th></th>
-            <th>Pokémon</th>
-            <th class="hide">Gender</th>
-            <th class="hide">Suffix</th>
-            <th class="hide">Form</th>
-            <th class="hide">Suffix</th>
-            <th class="hide type" colspan='2'>Type</th>
-            <?php
-            if ( $loggedIn ) {
-                echo "<th class='action' colspan='2'>Actions</th>";
-            }
-            ?>
-
-        </tr><?php
-        $pokemon_count = $pokemon_dao->countAll( $weird_form, $missing );
-        $pokemon = $pokemon_dao->findAll( $offset, $limit, $weird_form, $missing );
-
-        if ( count( $pokemon ) === 0 ) {
-            echo "<tr><td colspan='20'>No Content</td></tr>";
+    <style>
+        <?php
+        $types = $GLOBALS['type_dao']->findAll( 0, $GLOBALS['type_dao']->countAll() );
+        foreach ( $types as $type ) {
+            echo "
+            .table div.{$type["name"]} {
+                background-color: {$type["colour"]};
+                border-color: {$type["border"]};
+            }";
         }
-        else {
-            foreach ( $pokemon as $row ) {
-                $id = isset( $row['id'] ) ? $row['id'] : $row['pokemon_id'];
-                $number = $row['number'];
-                $name = $row['name'];
-                $gender = $row['gender_short_name'];
-                $form = $row['form_name'];
-                $type1 = $row['type1'];
-                $type2 = $row['type2'];
+        ?>
+    </style>
 
-                $national_dex = sprintf( '%04d', $number );
-                $gender_suffix = $row['gender_suffix'];
-                $form_suffix = $row['form_suffix'];
+    <div class="table">
+        <?php
+        $offset = isset( $_GET['offset'] ) ? $_GET['offset'] : 0;
+        $limit = isset( $_GET['limit'] ) ? $_GET['limit'] : 10;
+        $weird_form = isset( $_GET['form'] ) && $_GET['form'] === "true";
+        $missing = isset( $_GET['missing'] ) && $_GET['missing'] === "true";
+        ?>
 
-                echo "
-        <tr>";
+        <table>
+            <tr>
+                <?php
                 if ( $weird_form || $missing ) {
-                    echo "
-            <td>$id</td>";
+                    echo "<th class='number'>ID</th>";
                 }
-                echo "
+                ?>
+
+                <th>#</th>
+                <th></th>
+                <th>Pokémon</th>
+                <th class="hide">Gender</th>
+                <th class="hide">Suffix</th>
+                <th class="hide">Form</th>
+                <th class="hide">Suffix</th>
+                <th class="hide type" colspan='2'>Type</th>
+                <?php
+                if ( $loggedIn ) {
+                    echo "<th class='action' colspan='2'>Actions</th>";
+                }
+                ?>
+
+            </tr><?php
+            $pokemon_count = $GLOBALS['pokemon_dao']->countAll( $weird_form, $missing );
+            $pokemon = $GLOBALS['pokemon_dao']->findAll( $offset, $limit, $weird_form, $missing );
+
+            if ( count( $pokemon ) === 0 ) {
+                echo "<tr><td colspan='20'>No Content</td></tr>";
+            }
+            else {
+                foreach ( $pokemon as $row ) {
+                    $id = isset( $row['id'] ) ? $row['id'] : $row['pokemon_id'];
+                    $number = $row['number'];
+                    $name = $row['name'];
+                    $gender = $row['gender_short_name'];
+                    $form = $row['form_name'];
+                    $type1 = $row['type1'];
+                    $type2 = $row['type2'];
+
+                    $national_dex = sprintf( '%04d', $number );
+                    $gender_suffix = $row['gender_suffix'];
+                    $form_suffix = $row['form_suffix'];
+
+                    echo "
+        <tr>";
+                    if ( $weird_form || $missing ) {
+                        echo "
+            <td>$id</td>";
+                    }
+                    echo "
             <td>$number</td>
             <td>
                 <img alt='$name' src='https://pokejungle.net/sprites/shiny/$national_dex$form_suffix$gender_suffix.png'/>
@@ -125,79 +108,81 @@ if ( isset ( $_GET['delete'] ) && $_GET['delete'] === "true" ) {
             <td class='hide'>$form</td>
             <td class='hide'>$form_suffix</td>";
 
-                if ( isset ( $type2 ) ) {
-                    echo "
+                    if ( isset ( $type2 ) ) {
+                        echo "
             <td class='hide'>
                 <div class=' type $type1'>$type1</div>
             </td>
             <td class='hide'>
                 <div class='type $type2'>$type2</div>
             </tdclass>";
-                }
-                else {
-                    echo "
+                    }
+                    else {
+                        echo "
             <td class='hide' colspan='2'>
                 <div class='type $type1'>$type1</div>
             </td>";
-                }
+                    }
 
-                if ( $loggedIn ) {
-                    echo "
+                    if ( $loggedIn ) {
+                        echo "
             <td style='width: 42px; '>
-                <form action='/pokemon/edit.php?id=$id' method='post'>
+                <form action='?id=$id' method='post'>
                     <button type='submit' name='submit'>&#xe065;</button>
                 </form>
             </td>
             <td style='width: 42px; '>
-                <form action='/pokemon?delete=true&id=$id' method='post'>
+                <form action='?delete=true&id=$id' method='post'>
                     <button type='submit' name='submit'>&times;</button>
                 </form>
             </td>";
-                }
+                    }
 
-                echo "
+                    echo "
         </tr>";
+                }
             }
-        }
 
-        $first = 0;
+            $first = 0;
 
-        $prev = $offset - $limit;
-        if ( $prev < 0 ) {
-            $prev = 0;
-        }
+            $prev = $offset - $limit;
+            if ( $prev < 0 ) {
+                $prev = 0;
+            }
 
-        $next = $offset + $limit;
-        if ( $next > $pokemon_count ) {
-            $next = floor( $pokemon_count / $limit ) * $limit;
-        }
+            $next = $offset + $limit;
+            if ( $next > $pokemon_count ) {
+                $next = floor( $pokemon_count / $limit ) * $limit;
+            }
 
-        $last = floor( $pokemon_count / $limit ) * $limit;
+            $last = floor( $pokemon_count / $limit ) * $limit;
 
-        ?>
+            ?>
 
-        <tr>
-            <th colspan="20">
-                <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $first; ?>')"><< First</a>
-                <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $prev; ?>')">< Previous</a>
-                <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $next; ?>')">Next ></a>
-                <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $last; ?>')">Last >></a>
-            </th>
-        </tr>
-    </table>
-</div>
+            <tr>
+                <th colspan="20">
+                    <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $first; ?>')"><<
+                        First</a>
+                    <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $prev; ?>')"><
+                        Previous</a>
+                    <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $next; ?>')">Next ></a>
+                    <a href="javascript: void(0);" onclick="setSearchParam('offset', '<?php echo $last; ?>')">Last
+                        >></a>
+                </th>
+            </tr>
+        </table>
+    </div>
 <?php
 
 if ( $loggedIn ) {
-    include_once 'form.php';
+    $record = null;
+
+    if ( isset( $_GET['id'] ) ) {
+        $record = $GLOBALS['pokemon_dao']->findById( $_GET['id'] );
+    }
+
+    $form = new Form( $fields, $record );
+    $form->echo_me();
 }
 
-?>
-
-<?php
-
-include "../common/footer.php";
-
-$connection->close();
-
-?>
+include $root . "/common/footer.php";

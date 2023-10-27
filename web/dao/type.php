@@ -7,4 +7,4 @@ class TypeDAO extends DAO
     protected $db_name = "type";
 }
 
-$type_dao = new TypeDAO();
+$GLOBALS['type_dao'] = new TypeDAO();
