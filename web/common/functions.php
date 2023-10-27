@@ -12,6 +12,9 @@ function create( $fields, $dao )
             header( "Location: ?error=fields" );
             die();
         }
+        else {
+            $values[$field->dataIndex] = null;
+        }
     }
 
     if ( isset( $_GET['id'] ) ) {
